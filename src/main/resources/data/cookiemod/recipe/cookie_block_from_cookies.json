@@ -1,7 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "pattern": [ "CCC", "CCC", "CCC" ],
-  "key": { "C": "cookiemod:cookie" },
-  "result": { "id": "cookiemod:cookie_block", "count": 1 }
+  "pattern": [
+    "CCC",
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "cookiemod:cookie"
+    }
+  },
+  "result": {
+    "id": "cookiemod:cookie_block",
+    "count": 1
+  }
 }

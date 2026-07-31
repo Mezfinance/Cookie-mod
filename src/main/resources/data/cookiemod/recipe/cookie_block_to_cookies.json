@@ -1,6 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "ingredients": [ "cookiemod:cookie_block" ],
-  "result": { "id": "cookiemod:cookie", "count": 9 }
+  "ingredients": [
+    {
+      "item": "cookiemod:cookie_block"
+    }
+  ],
+  "result": {
+    "id": "cookiemod:cookie",
+    "count": 9
+  }
 }
