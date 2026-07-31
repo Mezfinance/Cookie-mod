@@ -1,0 +1,74 @@
+package com.mezfi.cookiemod.registry;
+
+import com.mezfi.cookiemod.CookieMod;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Custom blocks — the cookie-biome building set (see {@code reference/BIOME_MAP.md}
+ * and {@code reference/ENTITY_CATALOG.md}).
+ *
+ * <p>Every entry is added to {@link #ALL} so item-blocks, the creative tab, and data
+ * generation can iterate the full set without repeating names.
+ */
+public final class ModBlocks {
+    private ModBlocks() {}
+
+    public static final DeferredRegister.Blocks REGISTER =
+            DeferredRegister.createBlocks(CookieMod.MODID);
+
+    /** Registration order = creative-tab order. */
+    public static final List<DeferredBlock<Block>> ALL = new ArrayList<>();
+
+    // --- edible / building blocks (soft) ---
+    public static final DeferredBlock<Block> COOKIE_BLOCK =
+            soft("cookie_block", MapColor.COLOR_BROWN);
+    public static final DeferredBlock<Block> FROSTED_COOKIE_BLOCK =
+            soft("frosted_cookie_block", MapColor.SAND);
+    public static final DeferredBlock<Block> WAFFLE_BLOCK =
+            soft("waffle_block", MapColor.GOLD);
+    public static final DeferredBlock<Block> CHOCOLATE_BLOCK =
+            soft("chocolate_block", MapColor.TERRACOTTA_BROWN);
+    public static final DeferredBlock<Block> CHOCOLATE_BRICK_BLOCK =
+            soft("chocolate_brick_block", MapColor.COLOR_BROWN);
+
+    // --- candy / hard-candy blocks (harder, glassy) ---
+    public static final DeferredBlock<Block> CANDY_CANE_BLOCK =
+            candy("candy_cane_block", MapColor.COLOR_RED, 0.8F);
+    public static final DeferredBlock<Block> RASPBERRY_HARD_CANDY_BLOCK =
+            candy("raspberry_hard_candy_block", MapColor.COLOR_RED, 1.0F);
+    public static final DeferredBlock<Block> GRAPE_HARD_CANDY_BLOCK =
+            candy("grape_hard_candy_block", MapColor.COLOR_PURPLE, 1.0F);
+    public static final DeferredBlock<Block> ANISEED_HARD_CANDY_BLOCK =
+            candy("aniseed_hard_candy_block", MapColor.SNOW, 1.0F);
+    public static final DeferredBlock<Block> MINTY_HARD_CANDY_BLOCK =
+            candy("minty_hard_candy_block", MapColor.COLOR_CYAN, 1.0F);
+
+    /** Soft, edible/building block: hand-breakable, wool-like. */
+    private static DeferredBlock<Block> soft(String name, MapColor color) {
+        return track(REGISTER.registerSimpleBlock(name, BlockBehaviour.Properties.of()
+                .mapColor(color)
+                .strength(0.6F)
+                .sound(SoundType.WOOL)));
+    }
+
+    /** Hard candy: sturdier, glassy sound. */
+    private static DeferredBlock<Block> candy(String name, MapColor color, float strength) {
+        return track(REGISTER.registerSimpleBlock(name, BlockBehaviour.Properties.of()
+                .mapColor(color)
+                .strength(strength)
+                .sound(SoundType.GLASS)));
+    }
+
+    private static DeferredBlock<Block> track(DeferredBlock<Block> block) {
+        ALL.add(block);
+        return block;
+    }
+}

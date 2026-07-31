@@ -1,0 +1,21 @@
+{
+  "itemGroup.cookiemod": "Cookie Mod",
+
+  "item.cookiemod.cookie": "Cookie",
+  "item.cookiemod.chocolate_bar": "Chocolate Bar",
+  "item.cookiemod.candy": "Candy",
+  "item.cookiemod.cookie_soldier_spawn_egg": "Cookie Soldier Spawn Egg",
+
+  "entity.cookiemod.cookie_soldier": "Cookie Soldier",
+
+  "block.cookiemod.cookie_block": "Cookie Block",
+  "block.cookiemod.frosted_cookie_block": "Frosted Cookie Block",
+  "block.cookiemod.waffle_block": "Waffle Block",
+  "block.cookiemod.chocolate_block": "Chocolate Block",
+  "block.cookiemod.chocolate_brick_block": "Chocolate Brick Block",
+  "block.cookiemod.candy_cane_block": "Candy Cane Block",
+  "block.cookiemod.raspberry_hard_candy_block": "Raspberry Hard Candy Block",
+  "block.cookiemod.grape_hard_candy_block": "Grape Hard Candy Block",
+  "block.cookiemod.aniseed_hard_candy_block": "Aniseed Hard Candy Block",
+  "block.cookiemod.minty_hard_candy_block": "Minty Hard Candy Block"
+}
