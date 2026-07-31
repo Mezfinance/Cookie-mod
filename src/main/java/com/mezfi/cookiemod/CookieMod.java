@@ -2,6 +2,7 @@ package com.mezfi.cookiemod;
 
 import com.mezfi.cookiemod.registry.ModBlocks;
 import com.mezfi.cookiemod.registry.ModCreativeTabs;
+import com.mezfi.cookiemod.registry.ModEntities;
 import com.mezfi.cookiemod.registry.ModItems;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -23,6 +24,7 @@ public class CookieMod {
 
     public CookieMod(IEventBus modBus, ModContainer container) {
         // Order matters: blocks before item-blocks, items before the creative tab that lists them.
+        ModEntities.REGISTER.register(modBus);
         ModBlocks.REGISTER.register(modBus);
         ModItems.REGISTER.register(modBus);
         ModCreativeTabs.REGISTER.register(modBus);

@@ -3,6 +3,7 @@ package com.mezfi.cookiemod.registry;
 import com.mezfi.cookiemod.CookieMod;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -24,7 +25,12 @@ public final class ModItems {
     public static final DeferredItem<Item> CHOCOLATE_BAR = food("chocolate_bar", 4, 0.4F);
     public static final DeferredItem<Item> CANDY = food("candy", 3, 0.3F);
 
-    // --- block items for every registered block (registered after the foods above) ---
+    // --- spawn eggs ---
+    public static final DeferredItem<DeferredSpawnEggItem> COOKIE_SOLDIER_SPAWN_EGG =
+            REGISTER.registerItem("cookie_soldier_spawn_egg",
+                    p -> new DeferredSpawnEggItem(ModEntities.COOKIE_SOLDIER, 0xC68A4E, 0x6B4423, p));
+
+    // --- block items for every registered block (registered after the items above) ---
     static {
         ModBlocks.ALL.forEach(REGISTER::registerSimpleBlockItem);
     }
