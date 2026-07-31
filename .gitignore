@@ -1,0 +1,18 @@
+# --- Large / regenerable reference material ---
+# The raw video source (~1.4 GB) and the full per-scene frame dump (~2.4 GB)
+# are regenerable via reference/EXTRACT.md and stay out of git.
+reference/source.mp4
+reference/frames/scenes/
+reference/frames/contact_sheets/
+
+# The curated entity keyframes (reference/frames/keyframes/) ARE tracked —
+# they are the deliverable.
+
+# --- Secrets ---
+# Live YouTube session cookies used by yt-dlp — never commit.
+cookies.txt
+*.cookies
+
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db
