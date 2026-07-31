@@ -8,6 +8,7 @@ playthrough: one high-resolution frame per distinct **block**, **boss**, and
 
 | path | what |
 |---|---|
+| [`reference/MECHANICS_SPEC.md`](reference/MECHANICS_SPEC.md) | Full spec of the custom mechanics — progression/ranks, soldier taming & commands, cookie economy, gummy/milk effects, bosses (scaling + milkman aura), crafting, farms — with timestamp citations. |
 | [`reference/ENTITY_CATALOG.md`](reference/ENTITY_CATALOG.md) | The catalog — every entity, its frame, timestamp, and a confidence note. Start here. |
 | [`reference/frames/keyframes/`](reference/frames/keyframes/) | 32 reference frames, named `<category>__<name>.png` (bosses/mobs/blocks/items/crafting/structures). |
 | `reference/frames/keyframes/_CONTACT_SHEET.png` | Labelled visual index of all 32 frames. |
