@@ -78,6 +78,40 @@ alternate timestamps. Candidate timestamps that were tried per entity:
 
 Entities not listed were clean on the first grab.
 
+### Intro title cards (bosses)
+
+The video's intro montage (~14–23 s) flashes an isolated title card for each
+boss — a clean, front-facing render on a solid background. These beat in-world
+action shots for recreation reference. Captured by fine-sampling the intro at
+0.5 s steps to catch each card centred and sharp, then centre-cropping the card:
+
+```bash
+ffmpeg -nostdin -ss 17.0 -i reference/source.mp4 -frames:v 1 -q:v 1 \
+  -vf "crop=860:1080:555:0" reference/frames/keyframes/boss__cake_golem.png
+# waffle_mage @18.5s, milkman @21.0s
+```
+
+### Items, blocks & recipes (tooltips / crafting / JEI)
+
+A coarse whole-video scan (one labelled thumb every 12 s → 8 montage sheets) was
+used to locate every menu-open, item-tooltip, and crafting moment. Item/block
+references come from those frames — a tooltip gives a clean name + icon, a
+crafting UI gives the recipe. The survival inventory's JEI side-panel (page 1/12)
+was cropped as a master index of the custom block families (block + stairs + slab
++ fence + door + wall in each flavour):
+
+```bash
+ffmpeg -nostdin -ss 1440 -i reference/source.mp4 -frames:v 1 -q:v 1 \
+  -vf "crop=345:895:1575:80" reference/frames/keyframes/_JEI_INDEX.png
+```
+
+### Cookie-biome map
+
+The same coarse scan located the cookie/candy biome (~1:48–4:00 and the pink-sky
+candy biome throughout). Establishing, ground-detail, and flora-construction
+stills were extracted to `frames/biome/` and read block-by-block into
+[`BIOME_MAP.md`](BIOME_MAP.md).
+
 ### Contact sheet
 
 A labelled 4×7 overview of all chosen frames:

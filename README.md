@@ -9,8 +9,10 @@ playthrough: one high-resolution frame per distinct **block**, **boss**, and
 | path | what |
 |---|---|
 | [`reference/ENTITY_CATALOG.md`](reference/ENTITY_CATALOG.md) | The catalog — every entity, its frame, timestamp, and a confidence note. Start here. |
-| [`reference/frames/keyframes/`](reference/frames/keyframes/) | 26 full-res (1920×1080) reference frames, named `<category>__<name>.png`. |
-| `reference/frames/keyframes/_CONTACT_SHEET.png` | Labelled visual index of all 26 frames. |
+| [`reference/frames/keyframes/`](reference/frames/keyframes/) | 32 reference frames, named `<category>__<name>.png` (bosses/mobs/blocks/items/crafting/structures). |
+| `reference/frames/keyframes/_CONTACT_SHEET.png` | Labelled visual index of all 32 frames. |
+| `reference/frames/keyframes/_JEI_INDEX.png` | Master index of the custom block families (block/stairs/slab/door/etc.). |
+| [`reference/BIOME_MAP.md`](reference/BIOME_MAP.md) | Block-by-block recreation guide for the cookie/candy biome, with stills in `reference/frames/biome/`. |
 | [`reference/EXTRACT.md`](reference/EXTRACT.md) | The extraction pipeline — how the frames were produced and how to regenerate or extend them. |
 
 ## What's tracked vs. not
@@ -22,6 +24,8 @@ video (~1.4 GB), the ~2328-frame scene survey (~2.4 GB), and the YouTube session
 
 ## Coverage
 
-26 entities: 3 bosses, 6 mobs, 10 blocks, 4 items, 3 structures. Four frames are
-flagged low-confidence (the two polar bears, the fluid milk "block", and the cake
-golem) — see the catalog for why and where to re-pass.
+32 frames: 3 bosses (clean intro-card renders), 6 mobs, 11 blocks, 7 items, 2
+crafting recipes, 3 structures — plus the JEI block-family index and the cookie
+biome map. See the catalog's "Coverage & known gaps" for what the footage does
+not cleanly provide (per-item icons beyond the tooltips, polar-bear colour
+variants, a solo minty hard candy block).
