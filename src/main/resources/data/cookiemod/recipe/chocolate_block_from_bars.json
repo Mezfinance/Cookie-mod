@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [ "BB", "BB" ],
+  "key": { "B": "cookiemod:chocolate_bar" },
+  "result": { "id": "cookiemod:chocolate_block", "count": 1 }
+}

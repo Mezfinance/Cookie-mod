@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "cookiemod:block/waffle_block" }
+  }
+}

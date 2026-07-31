@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-/** The mod's creative-inventory tab. New content is appended to {@code displayItems} as phases land. */
+/** The mod's creative-inventory tab. Content is appended as phases land. */
 public final class ModCreativeTabs {
     private ModCreativeTabs() {}
 
@@ -20,8 +20,12 @@ public final class ModCreativeTabs {
                     .title(Component.translatable("itemGroup." + CookieMod.MODID))
                     .icon(() -> new ItemStack(ModItems.COOKIE.get()))
                     .displayItems((params, output) -> {
+                        // foods first
                         output.accept(ModItems.COOKIE.get());
-                        output.accept(ModBlocks.COOKIE_BLOCK.get());
+                        output.accept(ModItems.CHOCOLATE_BAR.get());
+                        output.accept(ModItems.CANDY.get());
+                        // then every block, in registration order
+                        ModBlocks.ALL.forEach(block -> output.accept(block.get()));
                     })
                     .build());
 }

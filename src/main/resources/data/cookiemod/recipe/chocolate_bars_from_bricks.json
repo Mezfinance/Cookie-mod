@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [ "cookiemod:chocolate_brick_block" ],
+  "result": { "id": "cookiemod:chocolate_bar", "count": 4 }
+}

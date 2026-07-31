@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "cookiemod:candy_cane_block",
+    "cookiemod:raspberry_hard_candy_block",
+    "cookiemod:grape_hard_candy_block",
+    "cookiemod:aniseed_hard_candy_block",
+    "cookiemod:minty_hard_candy_block"
+  ]
+}
