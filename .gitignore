@@ -1,3 +1,23 @@
+# --- Gradle / build ---
+.gradle/
+build/
+out/
+run/
+runs/
+*.classpath
+*.project
+.settings/
+bin/
+
+# NeoForge / ModDevGradle generated caches
+.neoforge/
+logs/
+
+# --- IDE ---
+.idea/
+*.iml
+.vscode/
+
 # --- Large / regenerable reference material ---
 # The raw video source (~1.4 GB) and the full per-scene frame dump (~2.4 GB)
 # are regenerable via reference/EXTRACT.md and stay out of git.

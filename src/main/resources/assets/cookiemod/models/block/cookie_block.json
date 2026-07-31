@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "cookiemod:block/cookie_block_top",
+    "bottom": "cookiemod:block/cookie_block",
+    "side": "cookiemod:block/cookie_block"
+  }
+}
