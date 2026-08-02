@@ -2,6 +2,7 @@ package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
 import com.mezfi.cookiemod.block.ChocolateBunnySpawnerBlock;
+import com.mezfi.cookiemod.block.GingerbreadFurnaceBlock;
 import com.mezfi.cookiemod.block.WaffleGuySpawnerBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -58,6 +59,15 @@ public final class ModBlocks {
             REGISTER.registerBlock("waffle_guy_spawner", WaffleGuySpawnerBlock::new, spawnerProps(MapColor.GOLD));
     public static final DeferredBlock<ChocolateBunnySpawnerBlock> CHOCOLATE_BUNNY_SPAWNER =
             REGISTER.registerBlock("chocolate_bunny_spawner", ChocolateBunnySpawnerBlock::new, spawnerProps(MapColor.COLOR_BROWN));
+
+    /** Cookie Army Factory (§3.6, §10) — auto-spawns soldiers. Drops itself when mined. */
+    public static final DeferredBlock<GingerbreadFurnaceBlock> GINGERBREAD_FURNACE =
+            REGISTER.registerBlock("gingerbread_furnace", GingerbreadFurnaceBlock::new,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_BROWN)
+                            .strength(3.5F)
+                            .sound(SoundType.WOOD)
+                            .requiresCorrectToolForDrops());
 
     /** Spawner cage: hard, needs a tool, drops nothing (see loot tables). */
     private static BlockBehaviour.Properties spawnerProps(MapColor color) {

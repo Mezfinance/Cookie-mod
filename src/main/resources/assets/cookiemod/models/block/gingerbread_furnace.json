@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "cookiemod:block/gingerbread_furnace_side",
+    "down": "cookiemod:block/gingerbread_furnace_top",
+    "up": "cookiemod:block/gingerbread_furnace_top",
+    "north": "cookiemod:block/gingerbread_furnace_front",
+    "south": "cookiemod:block/gingerbread_furnace_side",
+    "east": "cookiemod:block/gingerbread_furnace_side",
+    "west": "cookiemod:block/gingerbread_furnace_side"
+  }
+}

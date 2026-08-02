@@ -44,6 +44,7 @@ public class GummyBearEntity extends Animal {
 
     public GummyBearEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
+        this.xpReward = 3;
     }
 
     /** [EST] MECHANICS_SPEC §5.1a: sturdy little bear — 20 HP, mild retaliation damage. */

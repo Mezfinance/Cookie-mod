@@ -25,6 +25,7 @@ public class ChocolateBunnyEntity extends Animal {
 
     public ChocolateBunnyEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
+        this.xpReward = 1;
     }
 
     /** [EST] MECHANICS_SPEC §9.2: 3 HP, quick and skittish. */

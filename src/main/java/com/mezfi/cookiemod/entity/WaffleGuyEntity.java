@@ -32,6 +32,7 @@ public class WaffleGuyEntity extends Monster {
 
     public WaffleGuyEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
+        this.xpReward = 5; // XP for the tower waffle-guy/XP farm (MECHANICS_SPEC §10)
     }
 
     /** Per-piece chance each gummy armour slot is worn — yields 0..4 pieces (MECHANICS_SPEC §9.1). */
