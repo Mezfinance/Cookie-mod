@@ -21,6 +21,7 @@ public final class ModClientEvents {
         event.registerLayerDefinition(ModModelLayers.WAFFLE_GUY, WaffleGuyModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.CAKE_GOLEM, CakeGolemModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.GUMMY_BEAR, GummyBearModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.CHOCOLATE_BUNNY, ChocolateBunnyModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -29,5 +30,6 @@ public final class ModClientEvents {
         event.registerEntityRenderer(ModEntities.WAFFLE_GUY.get(), WaffleGuyRenderer::new);
         event.registerEntityRenderer(ModEntities.CAKE_GOLEM.get(), CakeGolemRenderer::new);
         event.registerEntityRenderer(ModEntities.GUMMY_BEAR.get(), GummyBearRenderer::new);
+        event.registerEntityRenderer(ModEntities.CHOCOLATE_BUNNY.get(), ChocolateBunnyRenderer::new);
     }
 }

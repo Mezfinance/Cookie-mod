@@ -19,11 +19,13 @@
   "item.cookiemod.cookie_soldier_spawn_egg": "Cookie Soldier Spawn Egg",
   "item.cookiemod.waffle_guy_spawn_egg": "Waffle Guy Spawn Egg",
   "item.cookiemod.gummy_bear_spawn_egg": "Gummy Bear Spawn Egg",
+  "item.cookiemod.chocolate_bunny_spawn_egg": "Chocolate Bunny Spawn Egg",
   "item.cookiemod.cake_golem_spawn_egg": "Cake Golem Spawn Egg",
 
   "entity.cookiemod.cookie_soldier": "Cookie Soldier",
   "entity.cookiemod.waffle_guy": "Waffle Guy",
   "entity.cookiemod.gummy_bear": "Gummy Bear",
+  "entity.cookiemod.chocolate_bunny": "Chocolate Bunny",
   "entity.cookiemod.cake_golem": "Cake Golem",
 
   "block.cookiemod.cookie_block": "Cookie Block",

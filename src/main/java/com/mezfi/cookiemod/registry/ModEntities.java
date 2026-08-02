@@ -2,6 +2,7 @@ package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
 import com.mezfi.cookiemod.entity.CakeGolemEntity;
+import com.mezfi.cookiemod.entity.ChocolateBunnyEntity;
 import com.mezfi.cookiemod.entity.CookieSoldierEntity;
 import com.mezfi.cookiemod.entity.GummyBearEntity;
 import com.mezfi.cookiemod.entity.WaffleGuyEntity;
@@ -38,6 +39,13 @@ public final class ModEntities {
                     .sized(1.3F, 1.4F)
                     .clientTrackingRange(10)
                     .build("gummy_bear"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<ChocolateBunnyEntity>> CHOCOLATE_BUNNY =
+            REGISTER.register("chocolate_bunny", () -> EntityType.Builder
+                    .of(ChocolateBunnyEntity::new, MobCategory.CREATURE)
+                    .sized(0.4F, 0.5F)
+                    .clientTrackingRange(8)
+                    .build("chocolate_bunny"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<CakeGolemEntity>> CAKE_GOLEM =
             REGISTER.register("cake_golem", () -> EntityType.Builder

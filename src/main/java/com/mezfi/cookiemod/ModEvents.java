@@ -1,6 +1,7 @@
 package com.mezfi.cookiemod;
 
 import com.mezfi.cookiemod.entity.CakeGolemEntity;
+import com.mezfi.cookiemod.entity.ChocolateBunnyEntity;
 import com.mezfi.cookiemod.entity.CookieSoldierEntity;
 import com.mezfi.cookiemod.entity.GummyBearEntity;
 import com.mezfi.cookiemod.entity.WaffleGuyEntity;
@@ -24,11 +25,17 @@ public final class ModEvents {
         event.put(ModEntities.WAFFLE_GUY.get(), WaffleGuyEntity.createAttributes().build());
         event.put(ModEntities.CAKE_GOLEM.get(), CakeGolemEntity.createAttributes().build());
         event.put(ModEntities.GUMMY_BEAR.get(), GummyBearEntity.createAttributes().build());
+        event.put(ModEntities.CHOCOLATE_BUNNY.get(), ChocolateBunnyEntity.createAttributes().build());
     }
 
     @SubscribeEvent
     static void onRegisterSpawnPlacements(RegisterSpawnPlacementsEvent event) {
         event.register(ModEntities.GUMMY_BEAR.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Animal::checkAnimalSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(ModEntities.CHOCOLATE_BUNNY.get(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules,

@@ -78,6 +78,9 @@ public final class ModItems {
     public static final DeferredItem<DeferredSpawnEggItem> GUMMY_BEAR_SPAWN_EGG =
             REGISTER.registerItem("gummy_bear_spawn_egg",
                     p -> new DeferredSpawnEggItem(ModEntities.GUMMY_BEAR, 0x9A5ABE, 0x6EC0DC, p));
+    public static final DeferredItem<DeferredSpawnEggItem> CHOCOLATE_BUNNY_SPAWN_EGG =
+            REGISTER.registerItem("chocolate_bunny_spawn_egg",
+                    p -> new DeferredSpawnEggItem(ModEntities.CHOCOLATE_BUNNY, 0x5A3A1C, 0x3A2410, p));
 
     // --- block items for every registered block (registered after the items above) ---
     static {
