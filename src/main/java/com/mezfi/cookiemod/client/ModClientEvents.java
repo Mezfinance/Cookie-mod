@@ -20,8 +20,7 @@ public final class ModClientEvents {
         event.registerLayerDefinition(ModModelLayers.COOKIE_SOLDIER, CookieSoldierModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.WAFFLE_GUY,
                 () -> LayerDefinition.create(HumanoidModel.createMesh(new CubeDeformation(0.0F), 0.0F), 64, 64));
-        event.registerLayerDefinition(ModModelLayers.CAKE_GOLEM,
-                () -> LayerDefinition.create(HumanoidModel.createMesh(new CubeDeformation(0.0F), 0.0F), 64, 64));
+        event.registerLayerDefinition(ModModelLayers.CAKE_GOLEM, CakeGolemModel::createBodyLayer);
     }
 
     @SubscribeEvent
