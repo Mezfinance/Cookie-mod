@@ -5,6 +5,8 @@
   "item.cookiemod.chocolate_bar": "Chocolate Bar",
   "item.cookiemod.candy": "Candy",
   "item.cookiemod.waffle": "Waffle",
+  "item.cookiemod.holy_cookie": "Holy Cookie",
+  "tooltip.cookiemod.holy_cookie": "Held in hand, it saves you from death.",
   "item.cookiemod.cookie_soldier_spawn_egg": "Cookie Soldier Spawn Egg",
   "item.cookiemod.waffle_guy_spawn_egg": "Waffle Guy Spawn Egg",
   "item.cookiemod.cake_golem_spawn_egg": "Cake Golem Spawn Egg",

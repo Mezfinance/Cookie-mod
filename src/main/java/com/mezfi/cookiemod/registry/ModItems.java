@@ -1,8 +1,10 @@
 package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.item.HolyCookieItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -26,6 +28,11 @@ public final class ModItems {
     public static final DeferredItem<Item> CANDY = food("candy", 3, 0.3F);
     /** Dropped by waffle guys; 4 craft into a Waffle Block (design deviation — source was tower-only). */
     public static final DeferredItem<Item> WAFFLE = food("waffle", 3, 0.3F);
+
+    // --- totems / special items ---
+    /** Dropped by the Cake Golem. Held-in-hand death save (see CombatEvents; MECHANICS_SPEC §5.3). */
+    public static final DeferredItem<Item> HOLY_COOKIE = REGISTER.registerItem("holy_cookie",
+            p -> new HolyCookieItem(p.rarity(Rarity.UNCOMMON)));
 
     // --- spawn eggs ---
     public static final DeferredItem<DeferredSpawnEggItem> COOKIE_SOLDIER_SPAWN_EGG =
