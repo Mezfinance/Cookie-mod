@@ -34,13 +34,33 @@ public class WaffleGuyEntity extends Monster {
         super(type, level);
     }
 
-    /** Waffle guys wield a lollipop (MECHANICS_SPEC §9.1); kept, not dropped. */
+    /** Chance a spawning waffle guy wears the full gummy armour set (MECHANICS_SPEC §9.1). */
+    private static final float GUMMY_ARMOUR_CHANCE = 0.35F;
+    /** Chance a spawning waffle guy wields a lollipop (MECHANICS_SPEC §9.1). */
+    private static final float LOLLIPOP_CHANCE = 0.60F;
+
+    /**
+     * Waffle guys randomly spawn with gear (MECHANICS_SPEC §9.1): sometimes the full gummy
+     * armour set, sometimes a lollipop. Nothing is dropped on death.
+     */
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.LOLLIPOP.get()));
-        this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
+        if (this.random.nextFloat() < LOLLIPOP_CHANCE) {
+            this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.LOLLIPOP.get()));
+            this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
+        }
+        if (this.random.nextFloat() < GUMMY_ARMOUR_CHANCE) {
+            this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ModItems.GUMMY_HELMET.get()));
+            this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ModItems.GUMMY_CHESTPLATE.get()));
+            this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ModItems.GUMMY_LEGGINGS.get()));
+            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(ModItems.GUMMY_BOOTS.get()));
+            for (EquipmentSlot slot : new EquipmentSlot[]{
+                    EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+                this.setDropChance(slot, 0.0F);
+            }
+        }
         return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 

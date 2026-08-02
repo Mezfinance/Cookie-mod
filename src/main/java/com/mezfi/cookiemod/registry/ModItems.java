@@ -3,6 +3,7 @@ package com.mezfi.cookiemod.registry;
 import com.mezfi.cookiemod.CookieMod;
 import com.mezfi.cookiemod.item.HolyCookieItem;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
@@ -35,6 +36,16 @@ public final class ModItems {
     /** Lollipop weapon (MECHANICS_SPEC §6): 5 attack damage, 1.6 attack speed — stone-sword stats. */
     public static final DeferredItem<Item> LOLLIPOP = REGISTER.registerItem("lollipop",
             p -> new SwordItem(Tiers.STONE, p.attributes(SwordItem.createAttributes(Tiers.STONE, 3, -2.4F))));
+
+    // --- gummy armour (MECHANICS_SPEC §9.1): the purple set waffle guys sometimes wear ---
+    public static final DeferredItem<ArmorItem> GUMMY_HELMET = REGISTER.registerItem("gummy_helmet",
+            p -> new ArmorItem(ModArmorMaterials.GUMMY, ArmorItem.Type.HELMET, p.durability(ArmorItem.Type.HELMET.getDurability(12))));
+    public static final DeferredItem<ArmorItem> GUMMY_CHESTPLATE = REGISTER.registerItem("gummy_chestplate",
+            p -> new ArmorItem(ModArmorMaterials.GUMMY, ArmorItem.Type.CHESTPLATE, p.durability(ArmorItem.Type.CHESTPLATE.getDurability(12))));
+    public static final DeferredItem<ArmorItem> GUMMY_LEGGINGS = REGISTER.registerItem("gummy_leggings",
+            p -> new ArmorItem(ModArmorMaterials.GUMMY, ArmorItem.Type.LEGGINGS, p.durability(ArmorItem.Type.LEGGINGS.getDurability(12))));
+    public static final DeferredItem<ArmorItem> GUMMY_BOOTS = REGISTER.registerItem("gummy_boots",
+            p -> new ArmorItem(ModArmorMaterials.GUMMY, ArmorItem.Type.BOOTS, p.durability(ArmorItem.Type.BOOTS.getDurability(12))));
 
     // --- totems / special items ---
     /** Dropped by the Cake Golem. Held-in-hand death save (see CombatEvents; MECHANICS_SPEC §5.3). */
