@@ -82,6 +82,12 @@ public final class ModItems {
             REGISTER.registerItem("chocolate_bunny_spawn_egg",
                     p -> new DeferredSpawnEggItem(ModEntities.CHOCOLATE_BUNNY, 0x5A3A1C, 0x3A2410, p));
 
+    // --- spawner block items (spawners aren't in ModBlocks.ALL) ---
+    public static final DeferredItem<?> WAFFLE_GUY_SPAWNER_ITEM =
+            REGISTER.registerSimpleBlockItem(ModBlocks.WAFFLE_GUY_SPAWNER);
+    public static final DeferredItem<?> CHOCOLATE_BUNNY_SPAWNER_ITEM =
+            REGISTER.registerSimpleBlockItem(ModBlocks.CHOCOLATE_BUNNY_SPAWNER);
+
     // --- block items for every registered block (registered after the items above) ---
     static {
         ModBlocks.ALL.forEach(REGISTER::registerSimpleBlockItem);

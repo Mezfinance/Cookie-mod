@@ -42,6 +42,9 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.CAKE_GOLEM_SPAWN_EGG.get());
                         // then every block, in registration order
                         ModBlocks.ALL.forEach(block -> output.accept(block.get()));
+                        // spawners (not in ALL)
+                        output.accept(ModBlocks.WAFFLE_GUY_SPAWNER.get());
+                        output.accept(ModBlocks.CHOCOLATE_BUNNY_SPAWNER.get());
                     })
                     .build());
 }

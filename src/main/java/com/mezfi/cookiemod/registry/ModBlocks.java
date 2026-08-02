@@ -1,6 +1,8 @@
 package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.block.ChocolateBunnySpawnerBlock;
+import com.mezfi.cookiemod.block.WaffleGuySpawnerBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -50,6 +52,22 @@ public final class ModBlocks {
             candy("aniseed_hard_candy_block", MapColor.SNOW, 1.0F);
     public static final DeferredBlock<Block> MINTY_HARD_CANDY_BLOCK =
             candy("minty_hard_candy_block", MapColor.COLOR_CYAN, 1.0F);
+
+    // --- mob spawners (MECHANICS_SPEC §9.3); not in ALL (custom type) — handled explicitly ---
+    public static final DeferredBlock<WaffleGuySpawnerBlock> WAFFLE_GUY_SPAWNER =
+            REGISTER.registerBlock("waffle_guy_spawner", WaffleGuySpawnerBlock::new, spawnerProps(MapColor.GOLD));
+    public static final DeferredBlock<ChocolateBunnySpawnerBlock> CHOCOLATE_BUNNY_SPAWNER =
+            REGISTER.registerBlock("chocolate_bunny_spawner", ChocolateBunnySpawnerBlock::new, spawnerProps(MapColor.COLOR_BROWN));
+
+    /** Spawner cage: hard, needs a tool, drops nothing (see loot tables). */
+    private static BlockBehaviour.Properties spawnerProps(MapColor color) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(color)
+                .strength(5.0F)
+                .sound(SoundType.METAL)
+                .requiresCorrectToolForDrops()
+                .noOcclusion();
+    }
 
     /** Soft, edible/building block: hand-breakable, wool-like. */
     private static DeferredBlock<Block> soft(String name, MapColor color) {

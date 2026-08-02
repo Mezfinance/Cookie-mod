@@ -1,6 +1,7 @@
 package com.mezfi.cookiemod;
 
 import com.mezfi.cookiemod.registry.ModArmorMaterials;
+import com.mezfi.cookiemod.registry.ModBlockEntities;
 import com.mezfi.cookiemod.registry.ModBlocks;
 import com.mezfi.cookiemod.registry.ModCreativeTabs;
 import com.mezfi.cookiemod.registry.ModEntities;
@@ -28,6 +29,7 @@ public class CookieMod {
         ModEntities.REGISTER.register(modBus);
         ModArmorMaterials.REGISTER.register(modBus);
         ModBlocks.REGISTER.register(modBus);
+        ModBlockEntities.REGISTER.register(modBus);
         ModItems.REGISTER.register(modBus);
         ModCreativeTabs.REGISTER.register(modBus);
 

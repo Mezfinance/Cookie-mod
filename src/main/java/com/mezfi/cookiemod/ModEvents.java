@@ -8,6 +8,7 @@ import com.mezfi.cookiemod.entity.WaffleGuyEntity;
 import com.mezfi.cookiemod.registry.ModEntities;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -39,6 +40,13 @@ public final class ModEvents {
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        // Waffle guys: no natural spawns, but this gives their spawner vanilla monster rules
+        // (dark-gated) — so lighting a waffle-guy spawner with torches disables it (§9.3).
+        event.register(ModEntities.WAFFLE_GUY.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }
