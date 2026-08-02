@@ -25,6 +25,7 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.CHOCOLATE_BAR.get());
                         output.accept(ModItems.CANDY.get());
                         output.accept(ModItems.WAFFLE.get());
+                        output.accept(ModItems.GUMMY_BEAR.get());
                         output.accept(ModItems.LOLLIPOP.get());
                         output.accept(ModItems.GUMMY_HELMET.get());
                         output.accept(ModItems.GUMMY_CHESTPLATE.get());

@@ -31,6 +31,8 @@ public final class ModItems {
     public static final DeferredItem<Item> CANDY = food("candy", 3, 0.3F);
     /** Dropped by waffle guys; 4 craft into a Waffle Block (design deviation — source was tower-only). */
     public static final DeferredItem<Item> WAFFLE = food("waffle", 3, 0.3F);
+    /** Dropped by polar bears; the crafting ingredient for gummy armour (MECHANICS_SPEC §5.1, §7). */
+    public static final DeferredItem<Item> GUMMY_BEAR = food("gummy_bear", 2, 0.2F);
 
     // --- weapons ---
     /** Lollipop weapon (MECHANICS_SPEC §6): 5 attack damage, 1.6 attack speed — stone-sword stats. */

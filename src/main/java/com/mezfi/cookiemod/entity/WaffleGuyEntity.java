@@ -34,14 +34,19 @@ public class WaffleGuyEntity extends Monster {
         super(type, level);
     }
 
-    /** Chance a spawning waffle guy wears the full gummy armour set (MECHANICS_SPEC §9.1). */
-    private static final float GUMMY_ARMOUR_CHANCE = 0.35F;
+    /** Per-piece chance each gummy armour slot is worn — yields 0..4 pieces (MECHANICS_SPEC §9.1). */
+    private static final float GUMMY_PIECE_CHANCE = 0.5F;
     /** Chance a spawning waffle guy wields a lollipop (MECHANICS_SPEC §9.1). */
     private static final float LOLLIPOP_CHANCE = 0.60F;
+    /** When killed by a player, each worn armour piece has this chance to drop. */
+    private static final float ARMOUR_DROP_CHANCE = 0.20F;
+    /** When killed by a player, an equipped lollipop has this chance to drop. */
+    private static final float LOLLIPOP_DROP_CHANCE = 0.30F;
 
     /**
-     * Waffle guys randomly spawn with gear (MECHANICS_SPEC §9.1): sometimes the full gummy
-     * armour set, sometimes a lollipop. Nothing is dropped on death.
+     * Waffle guys spawn with random gear (MECHANICS_SPEC §9.1): a lollipop, and any number of
+     * gummy armour pieces (0..4, each rolled independently). Whatever they wear has a random
+     * chance to drop when a player kills them.
      */
     @Nullable
     @Override
@@ -49,19 +54,21 @@ public class WaffleGuyEntity extends Monster {
                                         MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
         if (this.random.nextFloat() < LOLLIPOP_CHANCE) {
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.LOLLIPOP.get()));
-            this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
+            this.setDropChance(EquipmentSlot.MAINHAND, LOLLIPOP_DROP_CHANCE);
         }
-        if (this.random.nextFloat() < GUMMY_ARMOUR_CHANCE) {
-            this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ModItems.GUMMY_HELMET.get()));
-            this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ModItems.GUMMY_CHESTPLATE.get()));
-            this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ModItems.GUMMY_LEGGINGS.get()));
-            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(ModItems.GUMMY_BOOTS.get()));
-            for (EquipmentSlot slot : new EquipmentSlot[]{
-                    EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
-                this.setDropChance(slot, 0.0F);
-            }
-        }
+        maybeWear(EquipmentSlot.HEAD, ModItems.GUMMY_HELMET.get());
+        maybeWear(EquipmentSlot.CHEST, ModItems.GUMMY_CHESTPLATE.get());
+        maybeWear(EquipmentSlot.LEGS, ModItems.GUMMY_LEGGINGS.get());
+        maybeWear(EquipmentSlot.FEET, ModItems.GUMMY_BOOTS.get());
         return super.finalizeSpawn(level, difficulty, reason, spawnData);
+    }
+
+    /** Independently roll a single armour slot; if worn, give it a chance to drop on death. */
+    private void maybeWear(EquipmentSlot slot, net.minecraft.world.item.Item piece) {
+        if (this.random.nextFloat() < GUMMY_PIECE_CHANCE) {
+            this.setItemSlot(slot, new ItemStack(piece));
+            this.setDropChance(slot, ARMOUR_DROP_CHANCE);
+        }
     }
 
     /** [EST] MECHANICS_SPEC §9.1: 24 HP, 6 attack. */

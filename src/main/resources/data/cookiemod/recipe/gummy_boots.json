@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "G G",
+    "G G"
+  ],
+  "key": { "G": { "item": "cookiemod:gummy_bear" } },
+  "result": { "id": "cookiemod:gummy_boots", "count": 1 }
+}
