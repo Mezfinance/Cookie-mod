@@ -4,6 +4,7 @@ import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.PolarBearModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 
@@ -11,6 +12,9 @@ import net.minecraft.world.entity.Mob;
  * Gummy bear model. Reuses the polar-bear cuboid geometry (the gummy bears are re-skinned
  * polar bears) but animates generically, so it runs on a plain {@link Mob} rather than a
  * vanilla PolarBear (whose model casts to PolarBear and would crash here).
+ *
+ * <p>Rendered with a translucent, non-culled render type so the semi-transparent texture
+ * reads as see-through jelly (MECHANICS_SPEC §5.1a).
  */
 public class GummyBearModel<T extends Mob> extends HierarchicalModel<T> {
 
@@ -22,6 +26,7 @@ public class GummyBearModel<T extends Mob> extends HierarchicalModel<T> {
     private final ModelPart leftFrontLeg;
 
     public GummyBearModel(ModelPart root) {
+        super(RenderType::entityTranslucent);
         this.root = root;
         this.head = root.getChild("head");
         this.rightHindLeg = root.getChild("right_hind_leg");
