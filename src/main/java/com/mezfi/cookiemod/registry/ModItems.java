@@ -5,6 +5,8 @@ import com.mezfi.cookiemod.item.HolyCookieItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tiers;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -28,6 +30,11 @@ public final class ModItems {
     public static final DeferredItem<Item> CANDY = food("candy", 3, 0.3F);
     /** Dropped by waffle guys; 4 craft into a Waffle Block (design deviation — source was tower-only). */
     public static final DeferredItem<Item> WAFFLE = food("waffle", 3, 0.3F);
+
+    // --- weapons ---
+    /** Lollipop weapon (MECHANICS_SPEC §6): 5 attack damage, 1.6 attack speed — stone-sword stats. */
+    public static final DeferredItem<Item> LOLLIPOP = REGISTER.registerItem("lollipop",
+            p -> new SwordItem(Tiers.STONE, p.attributes(SwordItem.createAttributes(Tiers.STONE, 3, -2.4F))));
 
     // --- totems / special items ---
     /** Dropped by the Cake Golem. Held-in-hand death save (see CombatEvents; MECHANICS_SPEC §5.3). */

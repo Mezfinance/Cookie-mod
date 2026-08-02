@@ -1,6 +1,11 @@
 package com.mezfi.cookiemod.entity;
 
+import com.mezfi.cookiemod.registry.ModItems;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -12,7 +17,10 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * The waffle guy — the common hostile enemy and main soldier-killer (MECHANICS_SPEC §9.1).
@@ -24,6 +32,16 @@ public class WaffleGuyEntity extends Monster {
 
     public WaffleGuyEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
+    }
+
+    /** Waffle guys wield a lollipop (MECHANICS_SPEC §9.1); kept, not dropped. */
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.LOLLIPOP.get()));
+        this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     /** [EST] MECHANICS_SPEC §9.1: 24 HP, 6 attack. */
