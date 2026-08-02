@@ -24,6 +24,8 @@ public final class ModItems {
     public static final DeferredItem<Item> COOKIE = food("cookie", 2, 0.3F);
     public static final DeferredItem<Item> CHOCOLATE_BAR = food("chocolate_bar", 4, 0.4F);
     public static final DeferredItem<Item> CANDY = food("candy", 3, 0.3F);
+    /** Dropped by waffle guys; 4 craft into a Waffle Block (design deviation — source was tower-only). */
+    public static final DeferredItem<Item> WAFFLE = food("waffle", 3, 0.3F);
 
     // --- spawn eggs ---
     public static final DeferredItem<DeferredSpawnEggItem> COOKIE_SOLDIER_SPAWN_EGG =

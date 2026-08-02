@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [ "WW", "WW" ],
+  "key": { "W": { "item": "cookiemod:waffle" } },
+  "result": { "id": "cookiemod:waffle_block", "count": 1 }
+}
