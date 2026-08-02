@@ -167,6 +167,29 @@ Observed effects are cited; unshown ones are `[EST]` (durations all `[EST]`):
   power-ups before fights `(41:38)`.
 - Gummy bears are also **jelly-armor ingredients** (§7).
 
+#### 5.1a Mod canon — 4-colour gummy-bear mobs `[BUILD DECISION]`
+
+The video's assorted colored gummies collapse to a **canonical four-colour set**
+for the mod. The "gummy bears" are **polar-bear-type passive mobs** re-skinned in
+four colours; each **drops its matching colored gummy-bear item**.
+
+| colour | mob variant | dropped item | eaten effect (spec-based) | duration |
+|---|---|---|---|---|
+| **Purple** | purple gummy bear | Purple Gummy Bear | **Strength II** | 30 s |
+| **Green** | green gummy bear | Green Gummy Bear | **Resistance II** | 30 s |
+| **Blue** | blue gummy bear | Blue Gummy Bear | **Speed II** | 60 s |
+| **Yellow** | yellow gummy bear | Yellow Gummy Bear | **Jump Boost II** | 60 s |
+
+- **Mob:** polar-bear model/AI (passive, wanders; retaliates if hit). Variant is a
+  cosmetic colour only — behaviour is identical across the four.
+- **Edible:** each colored gummy is a food (small hunger) **plus** the effect above.
+  Purple + Green is the boss-combo (Strength + Resistance), echoing the video's
+  Grape + Minty pairing `(6:48)`.
+- **Crafting → one shared armour set `[BUILD DECISION]`:** all four colours craft
+  the **same single Gummy Armour set** (§7); the colour of the bear used does **not**
+  change the armour's stats — it only changes the eaten effect. (The video's
+  per-colour jelly pieces are simplified to one set for the mod.)
+
 ### 5.2 Milk (fluid)
 
 - A **placeable fluid** in world pools (looks like lava). Contact grants
@@ -206,6 +229,13 @@ Observed effects are cited; unshown ones are `[EST]` (durations all `[EST]`):
 ---
 
 ## 7. Jelly / Gummy armor set
+
+> **Mod canon `[BUILD DECISION]`:** the mod ships **one shared Gummy Armour set**
+> (helmet/chestplate/leggings/boots), craftable from **any** colour of gummy bear
+> (§5.1a) — the per-colour jelly pieces below are the video's version and are
+> collapsed to a single set with fixed stats. Already partially implemented:
+> soft, leather-plus defence, repaired with candy; waffle guys spawn wearing 0–4
+> pieces at random. Knockback-resistance set bonus is still **TODO** (see below).
 
 Armor **crafted from gummy bears**, granting knockback resistance `(26:45,
 39:17–39:42)`:
