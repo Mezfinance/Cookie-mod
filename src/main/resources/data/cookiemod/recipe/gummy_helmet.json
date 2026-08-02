@@ -5,6 +5,13 @@
     "GGG",
     "G G"
   ],
-  "key": { "G": { "item": "cookiemod:gummy_bear" } },
-  "result": { "id": "cookiemod:gummy_helmet", "count": 1 }
+  "key": {
+    "G": {
+      "tag": "cookiemod:gummy_bears"
+    }
+  },
+  "result": {
+    "id": "cookiemod:gummy_helmet",
+    "count": 1
+  }
 }

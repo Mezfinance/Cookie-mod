@@ -2,6 +2,9 @@ package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
 import com.mezfi.cookiemod.item.HolyCookieItem;
+import java.util.function.Supplier;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -31,8 +34,16 @@ public final class ModItems {
     public static final DeferredItem<Item> CANDY = food("candy", 3, 0.3F);
     /** Dropped by waffle guys; 4 craft into a Waffle Block (design deviation — source was tower-only). */
     public static final DeferredItem<Item> WAFFLE = food("waffle", 3, 0.3F);
-    /** Dropped by polar bears; the crafting ingredient for gummy armour (MECHANICS_SPEC §5.1, §7). */
-    public static final DeferredItem<Item> GUMMY_BEAR = food("gummy_bear", 2, 0.2F);
+    // Coloured gummy bears (MECHANICS_SPEC §5.1a): dropped by the matching gummy-bear mob,
+    // edible for an effect, and any colour crafts the shared gummy armour (§7). Level II = amp 1.
+    public static final DeferredItem<Item> PURPLE_GUMMY_BEAR = gummy("purple_gummy_bear",
+            () -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 30 * 20, 1));      // Strength II, 30 s
+    public static final DeferredItem<Item> GREEN_GUMMY_BEAR = gummy("green_gummy_bear",
+            () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 30 * 20, 1)); // Resistance II, 30 s
+    public static final DeferredItem<Item> BLUE_GUMMY_BEAR = gummy("blue_gummy_bear",
+            () -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60 * 20, 1));    // Speed II, 60 s
+    public static final DeferredItem<Item> YELLOW_GUMMY_BEAR = gummy("yellow_gummy_bear",
+            () -> new MobEffectInstance(MobEffects.JUMP, 60 * 20, 1));             // Jump Boost II, 60 s
 
     // --- weapons ---
     /** Lollipop weapon (MECHANICS_SPEC §6): 5 attack damage, 1.6 attack speed — stone-sword stats. */
@@ -64,6 +75,9 @@ public final class ModItems {
     public static final DeferredItem<DeferredSpawnEggItem> CAKE_GOLEM_SPAWN_EGG =
             REGISTER.registerItem("cake_golem_spawn_egg",
                     p -> new DeferredSpawnEggItem(ModEntities.CAKE_GOLEM, 0x6B4A2B, 0xE8DCC0, p));
+    public static final DeferredItem<DeferredSpawnEggItem> GUMMY_BEAR_SPAWN_EGG =
+            REGISTER.registerItem("gummy_bear_spawn_egg",
+                    p -> new DeferredSpawnEggItem(ModEntities.GUMMY_BEAR, 0x9A5ABE, 0x6EC0DC, p));
 
     // --- block items for every registered block (registered after the items above) ---
     static {
@@ -74,6 +88,16 @@ public final class ModItems {
         FoodProperties props = new FoodProperties.Builder()
                 .nutrition(nutrition)
                 .saturationModifier(saturation)
+                .build();
+        return REGISTER.registerItem(name, p -> new Item(p.food(props)));
+    }
+
+    /** A coloured gummy bear: light snack plus a guaranteed potion effect when eaten. */
+    private static DeferredItem<Item> gummy(String name, Supplier<MobEffectInstance> effect) {
+        FoodProperties props = new FoodProperties.Builder()
+                .nutrition(2)
+                .saturationModifier(0.2F)
+                .effect(effect, 1.0F)
                 .build();
         return REGISTER.registerItem(name, p -> new Item(p.food(props)));
     }

@@ -25,7 +25,10 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.CHOCOLATE_BAR.get());
                         output.accept(ModItems.CANDY.get());
                         output.accept(ModItems.WAFFLE.get());
-                        output.accept(ModItems.GUMMY_BEAR.get());
+                        output.accept(ModItems.PURPLE_GUMMY_BEAR.get());
+                        output.accept(ModItems.GREEN_GUMMY_BEAR.get());
+                        output.accept(ModItems.BLUE_GUMMY_BEAR.get());
+                        output.accept(ModItems.YELLOW_GUMMY_BEAR.get());
                         output.accept(ModItems.LOLLIPOP.get());
                         output.accept(ModItems.GUMMY_HELMET.get());
                         output.accept(ModItems.GUMMY_CHESTPLATE.get());
@@ -34,6 +37,7 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.HOLY_COOKIE.get());
                         output.accept(ModItems.COOKIE_SOLDIER_SPAWN_EGG.get());
                         output.accept(ModItems.WAFFLE_GUY_SPAWN_EGG.get());
+                        output.accept(ModItems.GUMMY_BEAR_SPAWN_EGG.get());
                         output.accept(ModItems.CAKE_GOLEM_SPAWN_EGG.get());
                         // then every block, in registration order
                         ModBlocks.ALL.forEach(block -> output.accept(block.get()));

@@ -16,4 +16,7 @@ public final class ModModelLayers {
 
     public static final ModelLayerLocation CAKE_GOLEM = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "cake_golem"), "main");
+
+    public static final ModelLayerLocation GUMMY_BEAR = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "gummy_bear"), "main");
 }

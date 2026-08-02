@@ -20,6 +20,7 @@ public final class ModClientEvents {
         event.registerLayerDefinition(ModModelLayers.COOKIE_SOLDIER, CookieSoldierModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.WAFFLE_GUY, WaffleGuyModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.CAKE_GOLEM, CakeGolemModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.GUMMY_BEAR, GummyBearModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -27,5 +28,6 @@ public final class ModClientEvents {
         event.registerEntityRenderer(ModEntities.COOKIE_SOLDIER.get(), CookieSoldierRenderer::new);
         event.registerEntityRenderer(ModEntities.WAFFLE_GUY.get(), WaffleGuyRenderer::new);
         event.registerEntityRenderer(ModEntities.CAKE_GOLEM.get(), CakeGolemRenderer::new);
+        event.registerEntityRenderer(ModEntities.GUMMY_BEAR.get(), GummyBearRenderer::new);
     }
 }
