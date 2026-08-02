@@ -21,6 +21,16 @@ public class CookieSoldierModel<T extends LivingEntity> extends HumanoidModel<T>
         super(root);
     }
 
+    @Override
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks,
+                          float netHeadYaw, float headPitch) {
+        // Hold the sword in a normal item grip when one is equipped.
+        this.rightArmPose = entity.getMainHandItem().isEmpty()
+                ? HumanoidModel.ArmPose.EMPTY
+                : HumanoidModel.ArmPose.ITEM;
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+    }
+
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = HumanoidModel.createMesh(new CubeDeformation(0.0F), 0.0F);
         PartDefinition root = mesh.getRoot();

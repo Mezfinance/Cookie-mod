@@ -4,6 +4,7 @@ import com.mezfi.cookiemod.CookieMod;
 import com.mezfi.cookiemod.entity.CookieSoldierEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -18,6 +19,7 @@ public class CookieSoldierRenderer extends MobRenderer<CookieSoldierEntity, Cook
 
     public CookieSoldierRenderer(EntityRendererProvider.Context context) {
         super(context, new CookieSoldierModel<>(context.bakeLayer(ModModelLayers.COOKIE_SOLDIER)), 0.5F);
+        this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
     }
 
     @Override
