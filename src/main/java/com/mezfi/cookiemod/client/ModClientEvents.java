@@ -19,10 +19,16 @@ public final class ModClientEvents {
     static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.COOKIE_SOLDIER,
                 () -> LayerDefinition.create(HumanoidModel.createMesh(new CubeDeformation(0.0F), 0.0F), 64, 64));
+        event.registerLayerDefinition(ModModelLayers.WAFFLE_GUY,
+                () -> LayerDefinition.create(HumanoidModel.createMesh(new CubeDeformation(0.0F), 0.0F), 64, 64));
+        event.registerLayerDefinition(ModModelLayers.CAKE_GOLEM,
+                () -> LayerDefinition.create(HumanoidModel.createMesh(new CubeDeformation(0.0F), 0.0F), 64, 64));
     }
 
     @SubscribeEvent
     static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.COOKIE_SOLDIER.get(), CookieSoldierRenderer::new);
+        event.registerEntityRenderer(ModEntities.WAFFLE_GUY.get(), WaffleGuyRenderer::new);
+        event.registerEntityRenderer(ModEntities.CAKE_GOLEM.get(), CakeGolemRenderer::new);
     }
 }

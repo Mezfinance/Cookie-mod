@@ -29,6 +29,12 @@ public final class ModItems {
     public static final DeferredItem<DeferredSpawnEggItem> COOKIE_SOLDIER_SPAWN_EGG =
             REGISTER.registerItem("cookie_soldier_spawn_egg",
                     p -> new DeferredSpawnEggItem(ModEntities.COOKIE_SOLDIER, 0xC68A4E, 0x6B4423, p));
+    public static final DeferredItem<DeferredSpawnEggItem> WAFFLE_GUY_SPAWN_EGG =
+            REGISTER.registerItem("waffle_guy_spawn_egg",
+                    p -> new DeferredSpawnEggItem(ModEntities.WAFFLE_GUY, 0xC9A24B, 0x8A5A2B, p));
+    public static final DeferredItem<DeferredSpawnEggItem> CAKE_GOLEM_SPAWN_EGG =
+            REGISTER.registerItem("cake_golem_spawn_egg",
+                    p -> new DeferredSpawnEggItem(ModEntities.CAKE_GOLEM, 0x6B4A2B, 0xE8DCC0, p));
 
     // --- block items for every registered block (registered after the items above) ---
     static {

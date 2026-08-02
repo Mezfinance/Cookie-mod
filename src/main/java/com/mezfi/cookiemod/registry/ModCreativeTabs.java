@@ -25,6 +25,8 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.CHOCOLATE_BAR.get());
                         output.accept(ModItems.CANDY.get());
                         output.accept(ModItems.COOKIE_SOLDIER_SPAWN_EGG.get());
+                        output.accept(ModItems.WAFFLE_GUY_SPAWN_EGG.get());
+                        output.accept(ModItems.CAKE_GOLEM_SPAWN_EGG.get());
                         // then every block, in registration order
                         ModBlocks.ALL.forEach(block -> output.accept(block.get()));
                     })

@@ -1,6 +1,8 @@
 package com.mezfi.cookiemod;
 
+import com.mezfi.cookiemod.entity.CakeGolemEntity;
 import com.mezfi.cookiemod.entity.CookieSoldierEntity;
+import com.mezfi.cookiemod.entity.WaffleGuyEntity;
 import com.mezfi.cookiemod.registry.ModEntities;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -14,5 +16,7 @@ public final class ModEvents {
     @SubscribeEvent
     static void onEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.COOKIE_SOLDIER.get(), CookieSoldierEntity.createAttributes().build());
+        event.put(ModEntities.WAFFLE_GUY.get(), WaffleGuyEntity.createAttributes().build());
+        event.put(ModEntities.CAKE_GOLEM.get(), CakeGolemEntity.createAttributes().build());
     }
 }
