@@ -14,8 +14,12 @@ import net.minecraft.resources.ResourceLocation;
  */
 public class CookieSoldierRenderer extends MobRenderer<CookieSoldierEntity, CookieSoldierModel<CookieSoldierEntity>> {
 
-    private static final ResourceLocation TEXTURE =
+    /** Recruited: gray armour, feather, buttons, smiling face. */
+    private static final ResourceLocation TAMED =
             ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "textures/entity/cookie_soldier.png");
+    /** Wild cookie dude: plain, no armour/feather/smile (the feather geometry is transparent here). */
+    private static final ResourceLocation UNTAMED =
+            ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "textures/entity/cookie_dude.png");
 
     public CookieSoldierRenderer(EntityRendererProvider.Context context) {
         super(context, new CookieSoldierModel<>(context.bakeLayer(ModModelLayers.COOKIE_SOLDIER)), 0.5F);
@@ -24,6 +28,6 @@ public class CookieSoldierRenderer extends MobRenderer<CookieSoldierEntity, Cook
 
     @Override
     public ResourceLocation getTextureLocation(CookieSoldierEntity entity) {
-        return TEXTURE;
+        return entity.isTame() ? TAMED : UNTAMED;
     }
 }

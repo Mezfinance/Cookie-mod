@@ -3,17 +3,13 @@ package com.mezfi.cookiemod.entity;
 import com.mezfi.cookiemod.registry.ModItems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -45,16 +41,6 @@ public class CookieSoldierEntity extends TamableAnimal {
 
     public CookieSoldierEntity(EntityType<? extends TamableAnimal> type, Level level) {
         super(type, level);
-    }
-
-    /** Cookie soldiers spawn wielding a sword (kept, not dropped). */
-    @Nullable
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
-        this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
-        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     /** [EST] stats from MECHANICS_SPEC §3.4: 20 HP, 3 attack, moderate speed. */
@@ -97,6 +83,9 @@ public class CookieSoldierEntity extends TamableAnimal {
                 }
                 if (!level.isClientSide) {
                     this.tame(player);
+                    // Recruited soldiers arm themselves with a sword (kept, not dropped).
+                    this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+                    this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
                     this.setOrderedToSit(false);
                     this.navigation.stop();
                     this.setTarget(null);
