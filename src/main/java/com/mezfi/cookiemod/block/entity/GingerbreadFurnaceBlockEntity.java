@@ -99,6 +99,7 @@ public class GingerbreadFurnaceBlockEntity extends BlockEntity {
         soldier.finalizeSpawn(level, level.getCurrentDifficultyAt(where), MobSpawnType.MOB_SUMMONED, null);
         soldier.setOwnerUUID(ownerId);   // joins the placer's army immediately
         soldier.setTame(true, true);
+        soldier.equipSoldierGear();      // same sword a recruited soldier gets
         level.addFreshEntity(soldier);
     }
 

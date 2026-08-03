@@ -83,9 +83,7 @@ public class CookieSoldierEntity extends TamableAnimal {
                 }
                 if (!level.isClientSide) {
                     this.tame(player);
-                    // Recruited soldiers arm themselves with a sword (kept, not dropped).
-                    this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
-                    this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
+                    this.equipSoldierGear(); // arm with a sword (kept, not dropped)
                     this.setOrderedToSit(false);
                     this.navigation.stop();
                     this.setTarget(null);
@@ -109,6 +107,12 @@ public class CookieSoldierEntity extends TamableAnimal {
         }
 
         return super.mobInteract(player, hand);
+    }
+
+    /** Arm a recruited soldier with its sword (kept, not dropped). Used by recruiting and the furnace. */
+    public void equipSoldierGear() {
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+        this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
     }
 
     /** Cookie soldiers are recruited, not bred. */
