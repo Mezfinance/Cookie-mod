@@ -43,12 +43,13 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
             cursor.move(Direction.UP);
         }
 
-        // Pick a candy flavour for the disc.
+        // The disc is a checkerboard of one candy flavour and white aniseed (BIOME_MAP §3).
         BlockState candy = switch (random.nextInt(3)) {
             case 1 -> ModBlocks.GRAPE_HARD_CANDY_BLOCK.get().defaultBlockState();
             case 2 -> ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState();
             default -> ModBlocks.RASPBERRY_HARD_CANDY_BLOCK.get().defaultBlockState();
         };
+        BlockState white = ModBlocks.ANISEED_HARD_CANDY_BLOCK.get().defaultBlockState();
 
         // A vertical disc (radius ~2) in a random horizontal plane, sitting above the stem top.
         Direction side = Direction.Plane.HORIZONTAL.getRandomDirection(random);
@@ -59,7 +60,7 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
                     continue; // round off the corners
                 }
                 BlockPos p = center.relative(side, a).relative(Direction.UP, b);
-                level.setBlock(p, candy, 2);
+                level.setBlock(p, ((a + b) & 1) == 0 ? candy : white, 2);
             }
         }
         return true;
