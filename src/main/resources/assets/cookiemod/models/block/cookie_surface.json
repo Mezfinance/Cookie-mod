@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "top": "cookiemod:block/waffle_block",
+    "top": "cookiemod:block/frosted_cookie_block",
     "bottom": "cookiemod:block/cookie_block",
     "side": "cookiemod:block/cookie_block"
   }
