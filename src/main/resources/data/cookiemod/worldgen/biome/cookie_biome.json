@@ -72,7 +72,11 @@
       "minecraft:spring_water",
       "minecraft:spring_lava"
     ],
-    [],
+    [
+      "cookiemod:candy_grass_patch",
+      "cookiemod:candy_cane",
+      "cookiemod:lollipop_tree"
+    ],
     [
       "minecraft:freeze_top_layer"
     ]

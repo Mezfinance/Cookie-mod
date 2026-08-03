@@ -99,6 +99,8 @@ public final class ModItems {
             REGISTER.registerSimpleBlockItem(ModBlocks.CHOCOLATE_BUNNY_SPAWNER);
     public static final DeferredItem<?> GINGERBREAD_FURNACE_ITEM =
             REGISTER.registerSimpleBlockItem(ModBlocks.GINGERBREAD_FURNACE);
+    public static final DeferredItem<?> CANDY_GRASS_ITEM =
+            REGISTER.registerSimpleBlockItem(ModBlocks.CANDY_GRASS);
 
     // --- block items for every registered block (registered after the items above) ---
     static {

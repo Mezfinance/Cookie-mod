@@ -1,6 +1,5 @@
 {
   "itemGroup.cookiemod": "Cookie Mod",
-
   "item.cookiemod.cookie": "Cookie",
   "item.cookiemod.chocolate_bar": "Chocolate Bar",
   "item.cookiemod.candy": "Candy",
@@ -25,15 +24,12 @@
   "item.cookiemod.gummy_bear_spawn_egg": "Gummy Bear Spawn Egg",
   "item.cookiemod.chocolate_bunny_spawn_egg": "Chocolate Bunny Spawn Egg",
   "item.cookiemod.cake_golem_spawn_egg": "Cake Golem Spawn Egg",
-
   "biome.cookiemod.cookie_biome": "Cookie Biome",
-
   "entity.cookiemod.cookie_soldier": "Cookie Soldier",
   "entity.cookiemod.waffle_guy": "Waffle Guy",
   "entity.cookiemod.gummy_bear": "Gummy Bear",
   "entity.cookiemod.chocolate_bunny": "Chocolate Bunny",
   "entity.cookiemod.cake_golem": "Cake Golem",
-
   "block.cookiemod.cookie_block": "Cookie Block",
   "block.cookiemod.frosted_cookie_block": "Frosted Cookie Block",
   "block.cookiemod.waffle_block": "Waffle Block",
@@ -46,5 +42,7 @@
   "block.cookiemod.minty_hard_candy_block": "Minty Hard Candy Block",
   "block.cookiemod.waffle_guy_spawner": "Waffle Guy Spawner",
   "block.cookiemod.chocolate_bunny_spawner": "Chocolate Bunny Spawner",
-  "block.cookiemod.gingerbread_furnace": "Gingerbread Furnace"
+  "block.cookiemod.gingerbread_furnace": "Gingerbread Furnace",
+  "block.cookiemod.cookie_surface": "Cookie Ground",
+  "block.cookiemod.candy_grass": "Candy Grass"
 }

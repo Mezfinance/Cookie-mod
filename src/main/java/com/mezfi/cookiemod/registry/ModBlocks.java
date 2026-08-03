@@ -1,6 +1,7 @@
 package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.block.CandyGrassBlock;
 import com.mezfi.cookiemod.block.ChocolateBunnySpawnerBlock;
 import com.mezfi.cookiemod.block.GingerbreadFurnaceBlock;
 import com.mezfi.cookiemod.block.WaffleGuySpawnerBlock;
@@ -43,6 +44,10 @@ public final class ModBlocks {
             soft("chocolate_block", MapColor.TERRACOTTA_BROWN);
     public static final DeferredBlock<Block> CHOCOLATE_BRICK_BLOCK =
             soft("chocolate_brick_block", MapColor.COLOR_BROWN);
+
+    /** Cookie-biome surface: golden-waffle top, brown chocolate-chip sides (BIOME_MAP §2). */
+    public static final DeferredBlock<Block> COOKIE_SURFACE =
+            soft("cookie_surface", MapColor.GOLD);
 
     // --- candy / hard-candy blocks (harder, glassy) ---
     public static final DeferredBlock<Block> CANDY_CANE_BLOCK =
@@ -94,6 +99,16 @@ public final class ModBlocks {
                 .requiresCorrectToolForDrops()
                 .noOcclusion();
     }
+
+    /** Candy-grass tuft (BIOME_MAP §1/§3). Not in ALL — a plant, handled explicitly. */
+    public static final DeferredBlock<CandyGrassBlock> CANDY_GRASS =
+            REGISTER.registerBlock("candy_grass", CandyGrassBlock::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.TERRACOTTA_WHITE)
+                    .noCollission()
+                    .instabreak()
+                    .sound(SoundType.GRASS)
+                    .offsetType(BlockBehaviour.OffsetType.XZ)
+                    .pushReaction(PushReaction.DESTROY));
 
     /** Soft, edible/building block: hand-breakable, wool-like. */
     private static DeferredBlock<Block> soft(String name, MapColor color) {

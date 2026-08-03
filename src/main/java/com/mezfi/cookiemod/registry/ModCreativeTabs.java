@@ -48,6 +48,7 @@ public final class ModCreativeTabs {
                         output.accept(ModBlocks.WAFFLE_GUY_SPAWNER.get());
                         output.accept(ModBlocks.CHOCOLATE_BUNNY_SPAWNER.get());
                         output.accept(ModBlocks.GINGERBREAD_FURNACE.get());
+                        output.accept(ModBlocks.CANDY_GRASS.get());
                     })
                     .build());
 }

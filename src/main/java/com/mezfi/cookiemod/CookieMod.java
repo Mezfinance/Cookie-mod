@@ -5,6 +5,7 @@ import com.mezfi.cookiemod.registry.ModBlockEntities;
 import com.mezfi.cookiemod.registry.ModBlocks;
 import com.mezfi.cookiemod.registry.ModCreativeTabs;
 import com.mezfi.cookiemod.registry.ModEntities;
+import com.mezfi.cookiemod.registry.ModFeatures;
 import com.mezfi.cookiemod.registry.ModFluids;
 import com.mezfi.cookiemod.registry.ModItems;
 import com.mezfi.cookiemod.worldgen.CookieRegion;
@@ -40,6 +41,7 @@ public class CookieMod {
         ModBlocks.REGISTER.register(modBus);
         ModBlockEntities.REGISTER.register(modBus);
         ModItems.REGISTER.register(modBus);
+        ModFeatures.REGISTER.register(modBus);
         ModCreativeTabs.REGISTER.register(modBus);
 
         modBus.addListener(this::commonSetup);

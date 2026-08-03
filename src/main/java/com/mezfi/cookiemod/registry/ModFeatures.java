@@ -1,0 +1,23 @@
+package com.mezfi.cookiemod.registry;
+
+import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.worldgen.CandyCaneFeature;
+import com.mezfi.cookiemod.worldgen.LollipopTreeFeature;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+/** Custom worldgen features for the cookie biome's candy flora. */
+public final class ModFeatures {
+    private ModFeatures() {}
+
+    public static final DeferredRegister<Feature<?>> REGISTER =
+            DeferredRegister.create(Registries.FEATURE, CookieMod.MODID);
+
+    public static final DeferredHolder<Feature<?>, CandyCaneFeature> CANDY_CANE =
+            REGISTER.register("candy_cane", () -> new CandyCaneFeature(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, LollipopTreeFeature> LOLLIPOP_TREE =
+            REGISTER.register("lollipop_tree", () -> new LollipopTreeFeature(NoneFeatureConfiguration.CODEC));
+}
