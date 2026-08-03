@@ -3,6 +3,7 @@ package com.mezfi.cookiemod.block.entity;
 import com.mezfi.cookiemod.entity.CookieSoldierEntity;
 import com.mezfi.cookiemod.registry.ModBlockEntities;
 import com.mezfi.cookiemod.registry.ModEntities;
+import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Cookie Army Factory (MECHANICS_SPEC §3.6, §10): while a player is nearby, it continuously
@@ -30,21 +32,34 @@ public class GingerbreadFurnaceBlockEntity extends BlockEntity {
     private static final int CROWD_CAP = 24;      // soft cap on nearby soldiers
 
     private int cooldown = MIN_COOLDOWN;
+    /** The player who placed the furnace; new soldiers are tamed to them. */
+    @Nullable
+    private UUID owner;
 
     public GingerbreadFurnaceBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.GINGERBREAD_FURNACE.get(), pos, state);
+    }
+
+    /** Called on placement to bind the factory to its owner. */
+    public void setOwner(@Nullable UUID owner) {
+        this.owner = owner;
+        this.setChanged();
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         this.cooldown = tag.getInt("Cooldown");
+        this.owner = tag.hasUUID("Owner") ? tag.getUUID("Owner") : null;
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putInt("Cooldown", this.cooldown);
+        if (this.owner != null) {
+            tag.putUUID("Owner", this.owner);
+        }
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state,
@@ -65,10 +80,12 @@ public class GingerbreadFurnaceBlockEntity extends BlockEntity {
         if (nearby >= CROWD_CAP) {
             return; // let the crowd thin out before making more
         }
-        spawnSoldier(server, pos, player);
+        // Tame to the furnace's owner (whoever placed it); fall back to the nearby player.
+        UUID ownerId = be.owner != null ? be.owner : player.getUUID();
+        spawnSoldier(server, pos, ownerId);
     }
 
-    private static void spawnSoldier(ServerLevel level, BlockPos pos, Player owner) {
+    private static void spawnSoldier(ServerLevel level, BlockPos pos, UUID ownerId) {
         BlockPos where = findSpawnSpot(level, pos);
         if (where == null) {
             return;
@@ -80,7 +97,8 @@ public class GingerbreadFurnaceBlockEntity extends BlockEntity {
         soldier.moveTo(where.getX() + 0.5, where.getY(), where.getZ() + 0.5,
                 level.random.nextFloat() * 360.0F, 0.0F);
         soldier.finalizeSpawn(level, level.getCurrentDifficultyAt(where), MobSpawnType.MOB_SUMMONED, null);
-        soldier.tame(owner); // it joins your army immediately
+        soldier.setOwnerUUID(ownerId);   // joins the placer's army immediately
+        soldier.setTame(true, true);
         level.addFreshEntity(soldier);
     }
 

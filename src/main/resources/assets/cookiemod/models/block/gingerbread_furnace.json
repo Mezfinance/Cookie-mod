@@ -1,12 +1,8 @@
 {
-  "parent": "minecraft:block/cube",
+  "parent": "minecraft:block/orientable",
   "textures": {
-    "particle": "cookiemod:block/gingerbread_furnace_side",
-    "down": "cookiemod:block/gingerbread_furnace_top",
-    "up": "cookiemod:block/gingerbread_furnace_top",
-    "north": "cookiemod:block/gingerbread_furnace_front",
-    "south": "cookiemod:block/gingerbread_furnace_side",
-    "east": "cookiemod:block/gingerbread_furnace_side",
-    "west": "cookiemod:block/gingerbread_furnace_side"
+    "top": "cookiemod:block/gingerbread_furnace_top",
+    "front": "cookiemod:block/gingerbread_furnace_front",
+    "side": "cookiemod:block/gingerbread_furnace_side"
   }
 }
