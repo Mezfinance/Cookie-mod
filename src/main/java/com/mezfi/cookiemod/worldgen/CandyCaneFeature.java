@@ -11,7 +11,10 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-/** Builds a tall red/white candy cane: a striped vertical shaft with a hook at the top (BIOME_MAP §3a). */
+/**
+ * Builds a tall red/white candy structure (BIOME_MAP §3a): mostly hooked candy canes, but
+ * sometimes a plain straight striped pole for variety.
+ */
 public class CandyCaneFeature extends Feature<NoneFeatureConfiguration> {
 
     public CandyCaneFeature(Codec<NoneFeatureConfiguration> codec) {
@@ -32,7 +35,7 @@ public class CandyCaneFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         BlockState cane = ModBlocks.CANDY_CANE_BLOCK.get().defaultBlockState();
-        int height = 6 + random.nextInt(6); // 6–11 tall
+        int height = 9 + random.nextInt(8); // 9–16 tall — tall and prominent
 
         BlockPos.MutableBlockPos cursor = origin.mutable();
         for (int i = 0; i < height; i++) {
@@ -40,14 +43,18 @@ public class CandyCaneFeature extends Feature<NoneFeatureConfiguration> {
             cursor.move(Direction.UP);
         }
 
-        // Hook: 2 blocks out from the top, then curl down 1.
+        // 40% of the time leave it as a straight striped pole; otherwise curl a hook over the top.
+        if (random.nextFloat() < 0.40F) {
+            return true;
+        }
         Direction dir = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         BlockPos top = origin.above(height - 1);
         BlockPos h1 = top.relative(dir);
         BlockPos h2 = h1.relative(dir);
         level.setBlock(h1, cane, 2);
         level.setBlock(h2, cane, 2);
-        level.setBlock(h2.below(), cane, 2);
+        level.setBlock(h2.below(), cane, 2);         // curl down
+        level.setBlock(h2.below(2), cane, 2);        // longer curl for the taller cane
         return true;
     }
 }
