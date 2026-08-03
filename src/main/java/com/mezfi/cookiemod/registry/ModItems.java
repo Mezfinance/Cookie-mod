@@ -1,12 +1,14 @@
 package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.item.HealingMilkBucketItem;
 import com.mezfi.cookiemod.item.HolyCookieItem;
 import java.util.function.Supplier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
@@ -59,6 +61,14 @@ public final class ModItems {
             p -> new ArmorItem(ModArmorMaterials.GUMMY, ArmorItem.Type.LEGGINGS, p.durability(ArmorItem.Type.LEGGINGS.getDurability(12))));
     public static final DeferredItem<ArmorItem> GUMMY_BOOTS = REGISTER.registerItem("gummy_boots",
             p -> new ArmorItem(ModArmorMaterials.GUMMY, ArmorItem.Type.BOOTS, p.durability(ArmorItem.Type.BOOTS.getDurability(12))));
+
+    // --- milk (MECHANICS_SPEC §5.2) ---
+    /** Cookie Milk Bucket — picks up / places the milk fluid. */
+    public static final DeferredItem<BucketItem> COOKIE_MILK_BUCKET = REGISTER.registerItem("cookie_milk_bucket",
+            p -> new BucketItem(ModFluids.MILK_SOURCE.get(), p.stacksTo(1)));
+    /** Healing Milk Bucket — drink it for Regeneration II + a burst of health, no nausea. */
+    public static final DeferredItem<Item> HEALING_MILK_BUCKET = REGISTER.registerItem("healing_milk_bucket",
+            p -> new HealingMilkBucketItem(p.stacksTo(1)));
 
     // --- totems / special items ---
     /** Dropped by the Cake Golem. Held-in-hand death save (see CombatEvents; MECHANICS_SPEC §5.3). */

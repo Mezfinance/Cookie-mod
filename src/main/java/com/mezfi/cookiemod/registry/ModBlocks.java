@@ -5,9 +5,11 @@ import com.mezfi.cookiemod.block.ChocolateBunnySpawnerBlock;
 import com.mezfi.cookiemod.block.GingerbreadFurnaceBlock;
 import com.mezfi.cookiemod.block.WaffleGuySpawnerBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -59,6 +61,20 @@ public final class ModBlocks {
             REGISTER.registerBlock("waffle_guy_spawner", WaffleGuySpawnerBlock::new, spawnerProps(MapColor.GOLD));
     public static final DeferredBlock<ChocolateBunnySpawnerBlock> CHOCOLATE_BUNNY_SPAWNER =
             REGISTER.registerBlock("chocolate_bunny_spawner", ChocolateBunnySpawnerBlock::new, spawnerProps(MapColor.COLOR_BROWN));
+
+    /** Milk fluid's block form (MECHANICS_SPEC §5.2). Rendered by the fluid, not a model. */
+    @SuppressWarnings("deprecation")
+    public static final DeferredBlock<LiquidBlock> MILK =
+            REGISTER.registerBlock("milk", props -> new LiquidBlock(
+                    com.mezfi.cookiemod.registry.ModFluids.MILK_SOURCE.get(), props),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.SNOW)
+                            .replaceable()
+                            .noCollission()
+                            .strength(100.0F)
+                            .pushReaction(PushReaction.DESTROY)
+                            .noLootTable()
+                            .liquid());
 
     /** Cookie Army Factory (§3.6, §10) — auto-spawns soldiers. Drops itself when mined. */
     public static final DeferredBlock<GingerbreadFurnaceBlock> GINGERBREAD_FURNACE =

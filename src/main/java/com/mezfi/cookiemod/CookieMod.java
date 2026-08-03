@@ -5,6 +5,7 @@ import com.mezfi.cookiemod.registry.ModBlockEntities;
 import com.mezfi.cookiemod.registry.ModBlocks;
 import com.mezfi.cookiemod.registry.ModCreativeTabs;
 import com.mezfi.cookiemod.registry.ModEntities;
+import com.mezfi.cookiemod.registry.ModFluids;
 import com.mezfi.cookiemod.registry.ModItems;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -28,6 +29,9 @@ public class CookieMod {
         // Order matters: blocks before item-blocks, items before the creative tab that lists them.
         ModEntities.REGISTER.register(modBus);
         ModArmorMaterials.REGISTER.register(modBus);
+        // Fluids before blocks/items: the milk LiquidBlock and bucket resolve the fluid.
+        ModFluids.FLUID_TYPES.register(modBus);
+        ModFluids.FLUIDS.register(modBus);
         ModBlocks.REGISTER.register(modBus);
         ModBlockEntities.REGISTER.register(modBus);
         ModItems.REGISTER.register(modBus);

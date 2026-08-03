@@ -30,6 +30,8 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.BLUE_GUMMY_BEAR.get());
                         output.accept(ModItems.YELLOW_GUMMY_BEAR.get());
                         output.accept(ModItems.LOLLIPOP.get());
+                        output.accept(ModItems.COOKIE_MILK_BUCKET.get());
+                        output.accept(ModItems.HEALING_MILK_BUCKET.get());
                         output.accept(ModItems.GUMMY_HELMET.get());
                         output.accept(ModItems.GUMMY_CHESTPLATE.get());
                         output.accept(ModItems.GUMMY_LEGGINGS.get());
