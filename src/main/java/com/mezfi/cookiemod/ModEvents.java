@@ -41,12 +41,13 @@ public final class ModEvents {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        // Waffle guys: no natural spawns, but this gives their spawner vanilla monster rules
-        // (dark-gated) — so lighting a waffle-guy spawner with torches disables it (§9.3).
+        // Waffle guys spawn in the cookie biome only (their sole biome spawn entry), and at
+        // ANY light level — day or night (MECHANICS_SPEC §9.1). Note: this also lifts the
+        // light-gate on the waffle-guy spawner block (torches no longer disable it).
         event.register(ModEntities.WAFFLE_GUY.get(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Monster::checkMonsterSpawnRules,
+                Monster::checkAnyLightMonsterSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }
