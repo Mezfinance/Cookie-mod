@@ -49,6 +49,10 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> COOKIE_SURFACE =
             soft("cookie_surface", MapColor.GOLD);
 
+    /** Flat matte white — the lollipop/candy-cane stems (distinct from the glossy candies). */
+    public static final DeferredBlock<Block> MARSHMALLOW_BLOCK =
+            soft("marshmallow_block", MapColor.SNOW);
+
     // --- candy / hard-candy blocks (harder, glassy) ---
     public static final DeferredBlock<Block> CANDY_CANE_BLOCK =
             candy("candy_cane_block", MapColor.COLOR_RED, 0.8F);

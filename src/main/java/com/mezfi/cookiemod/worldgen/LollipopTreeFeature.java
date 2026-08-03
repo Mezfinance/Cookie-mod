@@ -34,7 +34,7 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
             return false;
         }
 
-        BlockState stem = ModBlocks.ANISEED_HARD_CANDY_BLOCK.get().defaultBlockState(); // white
+        BlockState stem = ModBlocks.MARSHMALLOW_BLOCK.get().defaultBlockState(); // flat matte white
         int height = 6 + random.nextInt(6); // 6–11 tall
 
         BlockPos.MutableBlockPos cursor = origin.mutable();
