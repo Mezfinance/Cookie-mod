@@ -43,11 +43,6 @@ Each in-video block mapped to the mod block that already exists (see
 | A | White columns & roof beams | `images/elem_white_column_beam.png` | `cookiemod:aniseed_hard_candy_block` | Smooth glossy white; the arena's structural skeleton. Marshmallow is the flatter-white alt. |
 | B | Red/white striped posts | `images/elem_candycane_post.png` | `cookiemod:candy_cane_block` | Vertical candy-cane accent posts + hanging drops. |
 | C | Big red flecked column/wall | `images/elem_raspberry_block.png` | `cookiemod:raspberry_hard_candy_block` | Red with white/pink flecks; occasional accent masses. |
-| D | Checker disc — purple | `images/elem_disc_purple.png` | `grape_hard_candy` + `aniseed` | Lollipop-disc head, grape/white checker. |
-| E | Checker disc — red | `images/elem_disc_red.png` | `raspberry_hard_candy` + `aniseed` | Lollipop-disc head, raspberry/white checker. |
-| F | Checker disc — teal | `images/elem_disc_teal.png` | `minty_hard_candy` + `aniseed` | Lollipop-disc head, minty/white checker. |
-| G | Checker disc — brown | (see `elem_lollipop_garden.png`) | `chocolate_block` + `aniseed` | Brown/white checker variant seen in the field. |
-| H | Disc post stems | `images/elem_lollipop_garden.png` | `cookiemod:marshmallow_block` | Thin white stems the discs sit on (matches biome lollipops). |
 | I | Ground / terraces | `images/elem_cookie_frosted_ground.png` | `cookie_surface` top, `cookie_block` / `frosted_cookie_block` body | Sandy-cookie tiered field; frosting-maze tops. |
 | J | Dark-oak platform / step | `images/elem_darkoak_platform.png` | `minecraft:dark_oak_planks` | Minor accent — small stepped platforms/paths near the floor. Not a shrine. |
 | L | Hedges / bushes | `images/arena_wide_colonnade.png` | `minecraft:oak_leaves` | Green leaf clumps dotting the floor. |
@@ -75,33 +70,36 @@ beams. Distilled to a clean, tileable grid (video build is looser/organic):
   cells of each 5×5 bay **open to sky** (a lattice, not a solid roof).
 - **Centre:** an **open spawn floor** — flat cookie ground where the golem
   spawns, ringed by four **spawner cages**. No raised dais.
-- **Interior floor:** planted with the **lollipop-disc garden** (§6), candy-cane
-  posts (§7), and hedges, leaving a clear central circle for the fight.
+- **Interior floor:** candy-cane posts (§7) and hedges dotted about, leaving a
+  clear central circle for the fight. (The checkerboard lollipop discs seen in
+  the footage are **cookie-biome flora in the background, not part of the arena**
+  — see §6.)
 
 ### Top-down plan (y = 1, one cell = 1 block)
 
 ```
-Legend: C aniseed column   c candy-cane post   o lollipop-disc post
-        G golem spawn point  x spawner cage     h hedge(oak leaves)
+Legend: C aniseed column   c candy-cane post   h hedge(oak leaves)
+        G golem spawn point  x spawner cage
         . cookie_surface floor    # perimeter kerb (frosted/cookie)
 
   0 1 2 3 4 5 6 7 8 9 ...            20
 0 C # # # # C # # # # C # # # # C # # # # C
-1 # . o . . # . h . . # . . o . # . . . . #
-2 # . . . . # . . . . # . o . . # . h . . #
-3 # o . h . # . o . . # . . . . # . . o . #
-4 # . . . . # . . . . # . . . . # . . . . #
+1 # . . . . # . h . . # . . . . # . . . . #
+2 # . . c . # . . . . # . . . . # . h . . #
+3 # . . h . # . . . . # . . . . # . . . . #
+4 # . . . . # . . . . # . . . . # . . c . #
 5 C # # # # C # # # # C # # # # C # # # # C
-6 # . h . . # . . o . # . o . . # . . h . #
-7 # . . o . # . . x . . . x . . # o . . . #
-8 # . . . . # . . . . G . . . . # . . o . #   <- open centre; G = golem spawn
-9 # o . . . # . . x . . . x . . # . . . . #
+6 # . h . . # . . . . # . . . . # . . h . #
+7 # . . c . # . . x . . . x . . # . c . . #
+8 # . . . . # . . . . G . . . . # . . . . #   <- open centre; G = golem spawn
+9 # . . . . # . . x . . . x . . # . . . . #
 10 C # # # # C # # # # C # # # # C # # # # C
    (mirror rows 6..9 across the centre for rows 11..14, etc.)
 ```
 
 The central bay is left **open** (clear fight circle). Four **spawner cages (x)**
-sit on the floor around the centre; the golem spawns at **G**.
+sit on the floor around the centre; the golem spawns at **G**. Hedges (h) and
+candy-cane posts (c) are scattered lightly.
 
 ### Side elevation (section through the centre row, x = 0..20)
 
@@ -109,14 +107,14 @@ sit on the floor around the centre; the golem spawns at **G**.
  y6  ====  ====  ====  ====  ====   <- beam lattice (aniseed), gaps between
  y5  C           C           C           C
  y4  C           C           C           C
- y3  C   o   c   C     . .    C   o   c   C     o=disc head  c=candy-cane
- y2  C   |   c   C    (GOLEM) C   |   c   C     |=marshmallow stem
- y1  C   |   c   C  x       x C   |   c   C     x=spawner cage  (open centre)
+ y3  C       c   C     . .    C       c   C     c=candy-cane post
+ y2  C       c   C    (GOLEM) C       c   C
+ y1  C       c   C  x       x C       c   C     x=spawner cage  (open centre)
  y0 ===cookie_surface pad (frosted top)========================
 ```
 
-Columns 6 tall; beams at y6; disc heads float ~y3 on 2-tall stems. The centre is
-flat open ground — the golem stands here, no built structure.
+Columns 6 tall; beams at y6. The centre is flat open ground — the golem stands
+here, no built structure. (Background biome lollipops are not shown.)
 
 ---
 
@@ -147,38 +145,22 @@ room to fight (`arena_wide_spawners.png`, `arena_golem_center.png`).
 
 ---
 
-## 6. Lollipop-disc garden (the signature motif)
+## 6. Checker lollipop discs — NOT part of the arena
 
-Dozens of short posts each topped with a small checkerboard disc fill the field
-(`images/elem_lollipop_garden.png`, `elem_disc_red.png`). These are **miniature
-versions of the tall biome lollipops**, planted like a flower bed.
-
-Per post:
-- **Stem:** `marshmallow_block`, **2–3** tall (vary for a natural look).
-- **Disc head:** a **3×3 vertical square** (a flat panel facing a cardinal
-  direction) in a **checker** of white + one colour, sitting on the stem top:
-  ```
-    W X W        W = aniseed_hard_candy_block (white)
-    X W X        X = the colour block for this disc
-    W X W
-  ```
-- **Colour cycle** (distribute roughly evenly across the field):
-  - purple → `grape_hard_candy_block`  (`elem_disc_purple.png`)
-  - red → `raspberry_hard_candy_block`  (`elem_disc_red.png`)
-  - teal → `minty_hard_candy_block`  (`elem_disc_teal.png`)
-  - brown → `chocolate_block`
-- **Placement:** scatter 1 post every ~2–3 floor cells inside the bays, jittered
-  off-grid; keep the dais ring and walkways clearer. ~30–50 posts total.
+The field of checkerboard lollipop-disc posts (`images/elem_lollipop_garden.png`,
+`elem_disc_red.png`) is **the surrounding cookie biome's flora showing through**,
+not a built element of the arena. The mod already generates these as biome
+lollipops. **Do not place them in the arena Feature.** The arena sits *within*
+that flora; the biome provides the garden backdrop for free.
 
 ---
 
 ## 7. Candy-cane posts & accents
 
-- **Posts:** `candy_cane_block` columns, height **3–4**, dotted along the
-  interior and near the dais corners (`elem_candycane_post.png`). Some are topped
-  with a single checker disc; most are bare.
-- **Ground litter:** short horizontal `candy_cane_block` runs lying on the pad
-  (seen as red/white stripes on the floor in `arena_wide_colonnade.png`).
+- **Posts:** `candy_cane_block` columns, height **3–4**, dotted lightly along the
+  interior (`elem_candycane_post.png`). Bare (no disc tops).
+- **Ground litter:** occasional short horizontal `candy_cane_block` runs on the
+  pad (red/white stripes, `arena_wide_colonnade.png`).
 - **Raspberry accents:** occasional 1–2 wide `raspberry_hard_candy_block` masses
   at the perimeter (`elem_raspberry_block.png`) — used sparingly.
 
@@ -213,8 +195,7 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
 > Implementation options, cheapest → richest: (a) a custom `Feature` that hand-
 > places the palette procedurally from this spec; (b) an NBT structure template +
 > jigsaw; (c) a hybrid — NBT shrine core + procedural disc garden. Recommend (a)
-> for full control over the disc scatter and to reuse the existing lollipop/disc
-> helpers in `LollipopTreeFeature`.
+> for full control over placement and the flatness guard.
 
 ---
 
@@ -224,7 +205,7 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
 2. Raise the 25 `aniseed` columns (y1–y6).
 3. Lay the y6 beam lattice.
 4. Place the 4 `waffle_guy_spawner` cages in a ring on the open centre floor.
-5. Scatter the lollipop-disc garden (§6), then candy-cane posts & litter (§7).
+5. Scatter candy-cane posts & litter (§7).
 6. Add hedges; optional dark-oak platform accents / terraces / moat.
 7. Spawn the Cake Golem on the open centre floor.
 

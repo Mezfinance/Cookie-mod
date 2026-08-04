@@ -1,6 +1,7 @@
 package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.worldgen.CakeGolemArenaFeature;
 import com.mezfi.cookiemod.worldgen.CandyCaneFeature;
 import com.mezfi.cookiemod.worldgen.CandyWallFeature;
 import com.mezfi.cookiemod.worldgen.GiantCandyCaneFeature;
@@ -26,4 +27,6 @@ public final class ModFeatures {
             REGISTER.register("giant_candy_cane", () -> new GiantCandyCaneFeature(NoneFeatureConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, CandyWallFeature> CANDY_WALL =
             REGISTER.register("candy_wall", () -> new CandyWallFeature(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, CakeGolemArenaFeature> CAKE_GOLEM_ARENA =
+            REGISTER.register("cake_golem_arena", () -> new CakeGolemArenaFeature(NoneFeatureConfiguration.CODEC));
 }
