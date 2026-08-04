@@ -22,4 +22,7 @@ public final class ModModelLayers {
 
     public static final ModelLayerLocation CHOCOLATE_BUNNY = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "chocolate_bunny"), "main");
+
+    public static final ModelLayerLocation WAFFLE_MAGE = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "waffle_mage"), "main");
 }

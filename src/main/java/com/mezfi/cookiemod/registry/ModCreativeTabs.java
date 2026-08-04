@@ -39,6 +39,7 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.HOLY_COOKIE.get());
                         output.accept(ModItems.COOKIE_SOLDIER_SPAWN_EGG.get());
                         output.accept(ModItems.WAFFLE_GUY_SPAWN_EGG.get());
+                        output.accept(ModItems.WAFFLE_MAGE_SPAWN_EGG.get());
                         output.accept(ModItems.GUMMY_BEAR_SPAWN_EGG.get());
                         output.accept(ModItems.CHOCOLATE_BUNNY_SPAWN_EGG.get());
                         output.accept(ModItems.CAKE_GOLEM_SPAWN_EGG.get());

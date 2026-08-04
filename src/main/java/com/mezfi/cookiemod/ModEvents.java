@@ -5,6 +5,7 @@ import com.mezfi.cookiemod.entity.ChocolateBunnyEntity;
 import com.mezfi.cookiemod.entity.CookieSoldierEntity;
 import com.mezfi.cookiemod.entity.GummyBearEntity;
 import com.mezfi.cookiemod.entity.WaffleGuyEntity;
+import com.mezfi.cookiemod.entity.WaffleMageEntity;
 import com.mezfi.cookiemod.registry.ModEntities;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.Animal;
@@ -27,6 +28,7 @@ public final class ModEvents {
         event.put(ModEntities.CAKE_GOLEM.get(), CakeGolemEntity.createAttributes().build());
         event.put(ModEntities.GUMMY_BEAR.get(), GummyBearEntity.createAttributes().build());
         event.put(ModEntities.CHOCOLATE_BUNNY.get(), ChocolateBunnyEntity.createAttributes().build());
+        event.put(ModEntities.WAFFLE_MAGE.get(), WaffleMageEntity.createAttributes().build());
     }
 
     @SubscribeEvent

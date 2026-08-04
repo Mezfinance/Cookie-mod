@@ -26,6 +26,7 @@ public final class ModClientEvents {
         event.registerLayerDefinition(ModModelLayers.CAKE_GOLEM, CakeGolemModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.GUMMY_BEAR, GummyBearModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.CHOCOLATE_BUNNY, ChocolateBunnyModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.WAFFLE_MAGE, WaffleMageModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -35,6 +36,9 @@ public final class ModClientEvents {
         event.registerEntityRenderer(ModEntities.CAKE_GOLEM.get(), CakeGolemRenderer::new);
         event.registerEntityRenderer(ModEntities.GUMMY_BEAR.get(), GummyBearRenderer::new);
         event.registerEntityRenderer(ModEntities.CHOCOLATE_BUNNY.get(), ChocolateBunnyRenderer::new);
+        event.registerEntityRenderer(ModEntities.WAFFLE_MAGE.get(), WaffleMageRenderer::new);
+        event.registerEntityRenderer(ModEntities.WAFFLE_SHARD.get(),
+                net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
     }
 
     @SubscribeEvent

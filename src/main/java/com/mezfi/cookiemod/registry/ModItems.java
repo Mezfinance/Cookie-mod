@@ -82,6 +82,9 @@ public final class ModItems {
     public static final DeferredItem<DeferredSpawnEggItem> WAFFLE_GUY_SPAWN_EGG =
             REGISTER.registerItem("waffle_guy_spawn_egg",
                     p -> new DeferredSpawnEggItem(ModEntities.WAFFLE_GUY, 0xC9A24B, 0x8A5A2B, p));
+    public static final DeferredItem<DeferredSpawnEggItem> WAFFLE_MAGE_SPAWN_EGG =
+            REGISTER.registerItem("waffle_mage_spawn_egg",
+                    p -> new DeferredSpawnEggItem(ModEntities.WAFFLE_MAGE, 0xEEE2C8, 0xC43642, p));
     public static final DeferredItem<DeferredSpawnEggItem> CAKE_GOLEM_SPAWN_EGG =
             REGISTER.registerItem("cake_golem_spawn_egg",
                     p -> new DeferredSpawnEggItem(ModEntities.CAKE_GOLEM, 0x6B4A2B, 0xE8DCC0, p));
