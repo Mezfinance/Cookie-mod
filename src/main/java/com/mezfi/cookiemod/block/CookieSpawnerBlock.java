@@ -25,8 +25,9 @@ public abstract class CookieSpawnerBlock extends BaseEntityBlock {
         super(properties);
     }
 
-    /** Which mob this spawner spawns. */
-    protected abstract EntityType<?> spawnedEntityType();
+    /** Which mob this spawner spawns. Public so the block entity can self-configure when
+     *  placed by worldgen (which skips {@link #setPlacedBy}). */
+    public abstract EntityType<?> spawnedEntityType();
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {

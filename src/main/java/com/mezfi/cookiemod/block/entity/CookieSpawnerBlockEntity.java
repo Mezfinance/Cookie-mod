@@ -1,5 +1,6 @@
 package com.mezfi.cookiemod.block.entity;
 
+import com.mezfi.cookiemod.block.CookieSpawnerBlock;
 import com.mezfi.cookiemod.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -39,6 +40,9 @@ public class CookieSpawnerBlockEntity extends BlockEntity {
         }
     };
 
+    /** False until the wrapped spawner has been told which mob to spawn. */
+    private boolean configured = false;
+
     public CookieSpawnerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.COOKIE_SPAWNER.get(), pos, state);
     }
@@ -47,12 +51,14 @@ public class CookieSpawnerBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         this.spawner.load(this.level, this.worldPosition, tag);
+        this.configured = tag.getBoolean("Configured");
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         this.spawner.save(tag);
+        tag.putBoolean("Configured", this.configured);
     }
 
     public static void clientTick(Level level, BlockPos pos, BlockState state, CookieSpawnerBlockEntity be) {
@@ -60,12 +66,18 @@ public class CookieSpawnerBlockEntity extends BlockEntity {
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, CookieSpawnerBlockEntity be) {
+        // Spawners placed by worldgen never run through setPlacedBy, so they start unconfigured
+        // (and would spawn nothing). Self-configure from the block's mob on the first tick.
+        if (!be.configured && state.getBlock() instanceof CookieSpawnerBlock spawnerBlock) {
+            be.setEntityId(spawnerBlock.spawnedEntityType(), level.getRandom());
+        }
         be.spawner.serverTick((ServerLevel) level, pos);
     }
 
-    /** Configure which mob this spawner produces (called on placement). */
+    /** Configure which mob this spawner produces (called on placement, or self-configured). */
     public void setEntityId(EntityType<?> type, RandomSource random) {
         this.spawner.setEntityId(type, this.level, random, this.worldPosition);
+        this.configured = true;
         this.setChanged();
     }
 

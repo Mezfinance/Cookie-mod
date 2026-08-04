@@ -20,7 +20,7 @@ public class WaffleGuySpawnerBlock extends CookieSpawnerBlock {
     }
 
     @Override
-    protected EntityType<?> spawnedEntityType() {
+    public EntityType<?> spawnedEntityType() {
         return ModEntities.WAFFLE_GUY.get();
     }
 }

@@ -20,7 +20,7 @@ public class ChocolateBunnySpawnerBlock extends CookieSpawnerBlock {
     }
 
     @Override
-    protected EntityType<?> spawnedEntityType() {
+    public EntityType<?> spawnedEntityType() {
         return ModEntities.CHOCOLATE_BUNNY.get();
     }
 }
