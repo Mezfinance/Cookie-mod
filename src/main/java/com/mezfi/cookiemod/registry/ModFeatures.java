@@ -2,6 +2,7 @@ package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
 import com.mezfi.cookiemod.worldgen.CandyCaneFeature;
+import com.mezfi.cookiemod.worldgen.GiantCandyCaneFeature;
 import com.mezfi.cookiemod.worldgen.LollipopTreeFeature;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -20,4 +21,6 @@ public final class ModFeatures {
             REGISTER.register("candy_cane", () -> new CandyCaneFeature(NoneFeatureConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, LollipopTreeFeature> LOLLIPOP_TREE =
             REGISTER.register("lollipop_tree", () -> new LollipopTreeFeature(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, GiantCandyCaneFeature> GIANT_CANDY_CANE =
+            REGISTER.register("giant_candy_cane", () -> new GiantCandyCaneFeature(NoneFeatureConfiguration.CODEC));
 }
