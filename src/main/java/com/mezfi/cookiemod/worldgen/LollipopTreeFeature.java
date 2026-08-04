@@ -138,6 +138,7 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
         // red square or a green cube-face.
         if (style <= 2) {
             BlockState minty = ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState();
+            BlockState chocolate = ModBlocks.CHOCOLATE_BLOCK.get().defaultBlockState();
             int branches = 1 + random.nextInt(3); // 1–3
             for (int b = 0; b < branches; b++) {
                 Direction bDir = Direction.Plane.HORIZONTAL.getRandomDirection(random);
@@ -149,10 +150,10 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
                 }
                 BlockPos end = arm.relative(bDir, armLen);
                 Direction pSide = bDir.getClockWise();
-                if (random.nextBoolean()) {
-                    panelAt(level, end, pSide, SQUARE_RED, raspberry, white);
-                } else {
-                    panelAt(level, end, pSide, GREEN_SQUARE, minty, white);
+                switch (random.nextInt(3)) {
+                    case 0 -> panelAt(level, end, pSide, SQUARE_RED, raspberry, white);
+                    case 1 -> panelAt(level, end, pSide, GREEN_SQUARE, minty, white);
+                    default -> panelAt(level, end, pSide, SMALL_BROWN, chocolate, white);
                 }
             }
         }
