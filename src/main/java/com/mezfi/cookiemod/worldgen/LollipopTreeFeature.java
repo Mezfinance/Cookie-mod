@@ -50,6 +50,12 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
             "rwr",
             "rrr",
     };
+    /** A small brown/white checker (white corners + centre). */
+    private static final String[] SMALL_BROWN = {
+            "wbw",
+            "bwb",
+            "wbw",
+    };
 
     private static final int CLUMP_MIN = 5;
     private static final int CLUMP_MAX = 9;
@@ -88,11 +94,19 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
 
         BlockState stem = ModBlocks.MARSHMALLOW_BLOCK.get().defaultBlockState();
         BlockState white = ModBlocks.ANISEED_HARD_CANDY_BLOCK.get().defaultBlockState();
-        // 0 red disc; 1,6 square red; 2,3 purple; 4 brown; 5 green cube
-        int style = random.nextInt(7);
+        BlockState raspberry = ModBlocks.RASPBERRY_HARD_CANDY_BLOCK.get().defaultBlockState();
 
-        boolean shortStem = style == 5;
-        int height = shortStem ? 2 + random.nextInt(3) : 5 + random.nextInt(10);
+        // Each head has a SET height, tallest to shortest:
+        // purple 13, brown 11, red 9, red-square 7, green cube 5, small brown 3.
+        int style = random.nextInt(6);
+        int height = switch (style) {
+            case 0 -> 13; // purple (tallest)
+            case 1 -> 11; // brown
+            case 2 -> 9;  // red disc
+            case 3 -> 7;  // red square
+            case 4 -> 5;  // green cube
+            default -> 3; // small brown (shortest)
+        };
 
         BlockPos.MutableBlockPos cursor = base.mutable();
         for (int i = 0; i < height; i++) {
@@ -100,17 +114,18 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
             cursor.move(Direction.UP);
         }
 
-        BlockState raspberry = ModBlocks.RASPBERRY_HARD_CANDY_BLOCK.get().defaultBlockState();
         Direction side = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         switch (style) {
-            case 1, 6 -> panel(level, base, height, side, SQUARE_RED, raspberry, white);
-            case 2, 3 -> panel(level, base, height, side, PURPLE,
+            case 0 -> panel(level, base, height, side, PURPLE,
                     ModBlocks.GRAPE_HARD_CANDY_BLOCK.get().defaultBlockState(), white);
-            case 4 -> panel(level, base, height, side, BROWN,
+            case 1 -> panel(level, base, height, side, BROWN,
                     ModBlocks.CHOCOLATE_BLOCK.get().defaultBlockState(), white);
-            case 5 -> cube(level, base.above(height + 1),
+            case 2 -> panel(level, base, height, side, RED, raspberry, white);
+            case 3 -> panel(level, base, height, side, SQUARE_RED, raspberry, white);
+            case 4 -> cube(level, base.above(height + 1),
                     ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState(), white);
-            default -> panel(level, base, height, side, RED, raspberry, white);
+            default -> panel(level, base, height, side, SMALL_BROWN,
+                    ModBlocks.CHOCOLATE_BLOCK.get().defaultBlockState(), white);
         }
         return true;
     }
