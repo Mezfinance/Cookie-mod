@@ -13,11 +13,37 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 /**
- * Builds a grove of lollipops (BIOME_MAP §3): white marshmallow stems topped with one of several
- * candy heads — a square checker disc, a diamond disc, a rounded chocolate ball, or a short
- * green cube. Each placement drops a clump of varied heights so they gather in patches.
+ * Builds a grove of lollipops (BIOME_MAP §3): white marshmallow stems topped with a candy head.
+ * Heads are exact hand-authored patterns — a big purple disc, a brown disc, a red disc — plus a
+ * short green cube. Each placement drops a clump of varied heights so they gather in patches.
+ *
+ * <p>In a pattern, a letter cell is the candy colour, {@code w} is white aniseed, {@code .} is a gap.
  */
 public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
+
+    private static final String[] PURPLE = {
+            ".pwwpp.",
+            "pwppwpp",
+            "wppwpwp",
+            "wpwpwpp",
+            "wppwppw",
+            "pwpppwp",
+            ".pwwwp.",
+    };
+    private static final String[] BROWN = {
+            ".bbw.",
+            "bbbww",
+            "bbwbb",
+            "wwbbb",
+            ".wbb.",
+    };
+    private static final String[] RED = {
+            ".rrw.",
+            "rwrww",
+            "rrwrr",
+            "wwrwr",
+            ".wrr.",
+    };
 
     private static final int CLUMP_MIN = 5;
     private static final int CLUMP_MAX = 9;
@@ -56,9 +82,9 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
 
         BlockState stem = ModBlocks.MARSHMALLOW_BLOCK.get().defaultBlockState();
         BlockState white = ModBlocks.ANISEED_HARD_CANDY_BLOCK.get().defaultBlockState();
-        int style = random.nextInt(5); // 0,1 = square disc; 2 = diamond; 3 = choc ball; 4 = green cube
+        int style = random.nextInt(7); // 0,1 red; 2,3 purple; 4,5 brown; 6 green cube
 
-        boolean shortStem = style == 4; // the green cube lollipop is short
+        boolean shortStem = style == 6;
         int height = shortStem ? 2 + random.nextInt(3) : 5 + random.nextInt(10);
 
         BlockPos.MutableBlockPos cursor = base.mutable();
@@ -68,78 +94,52 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         Direction side = Direction.Plane.HORIZONTAL.getRandomDirection(random);
-        BlockPos head = base.above(height + 1);
         switch (style) {
-            case 2 -> diamondDisc(level, head, side, randomCandy(random), white);
-            case 3 -> ball(level, head,
-                    ModBlocks.CHOCOLATE_BLOCK.get().defaultBlockState(), white);   // rounded chocolate
-            case 4 -> cube(level, base.above(height + 1),
-                    ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState(), white); // short green cube
-            default -> squareDisc(level, head, side, randomCandy(random), white);
+            case 2, 3 -> panel(level, base, height, side, PURPLE,
+                    ModBlocks.GRAPE_HARD_CANDY_BLOCK.get().defaultBlockState(), white);
+            case 4, 5 -> panel(level, base, height, side, BROWN,
+                    ModBlocks.CHOCOLATE_BLOCK.get().defaultBlockState(), white);
+            case 6 -> cube(level, base.above(height + 1),
+                    ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState(), white);
+            default -> panel(level, base, height, side, RED,
+                    ModBlocks.RASPBERRY_HARD_CANDY_BLOCK.get().defaultBlockState(), white);
         }
         return true;
     }
 
-    private static BlockState randomCandy(RandomSource random) {
-        return switch (random.nextInt(3)) {
-            case 1 -> ModBlocks.GRAPE_HARD_CANDY_BLOCK.get().defaultBlockState();
-            case 2 -> ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState();
-            default -> ModBlocks.RASPBERRY_HARD_CANDY_BLOCK.get().defaultBlockState();
-        };
-    }
-
-    /** Flat vertical disc (round), checkerboard candy/white. */
-    private static void squareDisc(WorldGenLevel level, BlockPos c, Direction side,
-                                   BlockState candy, BlockState white) {
-        for (int a = -2; a <= 2; a++) {
-            for (int b = -2; b <= 2; b++) {
-                if (a * a + b * b > 5) {
+    /**
+     * Place a hand-authored head as a flat vertical panel, centred on the stem, its bottom row
+     * sitting just above the stem top.
+     */
+    private static void panel(WorldGenLevel level, BlockPos base, int stemHeight, Direction side,
+                              String[] pattern, BlockState candy, BlockState white) {
+        int rows = pattern.length;
+        int cols = pattern[0].length();
+        int half = cols / 2;
+        for (int r = 0; r < rows; r++) {
+            String line = pattern[r];
+            for (int c = 0; c < cols; c++) {
+                char ch = line.charAt(c);
+                if (ch == '.') {
                     continue;
                 }
-                place(level, c.relative(side, a).relative(Direction.UP, b), candy, white, a + b);
+                BlockState state = ch == 'w' ? white : candy;
+                int up = stemHeight + (rows - 1 - r); // bottom row = just above the stem top
+                BlockPos pos = base.above(up).relative(side, c - half);
+                level.setBlock(pos, state, 2);
             }
         }
     }
 
-    /** Flat vertical diamond (rhombus) disc, checkerboard candy/white. */
-    private static void diamondDisc(WorldGenLevel level, BlockPos c, Direction side,
-                                    BlockState candy, BlockState white) {
-        for (int a = -3; a <= 3; a++) {
-            for (int b = -3; b <= 3; b++) {
-                if (Math.abs(a) + Math.abs(b) > 3) {
-                    continue;
-                }
-                place(level, c.relative(side, a).relative(Direction.UP, b), candy, white, a + b);
-            }
-        }
-    }
-
-    /** Rounded 3D ball, checkerboard candy/white. */
-    private static void ball(WorldGenLevel level, BlockPos c, BlockState candy, BlockState white) {
-        for (int dx = -2; dx <= 2; dx++) {
-            for (int dy = -2; dy <= 2; dy++) {
-                for (int dz = -2; dz <= 2; dz++) {
-                    if (dx * dx + dy * dy + dz * dz > 5) {
-                        continue;
-                    }
-                    place(level, c.offset(dx, dy, dz), candy, white, dx + dy + dz);
-                }
-            }
-        }
-    }
-
-    /** Solid 3x3x3 cube, checkerboard candy/white. */
+    /** Solid 3x3x3 cube, checkerboard candy/white — the short green lollipop head. */
     private static void cube(WorldGenLevel level, BlockPos c, BlockState candy, BlockState white) {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 for (int dz = -1; dz <= 1; dz++) {
-                    place(level, c.offset(dx, dy, dz), candy, white, dx + dy + dz);
+                    BlockState state = ((dx + dy + dz) & 1) == 0 ? candy : white;
+                    level.setBlock(c.offset(dx, dy, dz), state, 2);
                 }
             }
         }
-    }
-
-    private static void place(WorldGenLevel level, BlockPos pos, BlockState candy, BlockState white, int parity) {
-        level.setBlock(pos, (parity & 1) == 0 ? candy : white, 2);
     }
 }
