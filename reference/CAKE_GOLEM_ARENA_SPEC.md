@@ -7,8 +7,13 @@ faithful, buildable structure for the mod.
 > Role (MECHANICS_SPEC §8.2): the Cake Golem is **boss 1**. It "roams; spawns
 > near waffle-guy spawners." In the video the fight is staged in a large candy
 > **colonnade/colosseum** — a grid of white candy columns under an open beam
-> roof, planted with a garden of checkerboard lollipop posts, with a central
-> wooden **shrine/altar** flanked by mob-spawner cages where the golem appears.
+> roof, planted with a garden of checkerboard lollipop posts, with **mob-spawner
+> cages on the open floor**. The golem is fought in the middle of the arena.
+>
+> **No central shrine/altar exists.** The brown, ornate, maze-patterned mass at
+> centre — with two red "cage/lantern"-looking shapes hanging beside it — is the
+> **Cake Golem mob itself** (its torso is chocolate-brown like the intro card;
+> the red shapes are its fists). Do not build a shrine.
 
 All reference images live in [`cake_golem_arena/images/`](cake_golem_arena/images/).
 Frames were pulled from `reference/source.mp4` at 860–945 s (see EXTRACT.md).
@@ -21,8 +26,8 @@ Frames were pulled from `reference/source.mp4` at 860–945 s (see EXTRACT.md).
 |---|---|---|
 | Colonnade (best overview) | `images/arena_wide_colonnade.png` | Full grid of white columns + beam roof, tiered field of lollipop-disc posts, spawner cages, golem. |
 | Pergola / roof | `images/arena_wide_pergola.png` | Overhead white beam lattice, candy-cane posts, golem centre, spawner cages at base. |
-| Shrine + spawners | `images/arena_wide_spawners.png` | Central wooden shrine with hanging lanterns, two flanking spawner cages, columns. |
-| Golem centre | `images/arena_golem_center.png` | Cake Golem (red maze-textured) between candy-cane posts, checker discs behind. |
+| Spawner cages + golem | `images/arena_wide_spawners.png` | The Cake Golem (brown maze torso + red fists) mid-arena; two spawner cages on the floor; columns. **The brown "gate" is the golem, not a build.** |
+| Golem centre | `images/arena_golem_center.png` | Cake Golem (red maze-textured from this angle) between candy-cane posts, checker discs behind. |
 | Base blocks | `images/arena_base_blocks.png` | Raspberry-candy column, dark-oak platform, cookie + frosted-cookie ground. |
 | Fight overview | `images/arena_fight_overview.png` | Player-eye view: columns, discs, spawner, hedges, moat. |
 
@@ -44,13 +49,14 @@ Each in-video block mapped to the mod block that already exists (see
 | G | Checker disc — brown | (see `elem_lollipop_garden.png`) | `chocolate_block` + `aniseed` | Brown/white checker variant seen in the field. |
 | H | Disc post stems | `images/elem_lollipop_garden.png` | `cookiemod:marshmallow_block` | Thin white stems the discs sit on (matches biome lollipops). |
 | I | Ground / terraces | `images/elem_cookie_frosted_ground.png` | `cookie_surface` top, `cookie_block` / `frosted_cookie_block` body | Sandy-cookie tiered field; frosting-maze tops. |
-| J | Shrine wood + platform | `images/elem_darkoak_platform.png` | `minecraft:dark_oak_planks` + `cookiemod:chocolate_brick_block` | Dark-wood altar body with ornate chocolate-brick inlay. |
-| K | Shrine hanging lanterns | `images/elem_wood_shrine_lanterns.png` | `minecraft:lantern` (hung on `minecraft:chain`) | Two lanterns flank the shrine face. |
+| J | Dark-oak platform / step | `images/elem_darkoak_platform.png` | `minecraft:dark_oak_planks` | Minor accent — small stepped platforms/paths near the floor. Not a shrine. |
 | L | Hedges / bushes | `images/arena_wide_colonnade.png` | `minecraft:oak_leaves` | Green leaf clumps dotting the floor. |
-| M | Spawner cages | `images/elem_spawner_cage.png` | `cookiemod:waffle_guy_spawner` (+ golem spawn) | Black cages at the shrine base — the "spawns near waffle-guy spawners" beat. |
+| M | Spawner cages | `images/elem_spawner_cage.png` | `cookiemod:waffle_guy_spawner` (+ golem spawn) | Black cages sitting on the open floor — the "spawns near waffle-guy spawners" beat. |
 
-Confirmed **not** a build: the large red maze-textured mass at centre is the
-**Cake Golem mob itself** (`images/elem_cake_golem_mob.png`), already modelled.
+Confirmed **not** a build — it's the **Cake Golem mob**
+(`images/elem_cake_golem_mob.png`, `images/elem_wood_shrine_lanterns.png`),
+already modelled: a brown maze-patterned torso (intro-card colour) with red
+fists. There is **no shrine, altar, gate, or dais** in the arena.
 
 ---
 
@@ -67,15 +73,16 @@ beams. Distilled to a clean, tileable grid (video build is looser/organic):
 - **Roof beams:** `aniseed_hard_candy_block` laid along the tops (y = 6)
   connecting adjacent column heads in **both** directions, leaving the 4 inner
   cells of each 5×5 bay **open to sky** (a lattice, not a solid roof).
-- **Centre (10,10):** the **shrine dais** (see §5).
+- **Centre:** an **open spawn floor** — flat cookie ground where the golem
+  spawns, ringed by four **spawner cages**. No raised dais.
 - **Interior floor:** planted with the **lollipop-disc garden** (§6), candy-cane
-  posts (§7), and hedges, leaving a clear ring around the dais for the fight.
+  posts (§7), and hedges, leaving a clear central circle for the fight.
 
 ### Top-down plan (y = 1, one cell = 1 block)
 
 ```
 Legend: C aniseed column   c candy-cane post   o lollipop-disc post
-        S shrine dais(5x5)  x spawner cage      h hedge(oak leaves)
+        G golem spawn point  x spawner cage     h hedge(oak leaves)
         . cookie_surface floor    # perimeter kerb (frosted/cookie)
 
   0 1 2 3 4 5 6 7 8 9 ...            20
@@ -86,31 +93,30 @@ Legend: C aniseed column   c candy-cane post   o lollipop-disc post
 4 # . . . . # . . . . # . . . . # . . . . #
 5 C # # # # C # # # # C # # # # C # # # # C
 6 # . h . . # . . o . # . o . . # . . h . #
-7 # . . o . # . . . x S S S x . # o . . . #
-8 # . . . . # . o . S S S S S . # . . o . #   <- shrine dais 5x5 centred (8..12)
-9 # o . . . # . . . x S S S x . # . . . . #
+7 # . . o . # . . x . . . x . . # o . . . #
+8 # . . . . # . . . . G . . . . # . . o . #   <- open centre; G = golem spawn
+9 # o . . . # . . x . . . x . . # . . . . #
 10 C # # # # C # # # # C # # # # C # # # # C
    (mirror rows 6..9 across the centre for rows 11..14, etc.)
 ```
 
-The dais occupies the central 5×5 (local 8..12 in x and z). Four **spawner
-cages (x)** sit at the dais corners at floor level; the **shrine** rises from
-the dais centre.
+The central bay is left **open** (clear fight circle). Four **spawner cages (x)**
+sit on the floor around the centre; the golem spawns at **G**.
 
 ### Side elevation (section through the centre row, x = 0..20)
 
 ```
  y6  ====  ====  ====  ====  ====   <- beam lattice (aniseed), gaps between
- y5  C           C     ^     C           C
- y4  C          C   [shrine roof]  C      C
- y3  C   o   c   C   [ | ~ | ]     C   o   C     o=disc head  c=candy-cane
- y2  C   |   c   C   [ARCH+lant]   C   |   C     |=marshmallow stem
- y1  C   |   c   C   x[dais+1]x    C   |   C     x=spawner cage
+ y5  C           C           C           C
+ y4  C           C           C           C
+ y3  C   o   c   C     . .    C   o   c   C     o=disc head  c=candy-cane
+ y2  C   |   c   C    (GOLEM) C   |   c   C     |=marshmallow stem
+ y1  C   |   c   C  x       x C   |   c   C     x=spawner cage  (open centre)
  y0 ===cookie_surface pad (frosted top)========================
 ```
 
-Columns 6 tall; beams at y6; disc heads float ~y3 on 2-tall stems; shrine peak
-reaches ~y5 on a 1-high dais.
+Columns 6 tall; beams at y6; disc heads float ~y3 on 2-tall stems. The centre is
+flat open ground — the golem stands here, no built structure.
 
 ---
 
@@ -127,20 +133,17 @@ reaches ~y5 on a 1-high dais.
 
 ---
 
-## 5. Central shrine / spawn altar
+## 5. Central spawn floor
 
-From `images/elem_wood_shrine_lanterns.png` + `arena_wide_spawners.png`.
+There is **no shrine, altar, or dais**. The centre is simply **flat open cookie
+ground**, kept clear of posts and discs so the golem and the soldier swarm have
+room to fight (`arena_wide_spawners.png`, `arena_golem_center.png`).
 
-- **Dais:** 5×5 raised platform, **+1** above the pad, top of
-  `frosted_cookie_block` (or `cookie_surface`), edged with `chocolate_brick_block`.
-- **Altar body:** a **3-wide, 4-tall** face centred on the dais:
-  - Body: `dark_oak_planks` framing an ornate **`chocolate_brick_block`** inlay
-    panel (the maze look).
-  - Roof: a small **peaked** cap using `spruce_stairs`/`dark_oak_stairs` (two
-    steps to a point), matching the gabled top in the crop.
-- **Lanterns:** one `minecraft:lantern` on a 1–2 `minecraft:chain` hung off each
-  front corner of the roof (two total).
-- **Golem spawn point:** on the dais top, directly in front of the altar face.
+- **Spawn point:** the centre floor tile (local 10,10), at pad level.
+- **Spawner cages:** four `waffle_guy_spawner` blocks on the floor around the
+  centre (roughly a 5×5 ring), sitting flush with the ground.
+- Optional: a scatter of small `dark_oak_planks` platform/step accents near the
+  perimeter (`elem_darkoak_platform.png`) — decorative only.
 
 ---
 
@@ -201,11 +204,11 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
 
 1. Structure generates **rarely** in / at the edge of the **cookie biome**
    (jigsaw or a single-piece NBT/`Feature`), on flat-ish ground.
-2. Place **`waffle_guy_spawner`** blocks at the dais corners (the "x" cages) so
-   the arena continuously fields waffle-guy adds — the in-video cages.
-3. Spawn **one Cake Golem** on the dais when the structure generates (or on first
-   player approach), with its boss bar. It roams the arena and is meant to fall
-   fast to a soldier swarm.
+2. Place **`waffle_guy_spawner`** blocks in a ring on the floor around the centre
+   (the "x" cages) so the arena continuously fields waffle-guy adds.
+3. Spawn **one Cake Golem** on the open centre floor when the structure generates
+   (or on first player approach), with its boss bar. It roams the arena and is
+   meant to fall fast to a soldier swarm.
 
 > Implementation options, cheapest → richest: (a) a custom `Feature` that hand-
 > places the palette procedurally from this spec; (b) an NBT structure template +
@@ -220,11 +223,10 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
 1. Flatten & lay the 21×21 `cookie_surface` pad (+ perimeter kerb).
 2. Raise the 25 `aniseed` columns (y1–y6).
 3. Lay the y6 beam lattice.
-4. Build the central dais (+1) and the dark-oak/chocolate-brick shrine + lanterns.
-5. Place the 4 `waffle_guy_spawner` cages at the dais corners.
-6. Scatter the lollipop-disc garden (§6), then candy-cane posts & litter (§7).
-7. Add hedges; optional terraces / moat.
-8. Spawn the Cake Golem on the dais.
+4. Place the 4 `waffle_guy_spawner` cages in a ring on the open centre floor.
+5. Scatter the lollipop-disc garden (§6), then candy-cane posts & litter (§7).
+6. Add hedges; optional dark-oak platform accents / terraces / moat.
+7. Spawn the Cake Golem on the open centre floor.
 
 ---
 
@@ -235,4 +237,5 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
 - **Terraces & moat** are simplified/optional for reliable worldgen.
 - **Arena size** distilled to 21×21; the video build is larger and irregular.
   Scale up if generation budget allows.
-- **Golem-in-front vs on-dais** spawn offset — tune so it doesn't clip the shrine.
+- **No shrine/dais** — corrected after review; the centre is open ground and the
+  golem spawns there. (The "shrine" earlier was a misread of the golem itself.)
