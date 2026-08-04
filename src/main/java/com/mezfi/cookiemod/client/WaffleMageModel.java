@@ -13,10 +13,11 @@ import net.minecraft.world.entity.Mob;
 /**
  * The Waffle Mage — a floating, disjointed cake boss (MECHANICS_SPEC §8.3).
  *
- * <p>A wide cream cake slab (red sprinkles + red maze) with a cube on top, a belly and a
- * chocolate face beneath, and two arms raised diagonally up-and-out — each a chain of a
- * cream shoulder, an orange waffle elbow, and a cream fist bearing a chocolate-brick panel.
- * Segments float with gaps and bob independently, reading as a wither-like hovering boss.
+ * <p>Body: a wide cream cake slab (red sprinkles + red maze) with a cube on top, a belly,
+ * and a chocolate face beneath. Each arm hangs <b>down-and-out at 45°</b>, separated from
+ * the chest, as an alternating cascade: waffle block → mini cream chest block → waffle
+ * block → half-size cream chest block (kinked 45°) → waffle-block fist (slightly angled).
+ * Arms are nested under a shoulder pivot so the whole limb sways and floats as one.
  */
 public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
 
@@ -25,12 +26,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     private final ModelPart topCube;
     private final ModelPart belly;
     private final ModelPart face;
-    private final ModelPart leftShoulder;
-    private final ModelPart leftElbow;
-    private final ModelPart leftFist;
-    private final ModelPart rightShoulder;
-    private final ModelPart rightElbow;
-    private final ModelPart rightFist;
+    private final ModelPart leftArm;
+    private final ModelPart rightArm;
 
     public WaffleMageModel(ModelPart root) {
         this.root = root;
@@ -38,12 +35,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.topCube = root.getChild("top");
         this.belly = root.getChild("belly");
         this.face = root.getChild("face");
-        this.leftShoulder = root.getChild("left_shoulder");
-        this.leftElbow = root.getChild("left_elbow");
-        this.leftFist = root.getChild("left_fist");
-        this.rightShoulder = root.getChild("right_shoulder");
-        this.rightElbow = root.getChild("right_elbow");
-        this.rightFist = root.getChild("right_fist");
+        this.leftArm = root.getChild("left_arm");
+        this.rightArm = root.getChild("right_arm");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -62,32 +55,49 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         root.addOrReplaceChild("belly",
                 CubeListBuilder.create().texOffs(0, 44).addBox(-7F, 4F, -6F, 14F, 9F, 11F),
                 PartPose.offset(0F, 9F, 0F));
-        // Chocolate face on the lower front (UV in the brown patch).
+        // Chocolate face on the lower front.
         root.addOrReplaceChild("face",
                 CubeListBuilder.create().texOffs(96, 0).addBox(-4F, 4F, -9F, 8F, 6F, 4F),
                 PartPose.offset(0F, 9F, 0F));
 
-        // --- arms: cream shoulder → waffle elbow → paneled fist, raised diagonally ---
-        addArm(root, "left", 1F);
-        addArm(root, "right", -1F);
+        addArm(root, "left_arm", 1F);
+        addArm(root, "right_arm", -1F);
 
         return LayerDefinition.create(mesh, 128, 128);
     }
 
-    /** side = +1 (left, +x) or -1 (right, -x). */
+    /**
+     * Builds one dangling arm as a shoulder pivot with a 45° down-out cascade of cubes.
+     * side = +1 (left / +x) or -1 (right / -x).
+     */
     private static void addArm(PartDefinition root, String name, float side) {
-        float tilt = side * 0.55F; // splay outward
-        root.addOrReplaceChild(name + "_shoulder",
-                CubeListBuilder.create().texOffs(0, 24).addBox(-3F, -3F, -3F, 6F, 6F, 6F),
-                PartPose.offsetAndRotation(side * 12F, 5F, 0F, 0F, 0F, -tilt));
-        root.addOrReplaceChild(name + "_elbow",
-                CubeListBuilder.create().texOffs(0, 96).addBox(-3.5F, -3.5F, -3.5F, 7F, 7F, 7F),
-                PartPose.offsetAndRotation(side * 17F, -2F, 0F, 0F, 0F, -tilt));
-        // fist: cream cube + a chocolate-brick panel on its outer/front face.
-        root.addOrReplaceChild(name + "_fist",
-                CubeListBuilder.create().texOffs(48, 44).addBox(-4.5F, -4.5F, -4.5F, 9F, 9F, 9F)
-                        .texOffs(96, 40).addBox(-4.5F, -4.5F, -5.5F, 9F, 9F, 1F),
-                PartPose.offsetAndRotation(side * 23F, -9F, 0F, 0F, 0F, -tilt));
+        // Shoulder pivot, separated from the chest edge (body half-width 14).
+        PartDefinition arm = root.addOrReplaceChild(name,
+                CubeListBuilder.create(), PartPose.offset(side * 15F, 6F, 0F));
+
+        // segment cubes centred on their pivots, cascading down-out (x & y both grow → 45°)
+        arm.addOrReplaceChild(name + "_s0",  // waffle block
+                waffle(8F), PartPose.offset(side * 2F, 2F, 0F));
+        arm.addOrReplaceChild(name + "_s1",  // mini cream chest block
+                creamMini(6F), PartPose.offset(side * 7F, 8F, 0F));
+        arm.addOrReplaceChild(name + "_s2",  // waffle block
+                waffle(8F), PartPose.offset(side * 13F, 14F, 0F));
+        arm.addOrReplaceChild(name + "_s3",  // half-size cream chest, kinked 45°, overlapping s2
+                creamHalf(4F), PartPose.offsetAndRotation(side * 17F, 18F, 0F, 0F, 0F, side * 0.785F));
+        arm.addOrReplaceChild(name + "_s4",  // waffle-block fist, slightly angled, embedded in s3
+                waffle(8F), PartPose.offsetAndRotation(side * 20F, 21F, 0F, 0F, 0F, side * 0.35F));
+    }
+
+    private static CubeListBuilder waffle(float s) {
+        return CubeListBuilder.create().texOffs(0, 96).addBox(-s / 2, -s / 2, -s / 2, s, s, s);
+    }
+
+    private static CubeListBuilder creamMini(float s) {
+        return CubeListBuilder.create().texOffs(0, 24).addBox(-s / 2, -s / 2, -s / 2, s, s, s);
+    }
+
+    private static CubeListBuilder creamHalf(float s) {
+        return CubeListBuilder.create().texOffs(28, 24).addBox(-s / 2, -s / 2, -s / 2, s, s, s);
     }
 
     @Override
@@ -106,18 +116,11 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.face.yRot = netHeadYaw * ((float) Math.PI / 180F);
         this.face.xRot = headPitch * ((float) Math.PI / 180F);
 
-        // arms flap/float out of phase with the body
-        float flap = Mth.sin(ageInTicks * 0.08F) * 0.12F;
-        animArm(this.leftShoulder, this.leftElbow, this.leftFist, 1F, bob, flap);
-        animArm(this.rightShoulder, this.rightElbow, this.rightFist, -1F, -bob, flap);
-    }
-
-    private static void animArm(ModelPart shoulder, ModelPart elbow, ModelPart fist,
-                                float side, float bob, float flap) {
-        shoulder.z = Mth.sin(flap) * 2F;
-        elbow.y = -2F + bob;
-        elbow.zRot = -side * (0.55F + flap);
-        fist.y = -9F + bob * 1.3F;
-        fist.zRot = -side * (0.55F + flap * 1.5F);
+        // Arms sway from the shoulder and float out of phase with the body.
+        float sway = Mth.sin(ageInTicks * 0.07F) * 0.10F;
+        this.leftArm.y = 6F + bob;
+        this.leftArm.zRot = sway;
+        this.rightArm.y = 6F - bob;
+        this.rightArm.zRot = -sway;
     }
 }
