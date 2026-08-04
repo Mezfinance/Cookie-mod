@@ -98,21 +98,21 @@
     "creature": [
       {
         "type": "cookiemod:cookie_soldier",
-        "weight": 12,
+        "weight": 18,
         "minCount": 1,
         "maxCount": 3
       },
       {
         "type": "cookiemod:gummy_bear",
-        "weight": 10,
+        "weight": 14,
         "minCount": 1,
-        "maxCount": 3
+        "maxCount": 2
       },
       {
         "type": "cookiemod:chocolate_bunny",
-        "weight": 12,
+        "weight": 10,
         "minCount": 2,
-        "maxCount": 4
+        "maxCount": 3
       }
     ],
     "ambient": [],
