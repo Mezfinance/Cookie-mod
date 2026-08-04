@@ -78,8 +78,14 @@ public class WaffleMageEntity extends Monster {
 
         LivingEntity target = this.getTarget();
         if (target == null || !target.isAlive()) {
-            // idle drift to a gentle stop
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.8));
+            // idle: drift to a gentle stop but keep floating a few blocks off the ground
+            int ground = this.level().getHeight(
+                    net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    this.getBlockX(), this.getBlockZ());
+            double desiredY = ground + 3.5;
+            double vy = Math.max(-0.06, Math.min(0.06, (desiredY - this.getY()) * 0.05));
+            Vec3 dm = this.getDeltaMovement().scale(0.8);
+            this.setDeltaMovement(dm.x, vy, dm.z);
             return;
         }
 
