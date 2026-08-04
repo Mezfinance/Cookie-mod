@@ -25,8 +25,15 @@ public class CakeGolemArenaFeature extends Feature<NoneFeatureConfiguration> {
 
     private static final int R = 10;                 // half-width → 21×21 pad
     private static final int[] GRID = {-10, -5, 0, 5, 10}; // column nodes (5-pitch)
-    private static final int COL_H = 6;              // column height
+    private static final int COL_H = 9;              // exterior column height (raised roof)
     private static final int FLATNESS = 6;           // max surface variance tolerated
+
+    // Grid placement (mirrors vanilla RandomSpreadStructurePlacement): at most one arena per
+    // SPACING×SPACING chunk cell, jittered within it, so arenas are spread out and never
+    // adjacent. SEPARATION is the guaranteed minimum gap (in chunks) between neighbours.
+    private static final int SPACING = 24;           // ~384-block grid → sparse
+    private static final int SEPARATION = 10;        // ≥160-block minimum distance
+    private static final long SALT = 0x0CA6E9A17L;   // distinct per-structure salt
 
     public CakeGolemArenaFeature(Codec<NoneFeatureConfiguration> codec) {
         super(codec);
@@ -44,6 +51,11 @@ public class CakeGolemArenaFeature extends Feature<NoneFeatureConfiguration> {
         final int floorY = y0 - 1;          // pad top (overwritten)
         final int topY = y0 + COL_H - 1;    // beam height
 
+        // One arena per grid cell, at a deterministic jittered chunk — enforces min distance.
+        if (!isChosenChunk(level.getSeed(), cx >> 4, cz >> 4)) {
+            return false;
+        }
+
         // Only build on reasonably flat, non-flooded ground.
         if (!isBuildable(level, cx, cz, y0)) {
             return false;
@@ -53,7 +65,7 @@ public class CakeGolemArenaFeature extends Feature<NoneFeatureConfiguration> {
         BlockState cookie = ModBlocks.COOKIE_BLOCK.get().defaultBlockState();
         BlockState frosted = ModBlocks.FROSTED_COOKIE_BLOCK.get().defaultBlockState();
         BlockState aniseed = ModBlocks.ANISEED_HARD_CANDY_BLOCK.get().defaultBlockState();
-        BlockState cane = ModBlocks.CANDY_CANE_BLOCK.get().defaultBlockState();
+        BlockState humbug = ModBlocks.HUMBUG_CANDY_BLOCK.get().defaultBlockState();
         BlockState spawner = ModBlocks.WAFFLE_GUY_SPAWNER.get().defaultBlockState();
         BlockState leaves = Blocks.OAK_LEAVES.defaultBlockState();
 
@@ -81,43 +93,45 @@ public class CakeGolemArenaFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
 
-        // 3. Columns: aniseed, y0..topY at each grid node.
+        // 3. Exterior columns only: aniseed, y0..topY at the PERIMETER grid nodes.
         for (int gx : GRID) {
             for (int gz : GRID) {
+                if (!(Math.abs(gx) == R || Math.abs(gz) == R)) continue; // skip interior
                 for (int y = y0; y <= topY; y++) {
                     level.setBlock(new BlockPos(cx + gx, y, cz + gz), aniseed, 2);
                 }
             }
         }
 
-        // 4. Beam lattice at topY: run aniseed along every grid line, both axes.
-        for (int gz : GRID) {
-            for (int dx = -R; dx <= R; dx++) {
-                level.setBlock(new BlockPos(cx + dx, topY, cz + gz), aniseed, 2);
-            }
+        // 4. Roof: a perimeter frame of aniseed beams at topY joining the outer columns
+        //    (the interior is left fully open to sky — no inner supports).
+        for (int dx = -R; dx <= R; dx++) {
+            level.setBlock(new BlockPos(cx + dx, topY, cz - R), aniseed, 2);
+            level.setBlock(new BlockPos(cx + dx, topY, cz + R), aniseed, 2);
         }
+        for (int dz = -R; dz <= R; dz++) {
+            level.setBlock(new BlockPos(cx - R, topY, cz + dz), aniseed, 2);
+            level.setBlock(new BlockPos(cx + R, topY, cz + dz), aniseed, 2);
+        }
+
+        // 5. Humbug pillars: black/red/white striped posts at the INTERIOR grid nodes
+        //    (replacing the removed inner columns), framing the open centre. Slightly
+        //    shorter than the roofline so they read as free-standing pillars.
+        int humbugH = COL_H - 1;
         for (int gx : GRID) {
-            for (int dz = -R; dz <= R; dz++) {
-                level.setBlock(new BlockPos(cx + gx, topY, cz + dz), aniseed, 2);
+            for (int gz : GRID) {
+                boolean interior = Math.abs(gx) != R && Math.abs(gz) != R;
+                if (!interior || (gx == 0 && gz == 0)) continue; // keep the centre clear
+                for (int y = 0; y < humbugH; y++) {
+                    level.setBlock(new BlockPos(cx + gx, y0 + y, cz + gz), humbug, 2);
+                }
             }
         }
 
-        // 5. Spawner-cage ring around the open centre (4 cages at ±3,±3).
+        // 6. Spawner-cage ring around the open centre (4 cages at ±3,±3).
         for (int sx = -3; sx <= 3; sx += 6) {
             for (int sz = -3; sz <= 3; sz += 6) {
                 level.setBlock(new BlockPos(cx + sx, y0, cz + sz), spawner, 2);
-            }
-        }
-
-        // 6. Candy-cane posts: a few bare 3–4 tall posts on open interior cells.
-        int posts = 5 + random.nextInt(3);
-        for (int i = 0; i < posts; i++) {
-            int dx = random.nextInt(2 * R - 3) - (R - 2);
-            int dz = random.nextInt(2 * R - 3) - (R - 2);
-            if (!isOpenFloorCell(dx, dz)) continue;
-            int h = 3 + random.nextInt(2);
-            for (int y = 0; y < h; y++) {
-                level.setBlock(new BlockPos(cx + dx, y0 + y, cz + dz), cane, 2);
             }
         }
 
@@ -167,5 +181,22 @@ public class CakeGolemArenaFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
         return (max - min) <= FLATNESS && Math.abs(max - y0) <= FLATNESS;
+    }
+
+    /** True only for the single jittered chunk chosen within each SPACING×SPACING cell. */
+    private static boolean isChosenChunk(long seed, int chunkX, int chunkZ) {
+        int cellX = Math.floorDiv(chunkX, SPACING);
+        int cellZ = Math.floorDiv(chunkZ, SPACING);
+        long h = splitmix(seed + SALT + cellX * 0x9E3779B97F4A7C15L + cellZ * 0xC2B2AE3D27D4EB4FL);
+        int range = SPACING - SEPARATION; // jitter window
+        int offX = (int) Math.floorMod(h, range);
+        int offZ = (int) Math.floorMod(h >>> 32, range);
+        return chunkX == cellX * SPACING + offX && chunkZ == cellZ * SPACING + offZ;
+    }
+
+    private static long splitmix(long z) {
+        z = (z ^ (z >>> 30)) * 0xBF58476D1CE4E5B9L;
+        z = (z ^ (z >>> 27)) * 0x94D049BB133111EBL;
+        return z ^ (z >>> 31);
     }
 }

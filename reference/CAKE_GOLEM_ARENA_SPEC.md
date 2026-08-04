@@ -40,8 +40,8 @@ Each in-video block mapped to the mod block that already exists (see
 
 | # | in-video element | ref crop | mod block | notes |
 |---|---|---|---|---|
-| A | White columns & roof beams | `images/elem_white_column_beam.png` | `cookiemod:aniseed_hard_candy_block` | Smooth glossy white; the arena's structural skeleton. Marshmallow is the flatter-white alt. |
-| B | Red/white striped posts | `images/elem_candycane_post.png` | `cookiemod:candy_cane_block` | Vertical candy-cane accent posts + hanging drops. |
+| A | White columns & roof beams | `images/elem_white_column_beam.png` | `cookiemod:aniseed_hard_candy_block` | Smooth glossy white; the **exterior** columns + perimeter roof frame. |
+| B | Black/red/white striped pillars | `images/pillar_p3` (see frames) | `cookiemod:humbug_candy_block` | Dark-crimson/near-black + white horizontal bands; the striped **interior** pillars framing the centre. New block. |
 | C | Big red flecked column/wall | `images/elem_raspberry_block.png` | `cookiemod:raspberry_hard_candy_block` | Red with white/pink flecks; occasional accent masses. |
 | I | Ground / terraces | `images/elem_cookie_frosted_ground.png` | `cookie_surface` top, `cookie_block` / `frosted_cookie_block` body | Sandy-cookie tiered field; frosting-maze tops. |
 | J | Dark-oak platform / step | `images/elem_darkoak_platform.png` | `minecraft:dark_oak_planks` | Minor accent — small stepped platforms/paths near the floor. Not a shrine. |
@@ -61,13 +61,17 @@ A square **colonnade** on a flattened cookie pad, open to the sky between roof
 beams. Distilled to a clean, tileable grid (video build is looser/organic):
 
 - **Pad:** 21 × 21 blocks of `cookie_surface` (frosted top), y = 0 (ground).
-- **Column grid:** 5 × 5 columns on a **5-block pitch** at local coords
-  x,z ∈ {0, 5, 10, 15, 20}. 25 columns total.
-- **Column:** 1×1 `aniseed_hard_candy_block`, **height 6** (y = 1..6).
-  Corner columns may be 2×2 for heft (optional).
-- **Roof beams:** `aniseed_hard_candy_block` laid along the tops (y = 6)
-  connecting adjacent column heads in **both** directions, leaving the 4 inner
-  cells of each 5×5 bay **open to sky** (a lattice, not a solid roof).
+- **Placement:** grid-spread like a vanilla structure — one arena per **24×24
+  chunk** cell at a jittered position, **≥10 chunks (~160 blocks) apart**. No
+  clustering; sparse enough to read as ~a few per biome. (No per-chunk rarity
+  filter.)
+- **Exterior columns only:** `aniseed_hard_candy_block`, **height 9** (raised
+  roof), at the **perimeter** grid nodes (the 16 outer nodes of the 5-pitch ring).
+  The interior is left open — no inner white columns.
+- **Roof:** a **perimeter frame** of `aniseed` beams at the column tops joining
+  the outer columns; the interior is fully **open to sky**.
+- **Interior pillars:** black/red/white `humbug_candy_block` pillars at the inner
+  grid nodes (see §7), framing the open centre.
 - **Centre:** an **open spawn floor** — flat cookie ground where the golem
   spawns, ringed by four **spawner cages**. No raised dais.
 - **Interior floor:** candy-cane posts (§7) and hedges dotted about, leaving a
@@ -113,21 +117,20 @@ candy-cane posts (c) are scattered lightly.
  y0 ===cookie_surface pad (frosted top)========================
 ```
 
-Columns 6 tall; beams at y6. The centre is flat open ground — the golem stands
-here, no built structure. (Background biome lollipops are not shown.)
+Exterior columns 9 tall; perimeter beam frame at the top. The centre is flat open
+ground — the golem stands here, no built structure. Interior humbug pillars (§7)
+frame it. (Background biome lollipops are not shown.)
 
 ---
 
-## 4. Roof lattice (columns + beams)
+## 4. Roof (exterior columns + perimeter frame)
 
-- Columns: `aniseed_hard_candy_block`, y1–y6, at the 5-pitch grid nodes.
-- Beams: at **y6**, run `aniseed` between every orthogonally-adjacent column
-  head (so each 5-length span gets a 4-block beam bridging two columns).
-- Result: a square open pergola — solid over the column lines, **open sky** over
-  the bay interiors. Matches `arena_wide_pergola.png` (you can see blue between
-  beams).
-- Optional: hang a **candy-cane drop** (1–2 `candy_cane_block`) from a beam
-  midpoint here and there (seen dangling in `arena_wide_spawners.png`).
+- Columns: `aniseed_hard_candy_block`, full height, at the **perimeter** grid
+  nodes only (16 outer columns; no interior columns).
+- Roof: a **perimeter frame** of `aniseed` beams at the column tops, joining the
+  outer columns around the four sides.
+- Result: an open peristyle — a raised square colonnade with the whole interior
+  **open to sky**.
 
 ---
 
@@ -159,14 +162,17 @@ that flora; the biome provides the garden backdrop for free.
 
 ---
 
-## 7. Candy-cane posts & accents
+## 7. Humbug pillars (black/red/white)
 
-- **Posts:** `candy_cane_block` columns, height **3–4**, dotted lightly along the
-  interior (`elem_candycane_post.png`). Bare (no disc tops).
-- **Ground litter:** occasional short horizontal `candy_cane_block` runs on the
-  pad (red/white stripes, `arena_wide_colonnade.png`).
-- **Raspberry accents:** occasional 1–2 wide `raspberry_hard_candy_block` masses
-  at the perimeter (`elem_raspberry_block.png`) — used sparingly.
+The striped pillars flanking the arena in the footage are a **dark-crimson/near-
+black + white** horizontally-banded candy (much darker than the bright candy-cane
+diagonal). Implemented as a new `humbug_candy_block` (white / red / black bands).
+
+- **Placement:** at the **interior** 5-pitch grid nodes (all inner nodes except
+  the centre) — replacing the removed interior white columns and framing the open
+  fight circle.
+- **Height:** `COL_H − 1` (one below the roofline), so they read as free-standing
+  pillars rather than roof supports.
 
 ---
 

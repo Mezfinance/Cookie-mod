@@ -65,6 +65,9 @@ public final class ModBlocks {
             candy("aniseed_hard_candy_block", MapColor.SNOW, 1.0F);
     public static final DeferredBlock<Block> MINTY_HARD_CANDY_BLOCK =
             candy("minty_hard_candy_block", MapColor.COLOR_CYAN, 1.0F);
+    /** Black/red/white banded "humbug" candy — the striped arena pillars (arena spec §7). */
+    public static final DeferredBlock<Block> HUMBUG_CANDY_BLOCK =
+            candy("humbug_candy_block", MapColor.COLOR_BLACK, 1.0F);
 
     // --- mob spawners (MECHANICS_SPEC §9.3); not in ALL (custom type) — handled explicitly ---
     public static final DeferredBlock<WaffleGuySpawnerBlock> WAFFLE_GUY_SPAWNER =
