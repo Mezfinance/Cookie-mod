@@ -28,6 +28,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -107,6 +108,17 @@ public class CookieSoldierEntity extends TamableAnimal {
         }
 
         return super.mobInteract(player, hand);
+    }
+
+    /**
+     * Untamed soldiers are wild "Gingerbread Men"; recruiting one promotes it to a
+     * "Cookie Soldier". A player-given name tag still overrides both (see {@link #getName()}).
+     */
+    @Override
+    protected Component getTypeName() {
+        return this.isTame()
+                ? Component.translatable("entity.cookiemod.cookie_soldier")
+                : Component.translatable("entity.cookiemod.gingerbread_man");
     }
 
     /** Arm a recruited soldier with its sword (kept, not dropped). Used by recruiting and the furnace. */
