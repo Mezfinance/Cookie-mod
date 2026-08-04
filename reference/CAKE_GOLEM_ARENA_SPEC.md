@@ -137,7 +137,11 @@ There is **no shrine, altar, or dais**. The centre is simply **flat open cookie
 ground**, kept clear of posts and discs so the golem and the soldier swarm have
 room to fight (`arena_wide_spawners.png`, `arena_golem_center.png`).
 
-- **Spawn point:** the centre floor tile (local 10,10), at pad level.
+- **Spawn point:** the centre floor tile (local 10,10), at pad level. The golem
+  spawns **on first player approach** (within ~40 blocks), not at world
+  generation — driven by a hidden `cake_golem_altar` marker buried one block
+  under the centre floor, which random-ticks to spawn one golem then reverts to
+  cookie block.
 - **Spawner cages:** four `waffle_guy_spawner` blocks on the floor around the
   centre (roughly a 5×5 ring), sitting flush with the ground.
 - Optional: a scatter of small `dark_oak_planks` platform/step accents near the
@@ -188,9 +192,10 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
    (jigsaw or a single-piece NBT/`Feature`), on flat-ish ground.
 2. Place **`waffle_guy_spawner`** blocks in a ring on the floor around the centre
    (the "x" cages) so the arena continuously fields waffle-guy adds.
-3. Spawn **one Cake Golem** on the open centre floor when the structure generates
-   (or on first player approach), with its boss bar. It roams the arena and is
-   meant to fall fast to a soldier swarm.
+3. Spawn **one Cake Golem** on the open centre floor **on first player approach**
+   (a buried `cake_golem_altar` marker random-ticks once a player is near, spawns
+   the golem with its boss bar, then reverts to cookie block). It roams the arena
+   and is meant to fall fast to a soldier swarm.
 
 > Implementation options, cheapest → richest: (a) a custom `Feature` that hand-
 > places the palette procedurally from this spec; (b) an NBT structure template +
@@ -207,7 +212,8 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
 4. Place the 4 `waffle_guy_spawner` cages in a ring on the open centre floor.
 5. Scatter candy-cane posts & litter (§7).
 6. Add hedges; optional dark-oak platform accents / terraces / moat.
-7. Spawn the Cake Golem on the open centre floor.
+7. Bury the `cake_golem_altar` marker under the centre — it spawns the golem on
+   first player approach.
 
 ---
 

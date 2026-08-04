@@ -1,12 +1,9 @@
 package com.mezfi.cookiemod.worldgen;
 
-import com.mezfi.cookiemod.entity.CakeGolemEntity;
 import com.mezfi.cookiemod.registry.ModBlocks;
-import com.mezfi.cookiemod.registry.ModEntities;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -136,8 +133,11 @@ public class CakeGolemArenaFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
 
-        // 8. Spawn the Cake Golem on the open centre floor.
-        spawnGolem(level, cx, cz, y0, random);
+        // 8. Bury the one-shot altar marker under the centre floor. It spawns the Cake Golem
+        //    when a player first approaches (random-ticks only once the chunk is player-loaded),
+        //    then reverts to cookie block — so the boss appears on arrival, not at worldgen.
+        level.setBlock(new BlockPos(cx, y0 - 2, cz),
+                ModBlocks.CAKE_GOLEM_ALTAR.get().defaultBlockState(), 2);
         return true;
     }
 
@@ -167,15 +167,5 @@ public class CakeGolemArenaFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
         return (max - min) <= FLATNESS && Math.abs(max - y0) <= FLATNESS;
-    }
-
-    private static void spawnGolem(WorldGenLevel level, int cx, int cz, int y0, RandomSource random) {
-        CakeGolemEntity golem = ModEntities.CAKE_GOLEM.get().create(level.getLevel());
-        if (golem == null) return;
-        golem.moveTo(cx + 0.5D, y0, cz + 0.5D, random.nextFloat() * 360F, 0F);
-        BlockPos at = new BlockPos(cx, y0, cz);
-        golem.finalizeSpawn(level, level.getLevel().getCurrentDifficultyAt(at),
-                MobSpawnType.STRUCTURE, null);
-        level.addFreshEntityWithPassengers(golem);
     }
 }

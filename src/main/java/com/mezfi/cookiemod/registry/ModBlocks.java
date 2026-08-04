@@ -1,6 +1,7 @@
 package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.block.CakeGolemAltarBlock;
 import com.mezfi.cookiemod.block.CandyGrassBlock;
 import com.mezfi.cookiemod.block.ChocolateBunnySpawnerBlock;
 import com.mezfi.cookiemod.block.GingerbreadFurnaceBlock;
@@ -70,6 +71,19 @@ public final class ModBlocks {
             REGISTER.registerBlock("waffle_guy_spawner", WaffleGuySpawnerBlock::new, spawnerProps(MapColor.GOLD));
     public static final DeferredBlock<ChocolateBunnySpawnerBlock> CHOCOLATE_BUNNY_SPAWNER =
             REGISTER.registerBlock("chocolate_bunny_spawner", ChocolateBunnySpawnerBlock::new, spawnerProps(MapColor.COLOR_BROWN));
+
+    /**
+     * Hidden one-shot boss trigger buried at a Cake Golem arena's centre. Random-ticks to
+     * spawn the golem on player approach, then turns to cookie block. Not in ALL (no creative
+     * item) — placed only by {@code CakeGolemArenaFeature}.
+     */
+    public static final DeferredBlock<CakeGolemAltarBlock> CAKE_GOLEM_ALTAR =
+            REGISTER.registerBlock("cake_golem_altar", CakeGolemAltarBlock::new,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_BROWN)
+                            .strength(0.6F)
+                            .sound(SoundType.WOOL)
+                            .randomTicks());
 
     /** Milk fluid's block form (MECHANICS_SPEC §5.2). Rendered by the fluid, not a model. */
     @SuppressWarnings("deprecation")
