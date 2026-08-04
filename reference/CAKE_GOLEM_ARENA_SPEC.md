@@ -46,7 +46,7 @@ Each in-video block mapped to the mod block that already exists (see
 | I | Ground / terraces | `images/elem_cookie_frosted_ground.png` | `cookie_surface` top, `cookie_block` / `frosted_cookie_block` body | Sandy-cookie tiered field; frosting-maze tops. |
 | J | Dark-oak platform / step | `images/elem_darkoak_platform.png` | `minecraft:dark_oak_planks` | Minor accent — small stepped platforms/paths near the floor. Not a shrine. |
 | L | Hedges / bushes | `images/arena_wide_colonnade.png` | `minecraft:oak_leaves` | Green leaf clumps dotting the floor. |
-| M | Spawner cages | `images/elem_spawner_cage.png` | `cookiemod:waffle_guy_spawner` (+ golem spawn) | Black cages sitting on the open floor — the "spawns near waffle-guy spawners" beat. |
+| M | Spawner cages | `images/elem_spawner_cage.png` | `cookiemod:arena_spawner` | Dedicated arena spawner (direct code spawning, any light) — reliably fields waffle-guy adds during the fight. |
 
 Confirmed **not** a build — it's the **Cake Golem mob**
 (`images/elem_cake_golem_mob.png`, `images/elem_wood_shrine_lanterns.png`),
@@ -145,8 +145,9 @@ room to fight (`arena_wide_spawners.png`, `arena_golem_center.png`).
   generation — driven by a hidden `cake_golem_altar` marker buried one block
   under the centre floor, which random-ticks to spawn one golem then reverts to
   cookie block.
-- **Spawner cages:** four `waffle_guy_spawner` blocks on the floor around the
-  centre (roughly a 5×5 ring), sitting flush with the ground.
+- **Spawner cages:** four `arena_spawner` blocks on the floor around the centre
+  (roughly a 5×5 ring). Unlike the vanilla-backed waffle-guy spawner, these spawn
+  directly in code — any light, no placement rules — so the adds work day or night.
 - Optional: a scatter of small `dark_oak_planks` platform/step accents near the
   perimeter (`elem_darkoak_platform.png`) — decorative only.
 
@@ -196,8 +197,8 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
 
 1. Structure generates **rarely** in / at the edge of the **cookie biome**
    (jigsaw or a single-piece NBT/`Feature`), on flat-ish ground.
-2. Place **`waffle_guy_spawner`** blocks in a ring on the floor around the centre
-   (the "x" cages) so the arena continuously fields waffle-guy adds.
+2. Place **`arena_spawner`** blocks in a ring on the floor around the centre
+   (the "x" cages) so the arena continuously fields waffle-guy adds, any light.
 3. Spawn **one Cake Golem** on the open centre floor **on first player approach**
    (a buried `cake_golem_altar` marker random-ticks once a player is near, spawns
    the golem with its boss bar, then reverts to cookie block). It roams the arena
@@ -215,7 +216,7 @@ Ties the structure to MECHANICS_SPEC §8.2 ("spawns near waffle-guy spawners"):
 1. Flatten & lay the 21×21 `cookie_surface` pad (+ perimeter kerb).
 2. Raise the 25 `aniseed` columns (y1–y6).
 3. Lay the y6 beam lattice.
-4. Place the 4 `waffle_guy_spawner` cages in a ring on the open centre floor.
+4. Place the 4 `arena_spawner` cages in a ring on the open centre floor.
 5. Scatter candy-cane posts & litter (§7).
 6. Add hedges; optional dark-oak platform accents / terraces / moat.
 7. Bury the `cake_golem_altar` marker under the centre — it spawns the golem on

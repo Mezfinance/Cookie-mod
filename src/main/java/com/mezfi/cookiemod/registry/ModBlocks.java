@@ -1,6 +1,7 @@
 package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.block.ArenaSpawnerBlock;
 import com.mezfi.cookiemod.block.CakeGolemAltarBlock;
 import com.mezfi.cookiemod.block.CandyGrassBlock;
 import com.mezfi.cookiemod.block.ChocolateBunnySpawnerBlock;
@@ -74,6 +75,11 @@ public final class ModBlocks {
             REGISTER.registerBlock("waffle_guy_spawner", WaffleGuySpawnerBlock::new, spawnerProps(MapColor.GOLD));
     public static final DeferredBlock<ChocolateBunnySpawnerBlock> CHOCOLATE_BUNNY_SPAWNER =
             REGISTER.registerBlock("chocolate_bunny_spawner", ChocolateBunnySpawnerBlock::new, spawnerProps(MapColor.COLOR_BROWN));
+
+    /** Cake Golem arena's waffle-guy spawner — direct code spawning, any light. Not in ALL
+     *  (no creative item); placed only by {@code CakeGolemArenaFeature}. */
+    public static final DeferredBlock<ArenaSpawnerBlock> ARENA_SPAWNER =
+            REGISTER.registerBlock("arena_spawner", ArenaSpawnerBlock::new, spawnerProps(MapColor.GOLD));
 
     /**
      * Hidden one-shot boss trigger buried at a Cake Golem arena's centre. Random-ticks to

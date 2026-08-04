@@ -1,6 +1,7 @@
 package com.mezfi.cookiemod.registry;
 
 import com.mezfi.cookiemod.CookieMod;
+import com.mezfi.cookiemod.block.entity.ArenaSpawnerBlockEntity;
 import com.mezfi.cookiemod.block.entity.CookieSpawnerBlockEntity;
 import com.mezfi.cookiemod.block.entity.GingerbreadFurnaceBlockEntity;
 import net.minecraft.core.registries.Registries;
@@ -20,6 +21,11 @@ public final class ModBlockEntities {
                     CookieSpawnerBlockEntity::new,
                     ModBlocks.WAFFLE_GUY_SPAWNER.get(),
                     ModBlocks.CHOCOLATE_BUNNY_SPAWNER.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ArenaSpawnerBlockEntity>> ARENA_SPAWNER =
+            REGISTER.register("arena_spawner", () -> BlockEntityType.Builder.of(
+                    ArenaSpawnerBlockEntity::new,
+                    ModBlocks.ARENA_SPAWNER.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GingerbreadFurnaceBlockEntity>> GINGERBREAD_FURNACE =
             REGISTER.register("gingerbread_furnace", () -> BlockEntityType.Builder.of(

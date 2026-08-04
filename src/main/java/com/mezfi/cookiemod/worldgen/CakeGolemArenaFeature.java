@@ -66,7 +66,7 @@ public class CakeGolemArenaFeature extends Feature<NoneFeatureConfiguration> {
         BlockState frosted = ModBlocks.FROSTED_COOKIE_BLOCK.get().defaultBlockState();
         BlockState aniseed = ModBlocks.ANISEED_HARD_CANDY_BLOCK.get().defaultBlockState();
         BlockState humbug = ModBlocks.HUMBUG_CANDY_BLOCK.get().defaultBlockState();
-        BlockState spawner = ModBlocks.WAFFLE_GUY_SPAWNER.get().defaultBlockState();
+        BlockState spawner = ModBlocks.ARENA_SPAWNER.get().defaultBlockState();
         BlockState leaves = Blocks.OAK_LEAVES.defaultBlockState();
 
         // 1. Pad: 3-thick cookie foundation, cookie_surface top, cleared above.
