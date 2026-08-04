@@ -26,7 +26,10 @@ public class GummyBearModel<T extends Mob> extends HierarchicalModel<T> {
     private final ModelPart leftFrontLeg;
 
     public GummyBearModel(ModelPart root) {
-        super(RenderType::entityTranslucent);
+        // entityTranslucentCull: cull back faces so overlapping cuboids (head/legs meeting the
+        // body) don't double-blend into opaque-looking joints — the whole bear reads as one
+        // even sheet of translucent jelly (MECHANICS_SPEC §5.1a).
+        super(RenderType::entityTranslucentCull);
         this.root = root;
         this.head = root.getChild("head");
         this.rightHindLeg = root.getChild("right_hind_leg");
