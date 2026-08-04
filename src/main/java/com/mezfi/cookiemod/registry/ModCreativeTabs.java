@@ -49,6 +49,8 @@ public final class ModCreativeTabs {
                         output.accept(ModBlocks.CHOCOLATE_BUNNY_SPAWNER.get());
                         output.accept(ModBlocks.GINGERBREAD_FURNACE.get());
                         output.accept(ModBlocks.CANDY_GRASS.get());
+                        output.accept(ModBlocks.MINI_LOLLIPOP_GREEN.get());
+                        output.accept(ModBlocks.MINI_LOLLIPOP_BROWN.get());
                     })
                     .build());
 }

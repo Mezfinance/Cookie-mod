@@ -106,13 +106,24 @@ public final class ModBlocks {
 
     /** Candy-grass tuft (BIOME_MAP §1/§3). Not in ALL — a plant, handled explicitly. */
     public static final DeferredBlock<CandyGrassBlock> CANDY_GRASS =
-            REGISTER.registerBlock("candy_grass", CandyGrassBlock::new, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.TERRACOTTA_WHITE)
-                    .noCollission()
-                    .instabreak()
-                    .sound(SoundType.GRASS)
-                    .offsetType(BlockBehaviour.OffsetType.XZ)
-                    .pushReaction(PushReaction.DESTROY));
+            REGISTER.registerBlock("candy_grass", CandyGrassBlock::new, plantProps(MapColor.TERRACOTTA_WHITE));
+
+    /** Flower-sized round-checker lollipops that dot the grass (BIOME_MAP §3). */
+    public static final DeferredBlock<CandyGrassBlock> MINI_LOLLIPOP_GREEN =
+            REGISTER.registerBlock("mini_lollipop_green", CandyGrassBlock::new, plantProps(MapColor.COLOR_GREEN));
+    public static final DeferredBlock<CandyGrassBlock> MINI_LOLLIPOP_BROWN =
+            REGISTER.registerBlock("mini_lollipop_brown", CandyGrassBlock::new, plantProps(MapColor.COLOR_BROWN));
+
+    /** Shared props for the candy plants (flower-like, no collision). */
+    private static BlockBehaviour.Properties plantProps(MapColor color) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(color)
+                .noCollission()
+                .instabreak()
+                .sound(SoundType.GRASS)
+                .offsetType(BlockBehaviour.OffsetType.XZ)
+                .pushReaction(PushReaction.DESTROY);
+    }
 
     /** Soft, edible/building block: hand-breakable, wool-like. */
     private static DeferredBlock<Block> soft(String name, MapColor color) {
