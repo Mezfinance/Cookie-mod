@@ -56,6 +56,12 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
             "bwb",
             "wbw",
     };
+    /** The green cube's front face (a flat 3x3 green/white checker) — used on branches. */
+    private static final String[] GREEN_SQUARE = {
+            "gwg",
+            "wgw",
+            "gwg",
+    };
 
     private static final int CLUMP_MIN = 5;
     private static final int CLUMP_MAX = 9;
@@ -127,6 +133,29 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
             default -> panel(level, base, height, side, SMALL_BROWN,
                     ModBlocks.CHOCOLATE_BLOCK.get().defaultBlockState(), white);
         }
+
+        // Tall trees (purple/brown/red disc) grow medium-height side branches that carry a small
+        // red square or a green cube-face.
+        if (style <= 2) {
+            BlockState minty = ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState();
+            int branches = 1 + random.nextInt(3); // 1–3
+            for (int b = 0; b < branches; b++) {
+                Direction bDir = Direction.Plane.HORIZONTAL.getRandomDirection(random);
+                int hb = height / 3 + random.nextInt(Math.max(1, height / 3));
+                int armLen = 1 + random.nextInt(2); // 1–2
+                BlockPos arm = base.above(hb);
+                for (int k = 1; k <= armLen; k++) {
+                    level.setBlock(arm.relative(bDir, k), stem, 2);
+                }
+                BlockPos end = arm.relative(bDir, armLen);
+                Direction pSide = bDir.getClockWise();
+                if (random.nextBoolean()) {
+                    panelAt(level, end, pSide, SQUARE_RED, raspberry, white);
+                } else {
+                    panelAt(level, end, pSide, GREEN_SQUARE, minty, white);
+                }
+            }
+        }
         return true;
     }
 
@@ -149,6 +178,27 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
                 BlockState state = ch == 'w' ? white : candy;
                 int up = stemHeight + (rows - 1 - r); // bottom row = just above the stem top
                 BlockPos pos = base.above(up).relative(side, c - half);
+                level.setBlock(pos, state, 2);
+            }
+        }
+    }
+
+    /** Place a small pattern centred on a point (used for branch heads). */
+    private static void panelAt(WorldGenLevel level, BlockPos center, Direction side,
+                                String[] pattern, BlockState candy, BlockState white) {
+        int rows = pattern.length;
+        int cols = pattern[0].length();
+        int hr = rows / 2;
+        int hc = cols / 2;
+        for (int r = 0; r < rows; r++) {
+            String line = pattern[r];
+            for (int c = 0; c < cols; c++) {
+                char ch = line.charAt(c);
+                if (ch == '.') {
+                    continue;
+                }
+                BlockState state = ch == 'w' ? white : candy;
+                BlockPos pos = center.above(hr - r).relative(side, c - hc);
                 level.setBlock(pos, state, 2);
             }
         }
