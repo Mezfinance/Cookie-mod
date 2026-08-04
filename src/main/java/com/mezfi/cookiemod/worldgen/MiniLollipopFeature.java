@@ -13,16 +13,17 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 /**
- * Miniature candy canes (BIOME_MAP §3): tiny 3-tall hooked canes in green or brown, scattered as
- * ground cover among the candy grass. Each placement drops a small cluster.
+ * Tiny round-checkerboard lollipops at grass height (BIOME_MAP §3): a 1-block marshmallow stem
+ * topped with a small round candy/white head, in green or brown. Scattered as ground cover
+ * among the candy grass, in small clusters.
  */
-public class MiniCandyCaneFeature extends Feature<NoneFeatureConfiguration> {
+public class MiniLollipopFeature extends Feature<NoneFeatureConfiguration> {
 
     private static final int CLUSTER_MIN = 4;
     private static final int CLUSTER_MAX = 7;
     private static final int CLUSTER_RADIUS = 3;
 
-    public MiniCandyCaneFeature(Codec<NoneFeatureConfiguration> codec) {
+    public MiniLollipopFeature(Codec<NoneFeatureConfiguration> codec) {
         super(codec);
     }
 
@@ -53,17 +54,20 @@ public class MiniCandyCaneFeature extends Feature<NoneFeatureConfiguration> {
             return false;
         }
 
+        BlockState stem = ModBlocks.MARSHMALLOW_BLOCK.get().defaultBlockState();
         BlockState white = ModBlocks.ANISEED_HARD_CANDY_BLOCK.get().defaultBlockState();
-        BlockState colour = random.nextBoolean()
-                ? ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState()      // green
-                : ModBlocks.CHOCOLATE_BLOCK.get().defaultBlockState();           // brown
-        Direction hook = Direction.Plane.HORIZONTAL.getRandomDirection(random);
+        BlockState candy = random.nextBoolean()
+                ? ModBlocks.MINTY_HARD_CANDY_BLOCK.get().defaultBlockState()   // green
+                : ModBlocks.CHOCOLATE_BLOCK.get().defaultBlockState();        // brown
+        Direction side = Direction.Plane.HORIZONTAL.getRandomDirection(random);
 
-        level.setBlock(base, colour, 2);                                  // h0 shaft base
-        level.setBlock(base.above(1), white, 2);                          // h1 shaft
-        level.setBlock(base.above(2), colour, 2);                         // h2 shaft top
-        level.setBlock(base.above(2).relative(hook, 1), white, 2);        // hook top
-        level.setBlock(base.above(1).relative(hook, 1), colour, 2);       // hook curl down
+        // 3-tall mini round lollipop: stem, a 3-wide checker middle, a candy cap.
+        level.setBlock(base, stem, 2);                                 // y0 short stem
+        BlockPos mid = base.above(1);
+        level.setBlock(mid, white, 2);                                 // head centre
+        level.setBlock(mid.relative(side, 1), candy, 2);               // head sides
+        level.setBlock(mid.relative(side, -1), candy, 2);
+        level.setBlock(base.above(2), candy, 2);                       // head cap
         return true;
     }
 }

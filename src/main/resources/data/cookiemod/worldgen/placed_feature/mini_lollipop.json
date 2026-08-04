@@ -1,5 +1,5 @@
 {
-  "feature": "cookiemod:mini_candy_cane",
+  "feature": "cookiemod:mini_lollipop",
   "placement": [
     { "type": "minecraft:count", "count": 3 },
     { "type": "minecraft:in_square" },

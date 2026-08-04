@@ -5,7 +5,7 @@ import com.mezfi.cookiemod.worldgen.CandyCaneFeature;
 import com.mezfi.cookiemod.worldgen.CandyWallFeature;
 import com.mezfi.cookiemod.worldgen.GiantCandyCaneFeature;
 import com.mezfi.cookiemod.worldgen.LollipopTreeFeature;
-import com.mezfi.cookiemod.worldgen.MiniCandyCaneFeature;
+import com.mezfi.cookiemod.worldgen.MiniLollipopFeature;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -27,6 +27,6 @@ public final class ModFeatures {
             REGISTER.register("giant_candy_cane", () -> new GiantCandyCaneFeature(NoneFeatureConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, CandyWallFeature> CANDY_WALL =
             REGISTER.register("candy_wall", () -> new CandyWallFeature(NoneFeatureConfiguration.CODEC));
-    public static final DeferredHolder<Feature<?>, MiniCandyCaneFeature> MINI_CANDY_CANE =
-            REGISTER.register("mini_candy_cane", () -> new MiniCandyCaneFeature(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, MiniLollipopFeature> MINI_LOLLIPOP =
+            REGISTER.register("mini_lollipop", () -> new MiniLollipopFeature(NoneFeatureConfiguration.CODEC));
 }
