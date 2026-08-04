@@ -97,6 +97,12 @@
     ],
     "creature": [
       {
+        "type": "cookiemod:cookie_soldier",
+        "weight": 12,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
         "type": "cookiemod:gummy_bear",
         "weight": 10,
         "minCount": 1,
