@@ -77,7 +77,8 @@
       "cookiemod:candy_cane",
       "cookiemod:lollipop_tree",
       "cookiemod:giant_candy_cane",
-      "cookiemod:candy_wall"
+      "cookiemod:candy_wall",
+      "cookiemod:mini_candy_cane"
     ],
     [
       "minecraft:freeze_top_layer"
