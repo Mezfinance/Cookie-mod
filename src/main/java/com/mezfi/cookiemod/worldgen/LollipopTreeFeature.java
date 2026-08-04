@@ -44,13 +44,11 @@ public class LollipopTreeFeature extends Feature<NoneFeatureConfiguration> {
             "wwrwr",
             ".wrr.",
     };
-    /** A full square (no rounded corners) red/white checker head. */
+    /** A small solid red square with a single white centre. */
     private static final String[] SQUARE_RED = {
-            "rwrwr",
-            "wrwrw",
-            "rwrwr",
-            "wrwrw",
-            "rwrwr",
+            "rrr",
+            "rwr",
+            "rrr",
     };
 
     private static final int CLUMP_MIN = 5;
