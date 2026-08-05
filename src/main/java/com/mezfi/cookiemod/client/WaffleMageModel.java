@@ -31,6 +31,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     private final ModelPart rightArm;
     private final ModelPart leftSpin;
     private final ModelPart rightSpin;
+    private final ModelPart chocSpin;
 
     public WaffleMageModel(ModelPart root) {
         this.root = root;
@@ -41,6 +42,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.rightArm = root.getChild("right_arm");
         this.leftSpin = root.getChild("left_spin");
         this.rightSpin = root.getChild("right_spin");
+        this.chocSpin = this.belly.getChild("choc_spin");  // the spinning chocolate tail
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -75,9 +77,35 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
                 CubeListBuilder.create().texOffs(96, 0).addBox(-4F, -8F, -9F, 8F, 6F, 4F),
                 PartPose.ZERO);
         // Belly under the slab (height halved: 9 → 4.5, top kept against the slab).
-        root.addOrReplaceChild("belly",
+        PartDefinition belly = root.addOrReplaceChild("belly",
                 CubeListBuilder.create().texOffs(0, 44).addBox(-7F, 4F, -6F, 14F, 4.5F, 11F),
                 PartPose.offset(0F, 9F, 0F));
+        // --- Chocolate underside: five parts hanging beneath the body (children of the
+        // belly so they bob with it; texture is placeholder chocolate for now). ---
+        // Part 1: a chocolate slab the same size as the belly, directly beneath it.
+        belly.addOrReplaceChild("choc1",
+                CubeListBuilder.create().texOffs(96, 40).addBox(-7F, 8.5F, -6F, 14F, 4.5F, 11F),
+                PartPose.ZERO);
+        // Part 2: ~half the belly, centred L-R, at the back; plus a spine up the back.
+        belly.addOrReplaceChild("choc2",
+                CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 13F, -0.5F, 7F, 4.5F, 5.5F),
+                PartPose.ZERO);
+        belly.addOrReplaceChild("choc2_spine",
+                CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, -6F, 5F, 7F, 19F, 4F),
+                PartPose.ZERO);
+        // Parts 3-5: a chocolate tail that spins independently, segments shrinking with
+        // gaps between them (happy face, then a 3-texel sad-ish face, then two dots).
+        PartDefinition chocSpin = belly.addOrReplaceChild("choc_spin",
+                CubeListBuilder.create(), PartPose.offset(0F, 17.5F, 2F));
+        chocSpin.addOrReplaceChild("choc3",   // happy face, deep
+                CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 1.5F, -4F, 7F, 5F, 8F),
+                PartPose.ZERO);
+        chocSpin.addOrReplaceChild("choc4",   // sad-ish (3 texels), 1/3 size, same depth, gap
+                CubeListBuilder.create().texOffs(96, 40).addBox(-1.25F, 8.5F, -4F, 2.5F, 2.5F, 8F),
+                PartPose.ZERO);
+        chocSpin.addOrReplaceChild("choc5",   // two stacked dots, 1/3 again, gap
+                CubeListBuilder.create().texOffs(96, 40).addBox(-0.75F, 13F, -4F, 1.5F, 1.5F, 8F),
+                PartPose.ZERO);
 
         addArm(root, "left_arm", 1F);
         addArm(root, "right_arm", -1F);
@@ -175,5 +203,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         float spin = ageInTicks * 0.12F;
         this.leftSpin.yRot = spin;
         this.rightSpin.yRot = -spin;
+
+        // The chocolate tail spins independently of the body about the vertical axis.
+        this.chocSpin.yRot = ageInTicks * 0.09F;
     }
 }
