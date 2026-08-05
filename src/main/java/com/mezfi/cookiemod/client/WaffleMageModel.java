@@ -90,8 +90,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
      * (waffle fist) hangs off the bottom of piece 4, half-embedded.
      */
     private static void addHand(PartDefinition root, String name, float side) {
-        root.addOrReplaceChild(name + "_s3", bottomTorso(), PartPose.offset(side * 27F, 27F, 0F));    // piece 4
-        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 27F, 31.5F, 0F)); // piece 5
+        root.addOrReplaceChild(name + "_s3", bottomTorso(),                                            // piece 4, rotated
+                PartPose.offsetAndRotation(side * 27F, 29.5F, 0F, 0F, 0F, (float) (Math.PI / 2.0)));   //   90° → 14 tall
+        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 27F, 36.5F, 0F));  // piece 5
     }
 
     private static CubeListBuilder waffleCube(float s) {
