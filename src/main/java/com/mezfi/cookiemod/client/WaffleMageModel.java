@@ -78,10 +78,10 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         PartDefinition arm = root.addOrReplaceChild(name,
                 CubeListBuilder.create(),
                 PartPose.offsetAndRotation(side * 14F, 7F, 0F, 0F, 0F, -side * ARM_ANGLE));
-        arm.addOrReplaceChild(name + "_s0", waffleCube(8F), PartPose.offset(0F, 5F, 0F));       // piece 1
+        arm.addOrReplaceChild(name + "_s0", waffleCube(8F), PartPose.offset(0F, 4F, 0F));       // piece 1
         arm.addOrReplaceChild(name + "_s1", miniPrism(),                                        // piece 2, lengthways
-                PartPose.offsetAndRotation(0F, 11F, 0F, 0F, 0F, (float) (Math.PI / 2.0)));
-        arm.addOrReplaceChild(name + "_s2", waffleCube(8F), PartPose.offset(0F, 17F, 0F));      // piece 3
+                PartPose.offsetAndRotation(0F, 12.5F, 0F, 0F, 0F, (float) (Math.PI / 2.0)));
+        arm.addOrReplaceChild(name + "_s2", waffleCube(8F), PartPose.offset(0F, 21F, 0F));      // piece 3
     }
 
     /**
@@ -90,8 +90,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
      * (waffle fist) hangs off the bottom of piece 4, half-embedded.
      */
     private static void addHand(PartDefinition root, String name, float side) {
-        root.addOrReplaceChild(name + "_s3", bottomTorso(), PartPose.offset(side * 24F, 24F, 0F));    // piece 4
-        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 24F, 28.5F, 0F)); // piece 5
+        root.addOrReplaceChild(name + "_s3", bottomTorso(), PartPose.offset(side * 27F, 27F, 0F));    // piece 4
+        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 27F, 31.5F, 0F)); // piece 5
     }
 
     private static CubeListBuilder waffleCube(float s) {
