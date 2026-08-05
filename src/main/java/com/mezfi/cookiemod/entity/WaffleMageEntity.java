@@ -40,7 +40,8 @@ public class WaffleMageEntity extends Monster {
             BossEvent.BossBarColor.YELLOW,
             BossEvent.BossBarOverlay.PROGRESS);
 
-    private static final double HOVER_HEIGHT = 4.5;   // blocks above the target
+    private static final double HOVER_HEIGHT = 3.0;   // blocks above the target
+    private static final double MAX_OFF_GROUND = 5.0; // never hover more than this above the terrain below
     private static final double RING = 7.0;           // preferred horizontal distance
     private static final int NOVA_SHARDS = 12;        // shards per ring
     private static final float SHARD_SPEED = 0.9F;
@@ -97,25 +98,48 @@ public class WaffleMageEntity extends Monster {
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
 
         LivingEntity target = this.getTarget();
-        boolean engage = target != null && target.isAlive() && withinTether(target);
-        if (!engage) {
+        if (target != null && target.isAlive() && withinTether(target)) {
+            hoverAround(target);
+            faceTarget(target);
+
+            // Channelled attacks run to completion; otherwise pick a new attack by range.
+            if (this.beamTicks > 0) {
+                tickBeam(target);
+                this.beamTicks--;
+            } else if (this.tongueTicks > 0) {
+                tickTongue(target);
+                this.tongueTicks--;
+            } else if (--this.attackCooldown <= 0) {
+                chooseAttack(target);
+                this.attackCooldown = ATTACK_INTERVAL;
+            }
+        } else {
             idleHover();  // return to / hover over the tower top (or drift, if free-roaming)
-            return;
         }
 
-        hoverAround(target);
-        faceTarget(target);
+        clampAltitude(); // keep it within reach — never too far above the ground beneath it
+    }
 
-        // Channelled attacks run to completion; otherwise pick a new attack by range.
-        if (this.beamTicks > 0) {
-            tickBeam(target);
-            this.beamTicks--;
-        } else if (this.tongueTicks > 0) {
-            tickTongue(target);
-            this.tongueTicks--;
-        } else if (--this.attackCooldown <= 0) {
-            chooseAttack(target);
-            this.attackCooldown = ATTACK_INTERVAL;
+    /**
+     * Max Y the Mage may hover at. When bound to a tower it's a few blocks above the deck
+     * (the anchor) — not the terrain below, which over the open shaft is the far-down floor.
+     * Free-roaming, it's a few blocks above the terrain beneath it.
+     */
+    private double maxHoverY() {
+        double ground = this.anchor != null ? this.anchor.getY()
+                : this.level().getHeight(
+                        net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                        this.getBlockX(), this.getBlockZ());
+        return ground + MAX_OFF_GROUND;
+    }
+
+    /** Smoothly push the Mage back down whenever it drifts above {@link #maxHoverY()}. */
+    private void clampAltitude() {
+        double cap = maxHoverY();
+        if (this.getY() > cap) {
+            Vec3 dm = this.getDeltaMovement();
+            double vy = Math.max(-0.3, Math.min(0.0, dm.y) - 0.08);
+            this.setDeltaMovement(dm.x, vy, dm.z);
         }
     }
 
@@ -290,7 +314,7 @@ public class WaffleMageEntity extends Monster {
             push = new Vec3(-toward.z, 0, toward.x).scale(0.06); // strafe around
         }
 
-        double desiredY = target.getY() + HOVER_HEIGHT;
+        double desiredY = Math.min(target.getY() + HOVER_HEIGHT, maxHoverY());
         double vy = Math.max(-0.08, Math.min(0.08, (desiredY - this.getY()) * 0.05));
 
         Vec3 dm = this.getDeltaMovement().scale(0.82).add(push.x, 0, push.z);
