@@ -74,19 +74,24 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         return LayerDefinition.create(mesh, 128, 128);
     }
 
-    /** Four flat cream panels centred on piece 4 that continuously spin around it. */
+    /**
+     * Four two-sided square panels orbiting piece 4. Each is a 7×7×2 tile — waffle on one
+     * face, a darker maze on the other, dark-brown border — set at radius 10 in the
+     * horizontal ring. The pivot spins about the vertical axis so the panels revolve around
+     * the hand and flip between their waffle and maze faces.
+     */
     private static void addSpinner(PartDefinition root, String name, float side) {
         PartDefinition spin = root.addOrReplaceChild(name, CubeListBuilder.create(),
                 PartPose.offset(side * 33F, 29.5F, 2.5F)); // piece 4 centre
         for (int k = 0; k < 4; k++) {
             spin.addOrReplaceChild(name + "_p" + k, spinPanel(),
-                    PartPose.offsetAndRotation(0F, 0F, 0F, 0F, 0F, k * (float) (Math.PI / 2.0)));
+                    PartPose.offsetAndRotation(0F, 0F, 0F, 0F, k * (float) (Math.PI / 2.0), 0F));
         }
     }
 
-    /** A flat cream orbiting panel (offset out to radius ~9 from the spin centre). */
+    /** A two-sided square panel, offset out to radius 10 along -z from the spin centre. */
     private static CubeListBuilder spinPanel() {
-        return CubeListBuilder.create().texOffs(0, 80).addBox(-4F, -10.5F, -1F, 8F, 3F, 2F);
+        return CubeListBuilder.create().texOffs(40, 80).addBox(-3.5F, -3.5F, -11F, 7F, 7F, 2F);
     }
 
     /**
@@ -151,9 +156,10 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         // Arms/hands hold their built pose so the world-placed hands stay aligned with the
         // upper bone; only the body/head bob animates.
 
-        // Four panels spin continuously around each hand (piece 4), mirrored per side.
-        float spin = ageInTicks * 0.15F;
-        this.leftSpin.zRot = spin;
-        this.rightSpin.zRot = -spin;
+        // Four two-sided panels revolve about each hand (piece 4) on the vertical axis,
+        // flipping between their waffle and maze faces; mirrored per side.
+        float spin = ageInTicks * 0.12F;
+        this.leftSpin.yRot = spin;
+        this.rightSpin.yRot = -spin;
     }
 }
