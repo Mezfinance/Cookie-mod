@@ -31,7 +31,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     private final ModelPart rightArm;
     private final ModelPart leftSpin;
     private final ModelPart rightSpin;
-    private final ModelPart chocSpin;
+    private final ModelPart chocP3;
+    private final ModelPart chocP4;
+    private final ModelPart chocP5;
 
     public WaffleMageModel(ModelPart root) {
         this.root = root;
@@ -42,7 +44,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.rightArm = root.getChild("right_arm");
         this.leftSpin = root.getChild("left_spin");
         this.rightSpin = root.getChild("right_spin");
-        this.chocSpin = this.belly.getChild("choc_spin");  // the spinning chocolate tail
+        this.chocP3 = this.belly.getChild("choc_p3");      // hinged chocolate tail (chain)
+        this.chocP4 = this.chocP3.getChild("choc_p4");
+        this.chocP5 = this.chocP4.getChild("choc_p5");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -93,19 +97,18 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         belly.addOrReplaceChild("choc2_spine",
                 CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, -6F, 5F, 7F, 19F, 4F),
                 PartPose.ZERO);
-        // Parts 3-5: a chocolate tail that spins independently, segments shrinking with
-        // gaps between them (happy face, then a 3-texel sad-ish face, then two dots).
-        PartDefinition chocSpin = belly.addOrReplaceChild("choc_spin",
-                CubeListBuilder.create(), PartPose.offset(0F, 13F, 2F)); // part 3 top flush with part 2
-        chocSpin.addOrReplaceChild("choc3",   // happy face on the front
-                CubeListBuilder.create().texOffs(58, 60).addBox(-3.5F, 1.5F, -4F, 7F, 5F, 8F),
-                PartPose.ZERO);
-        chocSpin.addOrReplaceChild("choc4",   // sad face on all four sides
-                CubeListBuilder.create().texOffs(58, 74).addBox(-3.5F, 8.5F, -4F, 7F, 2.5F, 8F),
-                PartPose.ZERO);
-        chocSpin.addOrReplaceChild("choc5",   // two stacked dots, front & back
-                CubeListBuilder.create().texOffs(58, 85).addBox(-1.5F, 13F, -1.5F, 3F, 4F, 3F),
-                PartPose.ZERO);
+        // Parts 3-5: a hinged chocolate tail. Each segment pivots at its own top and is
+        // nested in the one above, so it swings as a chain that reacts to the Mage's
+        // movement (see setupAnim) rather than spinning. Gaps and rest positions unchanged.
+        PartDefinition chocP3 = belly.addOrReplaceChild("choc_p3",   // happy face on the front
+                CubeListBuilder.create().texOffs(58, 60).addBox(-3.5F, 0F, -4F, 7F, 5F, 8F),
+                PartPose.offset(0F, 14.5F, 2F));                     // pivot at part 3's top
+        PartDefinition chocP4 = chocP3.addOrReplaceChild("choc_p4", // sad face on all four sides
+                CubeListBuilder.create().texOffs(58, 74).addBox(-3.5F, 0F, -4F, 7F, 2.5F, 8F),
+                PartPose.offset(0F, 7F, 0F));                        // part 3 (5) + gap (2)
+        chocP4.addOrReplaceChild("choc_p5",                          // two stacked dots, front & back
+                CubeListBuilder.create().texOffs(58, 85).addBox(-1.5F, 0F, -1.5F, 3F, 4F, 3F),
+                PartPose.offset(0F, 4.5F, 0F));                      // part 4 (2.5) + gap (2)
 
         addArm(root, "left_arm", 1F);
         addArm(root, "right_arm", -1F);
@@ -205,7 +208,26 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.leftSpin.yRot = spin;
         this.rightSpin.yRot = -spin;
 
-        // The chocolate tail spins independently of the body about the vertical axis.
-        this.chocSpin.yRot = ageInTicks * 0.09F;
+        // The hinged chocolate tail reacts to the Mage's movement: it drags against the
+        // direction of travel (a lagging pendulum), with each lower segment swinging more
+        // and slightly out of phase so the three move independently. A faint idle sway
+        // keeps it alive when hovering still. No constant spin.
+        double vx = entity.getDeltaMovement().x;
+        double vz = entity.getDeltaMovement().z;
+        float yawRad = entity.yBodyRot * ((float) Math.PI / 180F);
+        float lookX = -Mth.sin(yawRad), lookZ = Mth.cos(yawRad);
+        float rightX = Mth.cos(yawRad), rightZ = Mth.sin(yawRad);
+        float fwd = (float) (vx * lookX + vz * lookZ);   // + = moving where it faces
+        float rgt = (float) (vx * rightX + vz * rightZ); // + = moving to its right
+        float DRAG = 2.6F;
+        float dragX = Mth.clamp(fwd * DRAG, -0.8F, 0.8F);  // lags backward
+        float dragZ = Mth.clamp(rgt * DRAG, -0.8F, 0.8F);  // lags sideways
+        float t = ageInTicks;
+        this.chocP3.xRot = dragX * 0.50F + Mth.sin(t * 0.06F) * 0.04F;
+        this.chocP3.zRot = dragZ * 0.50F + Mth.cos(t * 0.05F) * 0.04F;
+        this.chocP4.xRot = dragX * 0.35F + Mth.sin(t * 0.06F + 1.3F) * 0.07F;
+        this.chocP4.zRot = dragZ * 0.35F + Mth.cos(t * 0.05F + 1.3F) * 0.07F;
+        this.chocP5.xRot = dragX * 0.30F + Mth.sin(t * 0.06F + 2.6F) * 0.10F;
+        this.chocP5.zRot = dragZ * 0.30F + Mth.cos(t * 0.05F + 2.6F) * 0.10F;
     }
 }
