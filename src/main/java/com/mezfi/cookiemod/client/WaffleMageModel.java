@@ -47,9 +47,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
 
-        // Wide cream slab body.
+        // Wide cream slab chest (height raised 7 → 10, grown upward toward the head).
         root.addOrReplaceChild("body",
-                CubeListBuilder.create().texOffs(0, 0).addBox(-14F, -3F, -7F, 28F, 7F, 14F),
+                CubeListBuilder.create().texOffs(0, 0).addBox(-14F, -6F, -7F, 28F, 10F, 14F),
                 PartPose.offset(0F, 9F, 0F));
         // The head: a cube sitting on top-centre. The face is a CHILD so it stays glued
         // and moves with the head.
