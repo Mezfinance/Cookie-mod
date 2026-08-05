@@ -62,36 +62,32 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
 
         addArm(root, "left_arm", 1F);
         addArm(root, "right_arm", -1F);
-        addHand(root, "left_hand", 1F);
-        addHand(root, "right_hand", -1F);
 
         return LayerDefinition.create(mesh, 128, 128);
     }
 
     /**
-     * Upper bone (pieces 1–3): a shoulder pivot rotated 45° down-out (separated from the
-     * chest). Piece 1 (waffle) → piece 2 (mini prism, itself rotated 90°) → piece 3 (waffle)
-     * connect end-to-end along the bone. side = +1 (left / +x) or −1 (right / −x).
+     * One dangling arm as a two-bone chain. The whole upper bone is rotated 45° down-out
+     * from the shoulder; s0 (waffle), s1 (mini prism), s2 (waffle) connect end-to-end along
+     * it. A forearm joint at the end bends another 45°; the belly block sits on it with the
+     * waffle fist attached directly to its end. side = +1 (left / +x) or -1 (right / -x).
+     * Base rotation −side·45° so the arm points down-and-out. Local +Y runs down the bone.
      */
     private static void addArm(PartDefinition root, String name, float side) {
+        // Upper bone, rotated 45° down-out, separated from the chest.
         PartDefinition arm = root.addOrReplaceChild(name,
                 CubeListBuilder.create(),
                 PartPose.offsetAndRotation(side * 14F, 7F, 0F, 0F, 0F, -side * ARM_ANGLE));
-        arm.addOrReplaceChild(name + "_s0", waffleCube(8F), PartPose.offset(0F, 5F, 0F));       // piece 1
-        arm.addOrReplaceChild(name + "_s1", miniPrism(),                                        // piece 2 (rot 90°)
-                PartPose.offsetAndRotation(0F, 11F, 0F, 0F, 0F, (float) (Math.PI / 2.0)));
-        arm.addOrReplaceChild(name + "_s2", waffleCube(8F), PartPose.offset(0F, 17F, 0F));      // piece 3
-    }
+        arm.addOrReplaceChild(name + "_s0", waffleCube(8F), PartPose.offset(0F, 5F, 0F));
+        arm.addOrReplaceChild(name + "_s1", miniPrism(), PartPose.offset(0F, 11F, 0F));
+        arm.addOrReplaceChild(name + "_s2", waffleCube(8F), PartPose.offset(0F, 17F, 0F));
 
-    /**
-     * Hand (pieces 4–5), placed in world coordinates so they sit precisely relative to the
-     * 45°-rotated piece 3. Piece 4 (belly, world-axis-aligned) tucks just below piece 3's
-     * left corner with its right side against piece 3's bottom-right; piece 5 (waffle fist)
-     * hangs off the bottom of piece 4, half-embedded.
-     */
-    private static void addHand(PartDefinition root, String name, float side) {
-        root.addOrReplaceChild(name + "_s3", bottomTorso(), PartPose.offset(side * 20F, 24F, 0F));   // piece 4
-        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 20F, 28.5F, 0F));// piece 5
+        // Forearm joint at the end of the upper bone, bent another 45°.
+        PartDefinition fore = arm.addOrReplaceChild(name + "_fore",
+                CubeListBuilder.create(),
+                PartPose.offsetAndRotation(0F, 21F, 0F, 0F, 0F, -side * ARM_ANGLE));
+        fore.addOrReplaceChild(name + "_s3", bottomTorso(), PartPose.offset(0F, 5F, 0F));
+        fore.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(0F, 12F, 0F));
     }
 
     private static CubeListBuilder waffleCube(float s) {
@@ -124,7 +120,11 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.topCube.yRot = netHeadYaw * ((float) Math.PI / 180F);
         this.topCube.xRot = headPitch * ((float) Math.PI / 180F);
 
-        // Arms/hands hold their built pose (the hands are placed in world coordinates and
-        // must stay aligned with the upper bone), so only the body/head bob animates.
+        // Arms sway from the shoulder, out of phase with the body.
+        float sway = Mth.sin(ageInTicks * 0.07F) * 0.08F;
+        this.leftArm.y = 7F + bob;
+        this.leftArm.zRot = -ARM_ANGLE + sway;
+        this.rightArm.y = 7F - bob;
+        this.rightArm.zRot = ARM_ANGLE - sway;
     }
 }
