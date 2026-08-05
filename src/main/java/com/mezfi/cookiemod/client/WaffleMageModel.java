@@ -101,13 +101,13 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         // nested in the one above, so it swings as a chain that reacts to the Mage's
         // movement (see setupAnim) rather than spinning. Gaps and rest positions unchanged.
         PartDefinition chocP3 = belly.addOrReplaceChild("choc_p3",   // happy face on the front
-                CubeListBuilder.create().texOffs(58, 60).addBox(-3.5F, 0F, -4F, 7F, 5F, 8F),
+                CubeListBuilder.create().texOffs(60, 96).addBox(-3.5F, 0F, -4F, 7F, 5F, 8F),
                 PartPose.offset(0F, 14.5F, 2F));                     // pivot at part 3's top
         PartDefinition chocP4 = chocP3.addOrReplaceChild("choc_p4", // sad face on all four sides
-                CubeListBuilder.create().texOffs(58, 74).addBox(-3.5F, 0F, -4F, 7F, 2.5F, 8F),
+                CubeListBuilder.create().texOffs(91, 96).addBox(-3.5F, 0F, -4F, 7F, 2.5F, 8F),
                 PartPose.offset(0F, 7F, 0F));                        // part 3 (5) + gap (2)
         chocP4.addOrReplaceChild("choc_p5",                          // two stacked dots, front & back
-                CubeListBuilder.create().texOffs(58, 85).addBox(-1.5F, 0F, -1.5F, 3F, 4F, 3F),
+                CubeListBuilder.create().texOffs(34, 110).addBox(-1.5F, 0F, -1.5F, 3F, 4F, 3F),
                 PartPose.offset(0F, 4.5F, 0F));                      // part 4 (2.5) + gap (2)
 
         addArm(root, "left_arm", 1F);
@@ -140,7 +140,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
      * from the spin centre. Chocolate on the front (outward) face, waffle on the back.
      */
     private static CubeListBuilder spinPanel() {
-        return CubeListBuilder.create().texOffs(0, 60).addBox(-5.25F, -5.25F, -11F, 10.5F, 10.5F, 2F);
+        return CubeListBuilder.create().texOffs(34, 96).addBox(-5.25F, -5.25F, -11F, 10.5F, 10.5F, 2F);
     }
 
     /**
