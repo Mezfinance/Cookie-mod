@@ -80,8 +80,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
                 miniChest(), PartPose.offset(side * 10F, 10F, 0F));
         arm.addOrReplaceChild(name + "_s2",  // waffle block
                 waffleCube(8F), PartPose.offset(side * 15F, 15F, 0F));
-        arm.addOrReplaceChild(name + "_s3",  // HALF of the body chest slab, kinked 45°, over s2
-                halfChest(), PartPose.offsetAndRotation(side * 18F, 18F, 0F, 0F, 0F, side * 0.785F));
+        arm.addOrReplaceChild(name + "_s3",  // full-size bottom-torso (belly) block, kinked 45°, over s2
+                bottomTorso(), PartPose.offsetAndRotation(side * 18F, 18F, 0F, 0F, 0F, side * 0.785F));
         arm.addOrReplaceChild(name + "_s4",  // waffle-block fist, slightly angled, embedded in s3
                 waffleCube(8F), PartPose.offsetAndRotation(side * 21F, 21F, 0F, 0F, 0F, side * 0.35F));
     }
@@ -95,9 +95,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         return CubeListBuilder.create().texOffs(0, 24).addBox(-4.5F, -2F, -3F, 9F, 4F, 6F);
     }
 
-    /** Half of the actual body chest slab (28×7×14 → 14×4×7): a wide flat prism. */
-    private static CubeListBuilder halfChest() {
-        return CubeListBuilder.create().texOffs(0, 66).addBox(-7F, -2F, -3.5F, 14F, 4F, 7F);
+    /** A full-size bottom-torso (belly) block — 14×9×11, same as the body's belly. */
+    private static CubeListBuilder bottomTorso() {
+        return CubeListBuilder.create().texOffs(0, 44).addBox(-7F, -4.5F, -5.5F, 14F, 9F, 11F);
     }
 
     @Override
