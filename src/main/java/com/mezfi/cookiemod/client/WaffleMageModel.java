@@ -125,7 +125,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
      */
     private static void addSpinner(PartDefinition root, String name, float side) {
         PartDefinition spin = root.addOrReplaceChild(name, CubeListBuilder.create(),
-                PartPose.offset(side * 33F, 26.5F, -4F)); // piece 4 centre
+                PartPose.offset(side * 33F, 30F, -4F)); // piece 4 centre (lengthened)
         for (int k = 0; k < 4; k++) {
             spin.addOrReplaceChild(name + "_p" + k, spinPanel(),
                     PartPose.offsetAndRotation(0F, 0F, 0F, 0F, k * (float) (Math.PI / 2.0), 0F));
@@ -160,9 +160,11 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
      */
     private static void addHand(PartDefinition root, String name, float side) {
         // Pulled forward (z = −4) so piece 4 renders in front of piece 3 where they overlap.
+        // Pivot moved to 30 so the (now 21-long) piece keeps its top flush under piece 3
+        // and extends downward; the fist follows to the new bottom.
         root.addOrReplaceChild(name + "_s3", bottomTorso(),                                             // piece 4, rotated
-                PartPose.offsetAndRotation(side * 33F, 26.5F, -4F, 0F, 0F, (float) (Math.PI / 2.0)));   //   90° → 14 tall
-        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 33F, 33.5F, -4F));  // piece 5
+                PartPose.offsetAndRotation(side * 33F, 30F, -4F, 0F, 0F, (float) (Math.PI / 2.0)));     //   90° → 21 tall
+        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 33F, 40.5F, -4F));  // piece 5
     }
 
     private static CubeListBuilder waffleCube(float s) {
@@ -174,9 +176,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         return CubeListBuilder.create().texOffs(0, 24).addBox(-4.5F, -2.5F, -2.5F, 9F, 5F, 5F);
     }
 
-    /** A full-size bottom-torso (belly) block — 14×9×11, same as the body's belly. */
+    /** The hand's bottom-torso (belly) block — lengthened by half to 21×9×11. */
     private static CubeListBuilder bottomTorso() {
-        return CubeListBuilder.create().texOffs(0, 44).addBox(-7F, -4.5F, -5.5F, 14F, 9F, 11F);
+        return CubeListBuilder.create().texOffs(0, 44).addBox(-10.5F, -4.5F, -5.5F, 21F, 9F, 11F);
     }
 
     @Override
