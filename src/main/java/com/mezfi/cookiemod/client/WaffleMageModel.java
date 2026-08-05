@@ -229,5 +229,13 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.chocP4.zRot = dragZ * 0.35F + Mth.cos(t * 0.05F + 1.3F) * 0.07F;
         this.chocP5.xRot = dragX * 0.30F + Mth.sin(t * 0.06F + 2.6F) * 0.10F;
         this.chocP5.zRot = dragZ * 0.30F + Mth.cos(t * 0.05F + 2.6F) * 0.10F;
+
+        // On top of the sway, each segment turns on its own vertical axis at a wandering,
+        // random-looking rate (layered slow sines that drift and reverse). A per-entity
+        // seed and per-segment frequencies keep the three — and different Mages — out of sync.
+        float s = entity.getId() * 1.7F;
+        this.chocP3.yRot = Mth.sin(t * 0.019F + s) * 2.6F + Mth.sin(t * 0.041F + s * 1.3F) * 1.3F;
+        this.chocP4.yRot = Mth.sin(t * 0.023F + s + 10F) * 2.8F + Mth.sin(t * 0.037F + s * 1.7F) * 1.1F;
+        this.chocP5.yRot = Mth.sin(t * 0.017F + s + 20F) * 3.1F + Mth.sin(t * 0.049F + s * 0.9F) * 1.4F;
     }
 }
