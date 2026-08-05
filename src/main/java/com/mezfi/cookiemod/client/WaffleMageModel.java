@@ -100,8 +100,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         chocSpin.addOrReplaceChild("choc3",   // happy face, deep
                 CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 1.5F, -4F, 7F, 5F, 8F),
                 PartPose.ZERO);
-        chocSpin.addOrReplaceChild("choc4",   // sad-ish (3 texels), 1/3 size, same depth, gap
-                CubeListBuilder.create().texOffs(96, 40).addBox(-1.25F, 8.5F, -4F, 2.5F, 2.5F, 8F),
+        chocSpin.addOrReplaceChild("choc4",   // sad-ish (3 texels), same width as part 3, gap
+                CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 8.5F, -4F, 7F, 2.5F, 8F),
                 PartPose.ZERO);
         chocSpin.addOrReplaceChild("choc5",   // two stacked dots, 1/3 again, gap
                 CubeListBuilder.create().texOffs(96, 40).addBox(-0.75F, 13F, -4F, 1.5F, 1.5F, 8F),
