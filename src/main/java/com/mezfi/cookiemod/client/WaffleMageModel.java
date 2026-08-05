@@ -29,6 +29,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     private final ModelPart belly;
     private final ModelPart leftArm;
     private final ModelPart rightArm;
+    private final ModelPart leftSpin;
+    private final ModelPart rightSpin;
 
     public WaffleMageModel(ModelPart root) {
         this.root = root;
@@ -37,6 +39,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.belly = root.getChild("belly");
         this.leftArm = root.getChild("left_arm");
         this.rightArm = root.getChild("right_arm");
+        this.leftSpin = root.getChild("left_spin");
+        this.rightSpin = root.getChild("right_spin");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -64,8 +68,25 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         addArm(root, "right_arm", -1F);
         addHand(root, "left_hand", 1F);
         addHand(root, "right_hand", -1F);
+        addSpinner(root, "left_spin", 1F);
+        addSpinner(root, "right_spin", -1F);
 
         return LayerDefinition.create(mesh, 128, 128);
+    }
+
+    /** Four flat cream panels centred on piece 4 that continuously spin around it. */
+    private static void addSpinner(PartDefinition root, String name, float side) {
+        PartDefinition spin = root.addOrReplaceChild(name, CubeListBuilder.create(),
+                PartPose.offset(side * 33F, 29.5F, 2.5F)); // piece 4 centre
+        for (int k = 0; k < 4; k++) {
+            spin.addOrReplaceChild(name + "_p" + k, spinPanel(),
+                    PartPose.offsetAndRotation(0F, 0F, 0F, 0F, 0F, k * (float) (Math.PI / 2.0)));
+        }
+    }
+
+    /** A flat cream orbiting panel (offset out to radius ~9 from the spin centre). */
+    private static CubeListBuilder spinPanel() {
+        return CubeListBuilder.create().texOffs(0, 80).addBox(-4F, -10.5F, -1F, 8F, 3F, 2F);
     }
 
     /**
@@ -129,5 +150,10 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
 
         // Arms/hands hold their built pose so the world-placed hands stay aligned with the
         // upper bone; only the body/head bob animates.
+
+        // Four panels spin continuously around each hand (piece 4), mirrored per side.
+        float spin = ageInTicks * 0.15F;
+        this.leftSpin.zRot = spin;
+        this.rightSpin.zRot = -spin;
     }
 }
