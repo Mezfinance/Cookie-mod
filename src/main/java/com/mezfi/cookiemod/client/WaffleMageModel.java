@@ -135,9 +135,12 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         }
     }
 
-    /** A two-sided square panel, offset out to radius 10 along -z from the spin centre. */
+    /**
+     * A two-sided square panel (enlarged by half to 10.5), offset out to radius 10 along -z
+     * from the spin centre. Chocolate on the front (outward) face, waffle on the back.
+     */
     private static CubeListBuilder spinPanel() {
-        return CubeListBuilder.create().texOffs(40, 80).addBox(-3.5F, -3.5F, -11F, 7F, 7F, 2F);
+        return CubeListBuilder.create().texOffs(0, 60).addBox(-5.25F, -5.25F, -11F, 10.5F, 10.5F, 2F);
     }
 
     /**
