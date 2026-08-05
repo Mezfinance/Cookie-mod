@@ -48,9 +48,24 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         PartDefinition root = mesh.getRoot();
 
         // Wide cream slab chest (height raised 7 → 10, grown upward toward the head).
-        root.addOrReplaceChild("body",
+        PartDefinition body = root.addOrReplaceChild("body",
                 CubeListBuilder.create().texOffs(0, 0).addBox(-14F, -6F, -7F, 28F, 10F, 14F),
                 PartPose.offset(0F, 9F, 0F));
+        // Four square decorative panels, each centred with margin: two on the front face,
+        // one on each side. They're children of the chest, so they bob along with it.
+        float pc = -1F; // vertical centre of the 10-tall chest face
+        body.addOrReplaceChild("panel_fl",                                                  // front, +x half
+                CubeListBuilder.create().texOffs(0, 0).addBox(7F - 3.5F, pc - 3.5F, -8F, 7F, 7F, 1F),
+                PartPose.ZERO);
+        body.addOrReplaceChild("panel_fr",                                                  // front, -x half
+                CubeListBuilder.create().texOffs(0, 0).addBox(-7F - 3.5F, pc - 3.5F, -8F, 7F, 7F, 1F),
+                PartPose.ZERO);
+        body.addOrReplaceChild("panel_left",                                                // +x side
+                CubeListBuilder.create().texOffs(0, 0).addBox(14F, pc - 3.5F, -3.5F, 1F, 7F, 7F),
+                PartPose.ZERO);
+        body.addOrReplaceChild("panel_right",                                               // -x side
+                CubeListBuilder.create().texOffs(0, 0).addBox(-15F, pc - 3.5F, -3.5F, 1F, 7F, 7F),
+                PartPose.ZERO);
         // The head: a cube sitting on top-centre. The face is a CHILD so it stays glued
         // and moves with the head.
         PartDefinition head = root.addOrReplaceChild("top",
