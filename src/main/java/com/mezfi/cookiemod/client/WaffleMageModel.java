@@ -101,9 +101,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         return CubeListBuilder.create().texOffs(0, 96).addBox(-s / 2, -s / 2, -s / 2, s, s, s);
     }
 
-    /** Mini cream chest block — a small rectangular prism. */
+    /** Mini cream chest block — a slim rectangular prism (length 9, thinned cross-section 5×5). */
     private static CubeListBuilder miniPrism() {
-        return CubeListBuilder.create().texOffs(0, 24).addBox(-4.5F, -3F, -3F, 9F, 6F, 6F);
+        return CubeListBuilder.create().texOffs(0, 24).addBox(-4.5F, -2.5F, -2.5F, 9F, 5F, 5F);
     }
 
     /** A full-size bottom-torso (belly) block — 14×9×11, same as the body's belly. */
