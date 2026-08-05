@@ -92,9 +92,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     private static void addHand(PartDefinition root, String name, float side) {
         // Pushed back in z (+2.5) so piece 3 draws fully in front and piece 4's overlapping
         // top is hidden behind it.
-        root.addOrReplaceChild(name + "_s3", bottomTorso(),                                              // piece 4, rotated
-                PartPose.offsetAndRotation(side * 30F, 29.5F, 2.5F, 0F, 0F, (float) (Math.PI / 2.0)));   //   90° → 14 tall
-        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 30F, 36.5F, 2.5F));  // piece 5
+        root.addOrReplaceChild(name + "_s3", bottomTorso(),                                                // piece 4, rotated
+                PartPose.offsetAndRotation(side * 28.5F, 29.5F, 2.5F, 0F, 0F, (float) (Math.PI / 2.0)));   //   90° → 14 tall
+        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 28.5F, 36.5F, 2.5F));  // piece 5
     }
 
     private static CubeListBuilder waffleCube(float s) {
