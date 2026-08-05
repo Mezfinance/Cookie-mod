@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -90,12 +91,27 @@ public class WaffleMageEntity extends Monster {
         }
 
         hoverAround(target);
-        this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+        faceTarget(target);
 
         if (--this.novaCooldown <= 0 && this.distanceToSqr(target) < 34.0 * 34.0) {
             fireNova(target);
             this.novaCooldown = NOVA_COOLDOWN;
         }
+    }
+
+    /**
+     * Turn the whole body to face the target, turning around if needed. Circling means the
+     * Mage often travels sideways, so its facing is driven by the target, not by movement.
+     */
+    private void faceTarget(LivingEntity target) {
+        double dx = target.getX() - this.getX();
+        double dz = target.getZ() - this.getZ();
+        float wanted = (float) (Mth.atan2(dz, dx) * (180.0 / Math.PI)) - 90.0F;
+        float step = Mth.clamp(Mth.wrapDegrees(wanted - this.getYRot()), -12.0F, 12.0F); // ≤12°/tick
+        this.setYRot(this.getYRot() + step);
+        this.yBodyRot = this.getYRot();
+        this.yHeadRot = this.getYRot();
+        this.getLookControl().setLookAt(target, 30.0F, 30.0F);
     }
 
     /** Circle-strafe the target at RING distance and HOVER_HEIGHT above it. */
