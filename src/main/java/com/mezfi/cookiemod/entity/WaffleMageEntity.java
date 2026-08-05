@@ -4,8 +4,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,11 +40,19 @@ public class WaffleMageEntity extends Monster {
 
     private static final double HOVER_HEIGHT = 4.5;   // blocks above the target
     private static final double RING = 7.0;           // preferred horizontal distance
-    private static final int NOVA_COOLDOWN = 70;      // ticks between novas
     private static final int NOVA_SHARDS = 12;        // shards per ring
     private static final float SHARD_SPEED = 0.9F;
 
-    private int novaCooldown = 40;
+    // Attack rotation: it picks nova / beam / tongue by range on a shared cooldown.
+    private static final int ATTACK_INTERVAL = 55;    // ticks between attack choices
+    private static final int BEAM_DURATION = 30;      // ticks the beam channels
+    private static final int TONGUE_DURATION = 12;    // ticks the tongue lashes
+    private static final float CRIT_BONUS = 1.5F;     // §8.3: crit/jump hits land best
+
+    private int attackCooldown = 40;
+    private int beamTicks = 0;
+    private int tongueTicks = 0;
+    private boolean tongueHit = false;
 
     public WaffleMageEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -93,10 +104,99 @@ public class WaffleMageEntity extends Monster {
         hoverAround(target);
         faceTarget(target);
 
-        if (--this.novaCooldown <= 0 && this.distanceToSqr(target) < 34.0 * 34.0) {
-            fireNova(target);
-            this.novaCooldown = NOVA_COOLDOWN;
+        // Channelled attacks run to completion; otherwise pick a new attack by range.
+        if (this.beamTicks > 0) {
+            tickBeam(target);
+            this.beamTicks--;
+        } else if (this.tongueTicks > 0) {
+            tickTongue(target);
+            this.tongueTicks--;
+        } else if (--this.attackCooldown <= 0) {
+            chooseAttack(target);
+            this.attackCooldown = ATTACK_INTERVAL;
         }
+    }
+
+    /** Pick nova (far), beam (mid), or tongue (close) for the next attack. */
+    private void chooseAttack(LivingEntity target) {
+        double dist = Math.sqrt(this.distanceToSqr(target));
+        if (dist < 8.0) {
+            this.tongueTicks = TONGUE_DURATION;
+            this.tongueHit = false;
+            this.playSound(SoundEvents.FROG_TONGUE, 1.2F, 0.8F);
+        } else if (dist < 22.0 && this.random.nextBoolean()) {
+            this.beamTicks = BEAM_DURATION;
+            this.playSound(SoundEvents.EVOKER_CAST_SPELL, 1.1F, 1.4F);
+        } else if (dist < 40.0) {
+            fireNova(target);
+        }
+    }
+
+    /**
+     * A sustained beam: a line of particles from the Mage's eye to the target, dealing steady
+     * magic damage while it channels. Low per-tick so it rewards breaking line of sight.
+     */
+    private void tickBeam(LivingEntity target) {
+        if (!(this.level() instanceof ServerLevel level)) {
+            return;
+        }
+        Vec3 from = new Vec3(this.getX(), this.getEyeY() - 0.2, this.getZ());
+        Vec3 to = new Vec3(target.getX(), target.getY(0.6), target.getZ());
+        Vec3 dir = to.subtract(from);
+        double len = dir.length();
+        Vec3 step = dir.normalize().scale(0.5);
+        Vec3 p = from;
+        for (double d = 0; d < len; d += 0.5) {
+            level.sendParticles(ParticleTypes.END_ROD, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0);
+            p = p.add(step);
+        }
+        if (this.beamTicks % 4 == 0) {
+            target.hurt(this.damageSources().indirectMagic(this, this), 2.5F);
+        }
+    }
+
+    /**
+     * A short "tongue" lash: a slime-particle strand that extends toward the target over the
+     * lash, striking once at mid-reach for melee damage and yanking the target inward.
+     */
+    private void tickTongue(LivingEntity target) {
+        if (!(this.level() instanceof ServerLevel level)) {
+            return;
+        }
+        Vec3 from = new Vec3(this.getX(), this.getEyeY() - 0.4, this.getZ());
+        Vec3 to = new Vec3(target.getX(), target.getY(0.5), target.getZ());
+        Vec3 dir = to.subtract(from);
+        double len = dir.length();
+        double reach = len * (1.0 - this.tongueTicks / (double) TONGUE_DURATION); // 0 → full
+        Vec3 nd = dir.normalize();
+        for (double d = 0; d < reach; d += 0.4) {
+            Vec3 pt = from.add(nd.scale(d));
+            level.sendParticles(ParticleTypes.ITEM_SLIME, pt.x, pt.y, pt.z, 1, 0.02, 0.02, 0.02, 0.0);
+        }
+        if (!this.tongueHit && this.tongueTicks <= TONGUE_DURATION / 2 && this.distanceToSqr(target) < 100.0) {
+            this.tongueHit = true;
+            target.hurt(this.damageSources().mobAttack(this), 5.0F);
+            Vec3 pull = new Vec3(this.getX() - target.getX(), 0.0, this.getZ() - target.getZ())
+                    .normalize().scale(0.6);
+            target.push(pull.x, 0.15, pull.z);
+            this.playSound(SoundEvents.SLIME_ATTACK, 1.0F, 0.9F);
+        }
+    }
+
+    /** §8.3: hard to melee, but crit / jump hits land best — amplify critical melee hits. */
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (source.getDirectEntity() instanceof Player p && isCritHit(p)) {
+            amount *= CRIT_BONUS;
+        }
+        return super.hurt(source, amount);
+    }
+
+    /** Vanilla critical-hit conditions, checked on the Mage's side to give crits their bonus. */
+    private static boolean isCritHit(Player p) {
+        return p.fallDistance > 0.0F && !p.onGround() && !p.onClimbable()
+                && !p.isInWater() && !p.isPassenger() && !p.isSprinting()
+                && !p.hasEffect(MobEffects.BLINDNESS);
     }
 
     /**
