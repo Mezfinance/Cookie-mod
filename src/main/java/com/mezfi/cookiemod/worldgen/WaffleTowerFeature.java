@@ -13,9 +13,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -43,6 +49,17 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
     private static final int SPACING = 28;
     private static final int SEPARATION = 12;
     private static final long SALT = 0x0F177E12L;
+
+    // Roof parapet screen (one side, top row first), 11 wide between the marshmallow corners.
+    // M = marshmallow, w = waffle, l = waffle lattice, b/t = bottom/top waffle slab, . = gap.
+    private static final String[] PARAPET = {
+            "Mw.......wM",
+            "Mlw.....wlM",
+            "MllwbbbwllM",
+            "Mlllw.wlllM",
+            "MlllwtwlllM",
+            "MMMMwMwMMMM",
+    };
 
     public WaffleTowerFeature(Codec<NoneFeatureConfiguration> codec) {
         super(codec);
@@ -108,10 +125,10 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
                 }
             }
         }
-        // Corner columns continue up as tall marshmallow posts above the deck.
+        // Corner columns continue up as marshmallow posts flanking the roof parapet.
         for (int cxi = -R; cxi <= R; cxi += 2 * R) {
             for (int czi = -R; czi <= R; czi += 2 * R) {
-                for (int y = deckY; y <= deckY + 4; y++) {
+                for (int y = deckY; y <= deckY + 5; y++) {
                     set(level, cx + cxi, y, cz + czi, marsh);
                 }
             }
@@ -164,42 +181,62 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
             placeBed(level, cx - 4, fy, cz + 4, Direction.NORTH);
         }
 
-        // 8. Roof deck: an open-topped pavilion. A solid waffle floor with a chocolate-brick
-        //    perimeter rim and a chocolate arch framing the central shaft opening; tall
-        //    marshmallow columns at the corners/edge-midpoints with waffle railings and
-        //    red-candy accents between them; loot chests; the Mage altar under the opening.
+        // 8. Roof: a solid waffle deck with a central shaft opening framed by a chocolate
+        //    arch, and an ornate 6-tall parapet screen on each side (from the in-game view).
         int E = R - 1; // deck edge index (5)
         for (int dx = -E; dx <= E; dx++) {
             for (int dz = -E; dz <= E; dz++) {
                 int cheb = Math.max(Math.abs(dx), Math.abs(dz));
                 if (cheb <= 1) continue;                          // central shaft stays open
                 if (dx == -E && dz == 0) continue;                // ladder passage
-                BlockState tile = (cheb == 2 || Math.abs(dx) == E || Math.abs(dz) == E)
-                        ? choc : waffle;                           // arch ring + perimeter rim
-                set(level, cx + dx, deckY, cz + dz, tile);
+                set(level, cx + dx, deckY, cz + dz, cheb == 2 ? choc : waffle); // arch ring / deck
             }
         }
-        // Tall marshmallow columns at deck corners and edge-midpoints.
-        int[][] cols = {{-E, -E}, {E, -E}, {-E, E}, {E, E}, {0, -E}, {0, E}, {-E, 0}, {E, 0}};
-        for (int[] c : cols) {
-            for (int y = deckY + 1; y <= deckY + 4; y++) {
-                set(level, cx + c[0], y, cz + c[1], marsh);
+        // Parapet screens on the four sides, between the corner columns.
+        BlockState slabB = ModBlocks.WAFFLE_SLAB.get().defaultBlockState();
+        BlockState slabT = slabB.setValue(SlabBlock.TYPE, SlabType.TOP);
+        BlockState fence = ModBlocks.WAFFLE_LATTICE.get().defaultBlockState();
+        List<BlockPos> lattices = new ArrayList<>();
+        for (int side = 0; side < 4; side++) {
+            for (int i = 0; i < PARAPET.length; i++) {
+                String row = PARAPET[i];
+                int y = deckY + (PARAPET.length - 1 - i); // bottom row at deckY, top highest
+                for (int j = 0; j < row.length(); j++) {
+                    char sym = row.charAt(j);
+                    if (sym == '.') continue;
+                    int t = j - 5;                        // -5..+5 along the wall
+                    int x, z;
+                    switch (side) {
+                        case 0 -> { x = cx + t; z = cz + R; }   // south
+                        case 1 -> { x = cx + t; z = cz - R; }   // north
+                        case 2 -> { x = cx + R; z = cz + t; }   // east
+                        default -> { x = cx - R; z = cz + t; }  // west
+                    }
+                    BlockState b = switch (sym) {
+                        case 'M' -> marsh;
+                        case 'w' -> waffle;
+                        case 'b' -> slabB;
+                        case 't' -> slabT;
+                        default -> fence;                       // 'l'
+                    };
+                    set(level, x, y, z, b);
+                    if (sym == 'l') lattices.add(new BlockPos(x, y, z));
+                }
             }
         }
-        // Waffle railings (with red-candy accents) between the columns, one block high.
-        for (int dx = -E; dx <= E; dx++) {
-            for (int dz = -E; dz <= E; dz++) {
-                if (Math.abs(dx) != E && Math.abs(dz) != E) continue; // deck edge only
-                if (isRoofColumn(dx, dz)) continue;
-                int a = (Math.abs(dx) == E) ? dz : dx;           // coordinate along the edge
-                BlockState rail = (Math.floorMod(a, 3) == 0) ? red : waffle;
-                set(level, cx + dx, deckY + 1, cz + dz, rail);
-            }
+        // Resolve lattice (fence) connections against their placed neighbours.
+        for (BlockPos p : lattices) {
+            BlockState f = level.getBlockState(p)
+                    .setValue(BlockStateProperties.NORTH, connectable(level, p, Direction.NORTH))
+                    .setValue(BlockStateProperties.EAST, connectable(level, p, Direction.EAST))
+                    .setValue(BlockStateProperties.SOUTH, connectable(level, p, Direction.SOUTH))
+                    .setValue(BlockStateProperties.WEST, connectable(level, p, Direction.WEST));
+            level.setBlock(p, f, 2);
         }
-        placeChest(level, cx + E, deckY + 1, cz - 2, random);
-        placeChest(level, cx - E, deckY + 1, cz + 2, random);
-        placeChest(level, cx + 2, deckY + 1, cz + E, random);
-        // Hidden boss trigger tucked just under the open centre; the Mage rises out of it.
+        // Deck loot chests and the hidden Mage trigger under the central opening.
+        placeChest(level, cx + (E - 1), deckY + 1, cz - 2, random);
+        placeChest(level, cx - (E - 1), deckY + 1, cz + 2, random);
+        placeChest(level, cx + 2, deckY + 1, cz + (E - 1), random);
         set(level, cx, deckY - 1, cz, ModBlocks.WAFFLE_MAGE_ALTAR.get().defaultBlockState());
 
         return true;
@@ -212,12 +249,11 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
         return Math.abs(dx) == R ? dz : dx;
     }
 
-    /** Deck-edge positions that carry a tall marshmallow pavilion column. */
-    private static boolean isRoofColumn(int dx, int dz) {
-        int e = R - 1;
-        boolean corner = Math.abs(dx) == e && Math.abs(dz) == e;
-        boolean edgeMid = (dx == 0 && Math.abs(dz) == e) || (Math.abs(dx) == e && dz == 0);
-        return corner || edgeMid;
+    /** A lattice fence connects to a solid full face or to another fence. */
+    private static boolean connectable(WorldGenLevel level, BlockPos p, Direction dir) {
+        BlockPos np = p.relative(dir);
+        BlockState ns = level.getBlockState(np);
+        return ns.getBlock() instanceof FenceBlock || ns.isFaceSturdy(level, np, dir.getOpposite());
     }
 
     private static boolean isPilaster(int dx, int dz) {

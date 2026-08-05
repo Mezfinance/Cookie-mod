@@ -9,7 +9,9 @@ import com.mezfi.cookiemod.block.ChocolateBunnySpawnerBlock;
 import com.mezfi.cookiemod.block.GingerbreadFurnaceBlock;
 import com.mezfi.cookiemod.block.WaffleGuySpawnerBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -43,6 +45,13 @@ public final class ModBlocks {
             soft("frosted_cookie_block", MapColor.SAND);
     public static final DeferredBlock<Block> WAFFLE_BLOCK =
             soft("waffle_block", MapColor.GOLD);
+    /** Waffle slab and lattice — building parts used by the Waffle Tower's roof pavilion. */
+    public static final DeferredBlock<SlabBlock> WAFFLE_SLAB =
+            REGISTER.registerBlock("waffle_slab", SlabBlock::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.GOLD).strength(0.6F).sound(SoundType.WOOL));
+    public static final DeferredBlock<FenceBlock> WAFFLE_LATTICE =
+            REGISTER.registerBlock("waffle_lattice", FenceBlock::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.GOLD).strength(0.6F).sound(SoundType.WOOL));
     public static final DeferredBlock<Block> CHOCOLATE_BLOCK =
             soft("chocolate_block", MapColor.TERRACOTTA_BROWN);
     public static final DeferredBlock<Block> CHOCOLATE_BRICK_BLOCK =

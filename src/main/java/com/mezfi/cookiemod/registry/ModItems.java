@@ -108,6 +108,10 @@ public final class ModItems {
             REGISTER.registerSimpleBlockItem(ModBlocks.MINI_LOLLIPOP_GREEN);
     public static final DeferredItem<?> MINI_LOLLIPOP_BROWN_ITEM =
             REGISTER.registerSimpleBlockItem(ModBlocks.MINI_LOLLIPOP_BROWN);
+    public static final DeferredItem<?> WAFFLE_SLAB_ITEM =
+            REGISTER.registerSimpleBlockItem(ModBlocks.WAFFLE_SLAB);
+    public static final DeferredItem<?> WAFFLE_LATTICE_ITEM =
+            REGISTER.registerSimpleBlockItem(ModBlocks.WAFFLE_LATTICE);
 
     // --- block items for every registered block (registered after the items above) ---
     static {

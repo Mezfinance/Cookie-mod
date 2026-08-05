@@ -52,6 +52,8 @@ public final class ModCreativeTabs {
                         output.accept(ModBlocks.CANDY_GRASS.get());
                         output.accept(ModBlocks.MINI_LOLLIPOP_GREEN.get());
                         output.accept(ModBlocks.MINI_LOLLIPOP_BROWN.get());
+                        output.accept(ModBlocks.WAFFLE_SLAB.get());
+                        output.accept(ModBlocks.WAFFLE_LATTICE.get());
                     })
                     .build());
 }
