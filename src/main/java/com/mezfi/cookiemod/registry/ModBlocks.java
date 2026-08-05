@@ -3,6 +3,7 @@ package com.mezfi.cookiemod.registry;
 import com.mezfi.cookiemod.CookieMod;
 import com.mezfi.cookiemod.block.ArenaSpawnerBlock;
 import com.mezfi.cookiemod.block.CakeGolemAltarBlock;
+import com.mezfi.cookiemod.block.WaffleMageAltarBlock;
 import com.mezfi.cookiemod.block.CandyGrassBlock;
 import com.mezfi.cookiemod.block.ChocolateBunnySpawnerBlock;
 import com.mezfi.cookiemod.block.GingerbreadFurnaceBlock;
@@ -90,6 +91,19 @@ public final class ModBlocks {
             REGISTER.registerBlock("cake_golem_altar", CakeGolemAltarBlock::new,
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.COLOR_BROWN)
+                            .strength(0.6F)
+                            .sound(SoundType.WOOL)
+                            .randomTicks());
+
+    /**
+     * Hidden one-shot boss trigger at a Waffle Tower's top. Random-ticks to release the
+     * Waffle Mage once a player is near and the defenders are cleared, then turns to waffle
+     * block. Not in ALL (no creative item) — placed only by {@code WaffleTowerFeature}.
+     */
+    public static final DeferredBlock<WaffleMageAltarBlock> WAFFLE_MAGE_ALTAR =
+            REGISTER.registerBlock("waffle_mage_altar", WaffleMageAltarBlock::new,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_YELLOW)
                             .strength(0.6F)
                             .sound(SoundType.WOOL)
                             .randomTicks());

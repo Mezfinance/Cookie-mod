@@ -6,6 +6,7 @@ import com.mezfi.cookiemod.worldgen.CandyCaneFeature;
 import com.mezfi.cookiemod.worldgen.CandyWallFeature;
 import com.mezfi.cookiemod.worldgen.GiantCandyCaneFeature;
 import com.mezfi.cookiemod.worldgen.LollipopTreeFeature;
+import com.mezfi.cookiemod.worldgen.WaffleTowerFeature;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -29,4 +30,6 @@ public final class ModFeatures {
             REGISTER.register("candy_wall", () -> new CandyWallFeature(NoneFeatureConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, CakeGolemArenaFeature> CAKE_GOLEM_ARENA =
             REGISTER.register("cake_golem_arena", () -> new CakeGolemArenaFeature(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, WaffleTowerFeature> WAFFLE_TOWER =
+            REGISTER.register("waffle_tower", () -> new WaffleTowerFeature(NoneFeatureConfiguration.CODEC));
 }
