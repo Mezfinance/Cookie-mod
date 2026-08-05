@@ -97,14 +97,14 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         // gaps between them (happy face, then a 3-texel sad-ish face, then two dots).
         PartDefinition chocSpin = belly.addOrReplaceChild("choc_spin",
                 CubeListBuilder.create(), PartPose.offset(0F, 13F, 2F)); // part 3 top flush with part 2
-        chocSpin.addOrReplaceChild("choc3",   // happy face, deep
-                CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 1.5F, -4F, 7F, 5F, 8F),
+        chocSpin.addOrReplaceChild("choc3",   // happy face on the front
+                CubeListBuilder.create().texOffs(58, 60).addBox(-3.5F, 1.5F, -4F, 7F, 5F, 8F),
                 PartPose.ZERO);
-        chocSpin.addOrReplaceChild("choc4",   // sad-ish (3 texels), same width as part 3, gap
-                CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 8.5F, -4F, 7F, 2.5F, 8F),
+        chocSpin.addOrReplaceChild("choc4",   // sad face on all four sides
+                CubeListBuilder.create().texOffs(58, 74).addBox(-3.5F, 8.5F, -4F, 7F, 2.5F, 8F),
                 PartPose.ZERO);
-        chocSpin.addOrReplaceChild("choc5",   // two stacked dots; 3 wide x 5 tall x 3 deep, gap
-                CubeListBuilder.create().texOffs(96, 40).addBox(-1.5F, 13F, -1.5F, 3F, 5F, 3F),
+        chocSpin.addOrReplaceChild("choc5",   // two stacked dots, front & back
+                CubeListBuilder.create().texOffs(58, 85).addBox(-1.5F, 13F, -1.5F, 3F, 5F, 3F),
                 PartPose.ZERO);
 
         addArm(root, "left_arm", 1F);
