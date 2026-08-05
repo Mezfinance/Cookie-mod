@@ -96,7 +96,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         // Parts 3-5: a chocolate tail that spins independently, segments shrinking with
         // gaps between them (happy face, then a 3-texel sad-ish face, then two dots).
         PartDefinition chocSpin = belly.addOrReplaceChild("choc_spin",
-                CubeListBuilder.create(), PartPose.offset(0F, 17.5F, 2F));
+                CubeListBuilder.create(), PartPose.offset(0F, 13F, 2F)); // part 3 top flush with part 2
         chocSpin.addOrReplaceChild("choc3",   // happy face, deep
                 CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 1.5F, -4F, 7F, 5F, 8F),
                 PartPose.ZERO);
