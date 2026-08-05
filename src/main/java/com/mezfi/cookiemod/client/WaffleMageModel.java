@@ -88,7 +88,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
                 PartPose.ZERO);
         // Part 2: ~half the belly, centred L-R, at the back; plus a spine up the back.
         belly.addOrReplaceChild("choc2",
-                CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 13F, -0.5F, 7F, 4.5F, 5.5F),
+                CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, 13F, -0.5F, 7F, 1.5F, 5.5F),
                 PartPose.ZERO);
         belly.addOrReplaceChild("choc2_spine",
                 CubeListBuilder.create().texOffs(96, 40).addBox(-3.5F, -6F, 5F, 7F, 19F, 4F),
