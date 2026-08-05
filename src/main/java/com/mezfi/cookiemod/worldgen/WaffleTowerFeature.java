@@ -1,16 +1,16 @@
 package com.mezfi.cookiemod.worldgen;
 
 import com.mezfi.cookiemod.registry.ModBlocks;
-import com.mezfi.cookiemod.registry.ModItems;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceBlock;
@@ -60,6 +60,13 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
             "MlllwtwlllM",
             "MMMMwMwMMMM",
     };
+
+    private static final ResourceKey<LootTable> FLOOR_LOOT = lootKey("chests/waffle_tower_floor");
+    private static final ResourceKey<LootTable> ROOF_LOOT = lootKey("chests/waffle_tower_roof");
+
+    private static ResourceKey<LootTable> lootKey(String path) {
+        return ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath("cookiemod", path));
+    }
 
     public WaffleTowerFeature(Codec<NoneFeatureConfiguration> codec) {
         super(codec);
@@ -169,16 +176,23 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
         set(level, cx, y0 + 1, cz + R, air);
         set(level, cx, y0 + 2, cz + R, air);
 
-        // 7. Per-storey contents: a waffle-guy spawner, loot chests and a purple bed.
+        // 7. Per-storey contents: waffle-guy + chocolate-bunny spawners, loot chests, a bed,
+        //    and glowstone "sugar lights" embedded in pillars so the raid is lit.
         BlockState spawner = ModBlocks.ARENA_SPAWNER.get().defaultBlockState();
+        BlockState bunny = ModBlocks.TOWER_BUNNY_SPAWNER.get().defaultBlockState();
+        BlockState glow = Blocks.GLOWSTONE.defaultBlockState();
         for (int k = 0; k < ROOMS; k++) {
-            int fy = y0 + STOREY * k + 1;   // sitting on the floor tile
-            set(level, cx + 2, fy, cz + 2, spawner);
-            placeChest(level, cx - 3, fy, cz + 2, random);
+            int base = y0 + STOREY * k;
+            int fy = base + 1;                          // sitting on the floor tile
+            set(level, cx + 2, fy, cz + 2, spawner);    // waffle-guy defenders
+            set(level, cx - 2, fy, cz - 2, bunny);      // chocolate-bunny farm
+            placeChest(level, cx - 3, fy, cz + 2, FLOOR_LOOT, random);
             if ((k & 1) == 0) {
-                placeChest(level, cx + 3, fy, cz - 2, random);
+                placeChest(level, cx + 3, fy, cz - 2, FLOOR_LOOT, random);
             }
             placeBed(level, cx - 4, fy, cz + 4, Direction.NORTH);
+            set(level, cx + 3, base + 3, cz + 3, glow); // lights in two pillars
+            set(level, cx - 3, base + 3, cz - 3, glow);
         }
 
         // 8. Roof: a solid waffle deck with a central shaft opening framed by a chocolate
@@ -234,9 +248,9 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
             level.setBlock(p, f, 2);
         }
         // Deck loot chests and the hidden Mage trigger under the central opening.
-        placeChest(level, cx + (E - 1), deckY + 1, cz - 2, random);
-        placeChest(level, cx - (E - 1), deckY + 1, cz + 2, random);
-        placeChest(level, cx + 2, deckY + 1, cz + (E - 1), random);
+        placeChest(level, cx + (E - 1), deckY + 1, cz - 2, ROOF_LOOT, random);
+        placeChest(level, cx - (E - 1), deckY + 1, cz + 2, ROOF_LOOT, random);
+        placeChest(level, cx + 2, deckY + 1, cz + (E - 1), ROOF_LOOT, random);
         set(level, cx, deckY - 1, cz, ModBlocks.WAFFLE_MAGE_ALTAR.get().defaultBlockState());
 
         return true;
@@ -266,24 +280,12 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
         level.setBlock(new BlockPos(x, y, z), state, 2);
     }
 
-    private static void placeChest(WorldGenLevel level, int x, int y, int z, RandomSource random) {
+    private static void placeChest(WorldGenLevel level, int x, int y, int z,
+                                   ResourceKey<LootTable> table, RandomSource random) {
         BlockPos pos = new BlockPos(x, y, z);
         level.setBlock(pos, Blocks.CHEST.defaultBlockState(), 2);
-        if (level.getBlockEntity(pos) instanceof Container container) {
-            Item[] pool = {
-                    ModItems.WAFFLE.get(), ModItems.CHOCOLATE_BAR.get(), ModItems.COOKIE.get(),
-                    ModItems.CANDY.get(), ModItems.LOLLIPOP.get()
-            };
-            int drops = 2 + random.nextInt(3);
-            for (int i = 0; i < drops; i++) {
-                int slot = random.nextInt(container.getContainerSize());
-                Item item = pool[random.nextInt(pool.length)];
-                container.setItem(slot, new ItemStack(item, 1 + random.nextInt(6)));
-            }
-            if (random.nextInt(3) == 0) {
-                container.setItem(random.nextInt(container.getContainerSize()),
-                        new ItemStack(Items.DIAMOND, 1 + random.nextInt(3)));
-            }
+        if (level.getBlockEntity(pos) instanceof RandomizableContainerBlockEntity be) {
+            be.setLootTable(table, random.nextLong()); // filled when first opened
         }
     }
 

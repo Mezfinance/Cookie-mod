@@ -25,7 +25,8 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ArenaSpawnerBlockEntity>> ARENA_SPAWNER =
             REGISTER.register("arena_spawner", () -> BlockEntityType.Builder.of(
                     ArenaSpawnerBlockEntity::new,
-                    ModBlocks.ARENA_SPAWNER.get()).build(null));
+                    ModBlocks.ARENA_SPAWNER.get(),
+                    ModBlocks.TOWER_BUNNY_SPAWNER.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GingerbreadFurnaceBlockEntity>> GINGERBREAD_FURNACE =
             REGISTER.register("gingerbread_furnace", () -> BlockEntityType.Builder.of(
