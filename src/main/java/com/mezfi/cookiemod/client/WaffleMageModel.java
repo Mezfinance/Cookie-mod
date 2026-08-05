@@ -24,7 +24,6 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart topCube;
-    private final ModelPart face;
     private final ModelPart belly;
     private final ModelPart leftArm;
     private final ModelPart rightArm;
@@ -32,8 +31,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     public WaffleMageModel(ModelPart root) {
         this.root = root;
         this.body = root.getChild("body");
-        this.topCube = root.getChild("top");
-        this.face = root.getChild("face");
+        this.topCube = root.getChild("top");   // the head; the face is glued to it as a child
         this.belly = root.getChild("belly");
         this.leftArm = root.getChild("left_arm");
         this.rightArm = root.getChild("right_arm");
@@ -47,14 +45,14 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         root.addOrReplaceChild("body",
                 CubeListBuilder.create().texOffs(0, 0).addBox(-14F, -3F, -7F, 28F, 7F, 14F),
                 PartPose.offset(0F, 9F, 0F));
-        // Cube sitting on top-centre.
-        root.addOrReplaceChild("top",
+        // The head: a cube sitting on top-centre. The face is a CHILD so it stays glued
+        // and moves with the head.
+        PartDefinition head = root.addOrReplaceChild("top",
                 CubeListBuilder.create().texOffs(48, 0).addBox(-5F, -11F, -5F, 10F, 10F, 10F),
                 PartPose.offset(0F, 5F, 0F));
-        // Chocolate face stuck to the FRONT of the top cube (top cube front is z = -5).
-        root.addOrReplaceChild("face",
+        head.addOrReplaceChild("face",
                 CubeListBuilder.create().texOffs(96, 0).addBox(-4F, -8F, -9F, 8F, 6F, 4F),
-                PartPose.offset(0F, 5F, 0F));
+                PartPose.ZERO);
         // Belly under the slab.
         root.addOrReplaceChild("belly",
                 CubeListBuilder.create().texOffs(0, 44).addBox(-7F, 4F, -6F, 14F, 9F, 11F),
@@ -111,10 +109,10 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         float bob = Mth.sin(ageInTicks * 0.10F) * 1.2F;
         this.body.y = 9F + bob;
         this.belly.y = 9F + bob * 0.7F;
+        // The head bobs and does the looking; the glued face (its child) rides along.
         this.topCube.y = 5F + bob * 1.2F;
-        this.face.y = 5F + bob * 1.2F;              // face rides with the top cube
-        this.face.yRot = netHeadYaw * ((float) Math.PI / 180F);
-        this.face.xRot = headPitch * ((float) Math.PI / 180F);
+        this.topCube.yRot = netHeadYaw * ((float) Math.PI / 180F);
+        this.topCube.xRot = headPitch * ((float) Math.PI / 180F);
 
         // Arms sway from the shoulder, out of phase with the body.
         float sway = Mth.sin(ageInTicks * 0.07F) * 0.10F;
