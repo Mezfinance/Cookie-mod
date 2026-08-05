@@ -59,9 +59,9 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         head.addOrReplaceChild("face",
                 CubeListBuilder.create().texOffs(96, 0).addBox(-4F, -8F, -9F, 8F, 6F, 4F),
                 PartPose.ZERO);
-        // Belly under the slab.
+        // Belly under the slab (height halved: 9 → 4.5, top kept against the slab).
         root.addOrReplaceChild("belly",
-                CubeListBuilder.create().texOffs(0, 44).addBox(-7F, 4F, -6F, 14F, 9F, 11F),
+                CubeListBuilder.create().texOffs(0, 44).addBox(-7F, 4F, -6F, 14F, 4.5F, 11F),
                 PartPose.offset(0F, 9F, 0F));
 
         addArm(root, "left_arm", 1F);
