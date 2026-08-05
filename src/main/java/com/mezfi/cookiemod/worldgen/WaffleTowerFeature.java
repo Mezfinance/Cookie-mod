@@ -108,20 +108,21 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
                 }
             }
         }
-        // Corner columns continue up as merlons above the deck.
+        // Corner columns continue up as tall marshmallow posts above the deck.
         for (int cxi = -R; cxi <= R; cxi += 2 * R) {
             for (int czi = -R; czi <= R; czi += 2 * R) {
-                set(level, cx + cxi, deckY, cz + czi, marsh);
-                set(level, cx + cxi, deckY + 1, cz + czi, marsh);
-                set(level, cx + cxi, deckY + 2, cz + czi, marsh);
+                for (int y = deckY; y <= deckY + 4; y++) {
+                    set(level, cx + cxi, y, cz + czi, marsh);
+                }
             }
         }
 
-        // 3. Floors: checkered waffle/marshmallow. Ground + deck are solid; the storeys
-        //    between are donuts around a 3×3 central shaft. The ladder cell is always open.
-        for (int k = 0; k <= ROOMS; k++) {
+        // 3. Interior floors (k = 0 .. ROOMS-1): checkered waffle/marshmallow. The ground
+        //    room is solid; the storeys above are donuts around a 3×3 central shaft. The
+        //    ladder cell is always open. (The roof deck, k = ROOMS, is built in step 8.)
+        for (int k = 0; k < ROOMS; k++) {
             int fy = y0 + STOREY * k;
-            boolean solid = (k == 0 || k == ROOMS);       // ground room and roof deck are filled
+            boolean solid = (k == 0);                     // only the ground room is filled
             for (int dx = -(R - 1); dx <= R - 1; dx++) {
                 for (int dz = -(R - 1); dz <= R - 1; dz++) {
                     if (dx == -(R - 1) && dz == 0) continue;               // ladder passage
@@ -163,19 +164,43 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
             placeBed(level, cx - 4, fy, cz + 4, Direction.NORTH);
         }
 
-        // 8. Roof deck: battlemented parapet + loot, and the Mage altar at the centre.
-        for (int dx = -R; dx <= R; dx++) {
-            for (int dz = -R; dz <= R; dz++) {
-                if (Math.abs(dx) != R && Math.abs(dz) != R) continue;
-                if (Math.abs(dx) == R && Math.abs(dz) == R) continue; // corners already merlons
-                set(level, cx + dx, deckY + 1, cz + dz, choc);
-                BlockState merlon = ((dx + dz) & 1) == 0 ? waffle : air;
-                set(level, cx + dx, deckY + 2, cz + dz, merlon);
+        // 8. Roof deck: an open-topped pavilion. A solid waffle floor with a chocolate-brick
+        //    perimeter rim and a chocolate arch framing the central shaft opening; tall
+        //    marshmallow columns at the corners/edge-midpoints with waffle railings and
+        //    red-candy accents between them; loot chests; the Mage altar under the opening.
+        int E = R - 1; // deck edge index (5)
+        for (int dx = -E; dx <= E; dx++) {
+            for (int dz = -E; dz <= E; dz++) {
+                int cheb = Math.max(Math.abs(dx), Math.abs(dz));
+                if (cheb <= 1) continue;                          // central shaft stays open
+                if (dx == -E && dz == 0) continue;                // ladder passage
+                BlockState tile = (cheb == 2 || Math.abs(dx) == E || Math.abs(dz) == E)
+                        ? choc : waffle;                           // arch ring + perimeter rim
+                set(level, cx + dx, deckY, cz + dz, tile);
             }
         }
-        placeChest(level, cx - 3, deckY + 1, cz - 3, random);
-        placeChest(level, cx + 3, deckY + 1, cz + 3, random);
-        set(level, cx, deckY, cz, ModBlocks.WAFFLE_MAGE_ALTAR.get().defaultBlockState());
+        // Tall marshmallow columns at deck corners and edge-midpoints.
+        int[][] cols = {{-E, -E}, {E, -E}, {-E, E}, {E, E}, {0, -E}, {0, E}, {-E, 0}, {E, 0}};
+        for (int[] c : cols) {
+            for (int y = deckY + 1; y <= deckY + 4; y++) {
+                set(level, cx + c[0], y, cz + c[1], marsh);
+            }
+        }
+        // Waffle railings (with red-candy accents) between the columns, one block high.
+        for (int dx = -E; dx <= E; dx++) {
+            for (int dz = -E; dz <= E; dz++) {
+                if (Math.abs(dx) != E && Math.abs(dz) != E) continue; // deck edge only
+                if (isRoofColumn(dx, dz)) continue;
+                int a = (Math.abs(dx) == E) ? dz : dx;           // coordinate along the edge
+                BlockState rail = (Math.floorMod(a, 3) == 0) ? red : waffle;
+                set(level, cx + dx, deckY + 1, cz + dz, rail);
+            }
+        }
+        placeChest(level, cx + E, deckY + 1, cz - 2, random);
+        placeChest(level, cx - E, deckY + 1, cz + 2, random);
+        placeChest(level, cx + 2, deckY + 1, cz + E, random);
+        // Hidden boss trigger tucked just under the open centre; the Mage rises out of it.
+        set(level, cx, deckY - 1, cz, ModBlocks.WAFFLE_MAGE_ALTAR.get().defaultBlockState());
 
         return true;
     }
@@ -185,6 +210,14 @@ public class WaffleTowerFeature extends Feature<NoneFeatureConfiguration> {
     /** Along-wall coordinate for a perimeter cell (dz on the E/W walls, dx on the N/S walls). */
     private static int along(int dx, int dz) {
         return Math.abs(dx) == R ? dz : dx;
+    }
+
+    /** Deck-edge positions that carry a tall marshmallow pavilion column. */
+    private static boolean isRoofColumn(int dx, int dz) {
+        int e = R - 1;
+        boolean corner = Math.abs(dx) == e && Math.abs(dz) == e;
+        boolean edgeMid = (dx == 0 && Math.abs(dz) == e) || (Math.abs(dx) == e && dz == 0);
+        return corner || edgeMid;
     }
 
     private static boolean isPilaster(int dx, int dz) {
