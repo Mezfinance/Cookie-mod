@@ -55,7 +55,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         // and moves with the head.
         PartDefinition head = root.addOrReplaceChild("top",
                 CubeListBuilder.create().texOffs(48, 0).addBox(-5F, -11F, -5F, 10F, 10F, 10F),
-                PartPose.offset(0F, 5F, 0F));
+                PartPose.offset(0F, 2F, 0F));
         head.addOrReplaceChild("face",
                 CubeListBuilder.create().texOffs(96, 0).addBox(-4F, -8F, -9F, 8F, 6F, 4F),
                 PartPose.ZERO);
@@ -82,7 +82,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
      */
     private static void addSpinner(PartDefinition root, String name, float side) {
         PartDefinition spin = root.addOrReplaceChild(name, CubeListBuilder.create(),
-                PartPose.offset(side * 33F, 29.5F, -4F)); // piece 4 centre
+                PartPose.offset(side * 33F, 26.5F, -4F)); // piece 4 centre
         for (int k = 0; k < 4; k++) {
             spin.addOrReplaceChild(name + "_p" + k, spinPanel(),
                     PartPose.offsetAndRotation(0F, 0F, 0F, 0F, k * (float) (Math.PI / 2.0), 0F));
@@ -103,7 +103,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     private static void addArm(PartDefinition root, String name, float side) {
         PartDefinition arm = root.addOrReplaceChild(name,
                 CubeListBuilder.create(),
-                PartPose.offsetAndRotation(side * 18.5F, 7F, 0F, 0F, 0F, -side * ARM_ANGLE)); // gap from torso
+                PartPose.offsetAndRotation(side * 18.5F, 4F, 0F, 0F, 0F, -side * ARM_ANGLE)); // gap from torso
         arm.addOrReplaceChild(name + "_s0", waffleCube(8F), PartPose.offset(0F, 4F, 0F));       // piece 1
         arm.addOrReplaceChild(name + "_s1", miniPrism(),                                        // piece 2, lengthways
                 PartPose.offsetAndRotation(0F, 12.5F, 0F, 0F, 0F, (float) (Math.PI / 2.0)));
@@ -118,8 +118,8 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     private static void addHand(PartDefinition root, String name, float side) {
         // Pulled forward (z = −4) so piece 4 renders in front of piece 3 where they overlap.
         root.addOrReplaceChild(name + "_s3", bottomTorso(),                                             // piece 4, rotated
-                PartPose.offsetAndRotation(side * 33F, 29.5F, -4F, 0F, 0F, (float) (Math.PI / 2.0)));   //   90° → 14 tall
-        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 33F, 36.5F, -4F));  // piece 5
+                PartPose.offsetAndRotation(side * 33F, 26.5F, -4F, 0F, 0F, (float) (Math.PI / 2.0)));   //   90° → 14 tall
+        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 33F, 33.5F, -4F));  // piece 5
     }
 
     private static CubeListBuilder waffleCube(float s) {
@@ -148,7 +148,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.body.y = 9F + bob;
         this.belly.y = 9F + bob * 0.7F;
         // The head bobs and does the looking; the glued face (its child) rides along.
-        this.topCube.y = 5F + bob * 1.2F;
+        this.topCube.y = 2F + bob * 1.2F;
         this.topCube.yRot = netHeadYaw * ((float) Math.PI / 180F);
         this.topCube.xRot = headPitch * ((float) Math.PI / 180F);
 
