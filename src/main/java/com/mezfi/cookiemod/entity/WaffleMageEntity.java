@@ -42,7 +42,7 @@ public class WaffleMageEntity extends Monster {
 
     private static final double HOVER_HEIGHT = 3.0;   // blocks above the target
     private static final double MAX_OFF_GROUND = 5.0; // never hover more than this above the terrain below
-    private static final double RING = 7.0;           // preferred horizontal distance
+    private static final double RING = 3.0;           // strafe radius — kept inside the deck
     private static final int NOVA_SHARDS = 12;        // shards per ring
     private static final float SHARD_SPEED = 0.9F;
 
@@ -57,9 +57,12 @@ public class WaffleMageEntity extends Monster {
     private int tongueTicks = 0;
     private boolean tongueHit = false;
 
-    // Tower binding: when spawned from a Waffle Tower, the Mage guards the top and does not
-    // chase beyond TETHER of its anchor. A null anchor (e.g. spawn egg) roams freely.
-    private static final double TETHER = 22.0;      // engage / return radius around the anchor
+    // Tower binding: when spawned from a Waffle Tower, the Mage guards the top. It engages
+    // targets within ENGAGE of the anchor and its own body is hard-leashed to within LEASH
+    // of the anchor (≈ the deck half-width minus its body radius) so it stays on the deck.
+    // A null anchor (e.g. spawn egg) roams freely.
+    private static final double ENGAGE = 10.0;      // engage targets within this of the anchor
+    private static final double LEASH = 4.5;        // hard cap on the Mage's own distance from anchor
     private static final double IDLE_HOVER = 4.0;   // hover height above the anchor when idle
     private BlockPos anchor;
 
@@ -117,7 +120,8 @@ public class WaffleMageEntity extends Monster {
             idleHover();  // return to / hover over the tower top (or drift, if free-roaming)
         }
 
-        clampAltitude(); // keep it within reach — never too far above the ground beneath it
+        leashToAnchor();  // keep its body on the deck — never past LEASH of the anchor
+        clampAltitude();  // keep it within reach — never too far above the ground beneath it
     }
 
     /**
@@ -240,20 +244,48 @@ public class WaffleMageEntity extends Monster {
         this.getLookControl().setLookAt(target, 30.0F, 30.0F);
     }
 
-    /** Bind this Mage to a tower top: it guards there and won't chase past {@link #TETHER}. */
+    /** Bind this Mage to a tower top: it guards there and its body stays within {@link #LEASH}. */
     public void setAnchor(BlockPos pos) {
         this.anchor = pos;
-        this.restrictTo(pos, (int) TETHER);
+        this.restrictTo(pos, (int) Math.ceil(LEASH));
     }
 
-    /** Only engage targets within tether of the anchor; a free-roaming Mage engages anything. */
+    /** Only engage targets within {@link #ENGAGE} of the anchor; a free-roaming Mage engages anything. */
     private boolean withinTether(LivingEntity target) {
         if (this.anchor == null) {
             return true;
         }
         double dx = target.getX() - (this.anchor.getX() + 0.5);
         double dz = target.getZ() - (this.anchor.getZ() + 0.5);
-        return dx * dx + dz * dz <= TETHER * TETHER;
+        return dx * dx + dz * dz <= ENGAGE * ENGAGE;
+    }
+
+    /**
+     * Hard horizontal leash: whatever the AI wants, the Mage's own body never drifts past
+     * {@link #LEASH} of the anchor centre. Beyond it we cancel outward velocity and snap the
+     * position back to the ring, so it can hunt across the deck but never leaves it.
+     */
+    private void leashToAnchor() {
+        if (this.anchor == null) {
+            return;
+        }
+        double cx = this.anchor.getX() + 0.5;
+        double cz = this.anchor.getZ() + 0.5;
+        double dx = this.getX() - cx;
+        double dz = this.getZ() - cz;
+        double horiz = Math.sqrt(dx * dx + dz * dz);
+        if (horiz <= LEASH) {
+            return;
+        }
+        double nx = dx / horiz, nz = dz / horiz;
+        // snap back onto the leash ring
+        this.setPos(cx + nx * LEASH, this.getY(), cz + nz * LEASH);
+        // kill any outward-pointing velocity so it doesn't fight the snap next tick
+        Vec3 dm = this.getDeltaMovement();
+        double outward = dm.x * nx + dm.z * nz;
+        if (outward > 0) {
+            this.setDeltaMovement(dm.x - outward * nx, dm.y, dm.z - outward * nz);
+        }
     }
 
     /** Drift back to (and hover over) the anchor; if unbound, just float a few blocks up. */
