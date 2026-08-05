@@ -21,6 +21,8 @@ import net.minecraft.world.entity.Mob;
  */
 public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
 
+    private static final float ARM_ANGLE = (float) (Math.PI / 4.0); // 45° per joint
+
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart topCube;
@@ -65,34 +67,36 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
     }
 
     /**
-     * One dangling arm: a shoulder pivot (separated from the chest) with a 45° down-out
-     * cascade. side = +1 (left / +x) or -1 (right / -x).
+     * One dangling arm as a two-bone chain. The whole upper bone is rotated 45° down-out
+     * from the shoulder; s0 (waffle), s1 (mini prism), s2 (waffle) connect end-to-end along
+     * it. A forearm joint at the end bends another 45°; the belly block sits on it with the
+     * waffle fist attached directly to its end. side = +1 (left / +x) or -1 (right / -x).
+     * Base rotation −side·45° so the arm points down-and-out. Local +Y runs down the bone.
      */
     private static void addArm(PartDefinition root, String name, float side) {
+        // Upper bone, rotated 45° down-out, separated from the chest.
         PartDefinition arm = root.addOrReplaceChild(name,
-                CubeListBuilder.create(), PartPose.offset(side * 15F, 7F, 0F));
+                CubeListBuilder.create(),
+                PartPose.offsetAndRotation(side * 14F, 7F, 0F, 0F, 0F, -side * ARM_ANGLE));
+        arm.addOrReplaceChild(name + "_s0", waffleCube(8F), PartPose.offset(0F, 5F, 0F));
+        arm.addOrReplaceChild(name + "_s1", miniPrism(), PartPose.offset(0F, 11F, 0F));
+        arm.addOrReplaceChild(name + "_s2", waffleCube(8F), PartPose.offset(0F, 17F, 0F));
 
-        // Every segment steps equal x and y from the shoulder → a true 45° down-out line,
-        // starting from the first block (no horizontal stub).
-        arm.addOrReplaceChild(name + "_s0",  // waffle block
-                waffleCube(8F), PartPose.offset(side * 5F, 5F, 0F));
-        arm.addOrReplaceChild(name + "_s1",  // mini cream chest PRISM
-                miniChest(), PartPose.offset(side * 10F, 10F, 0F));
-        arm.addOrReplaceChild(name + "_s2",  // waffle block
-                waffleCube(8F), PartPose.offset(side * 15F, 15F, 0F));
-        arm.addOrReplaceChild(name + "_s3",  // full-size bottom-torso (belly) block, kinked 45°, over s2
-                bottomTorso(), PartPose.offsetAndRotation(side * 18F, 18F, 0F, 0F, 0F, side * 0.785F));
-        arm.addOrReplaceChild(name + "_s4",  // waffle-block fist, slightly angled, embedded in s3
-                waffleCube(8F), PartPose.offsetAndRotation(side * 21F, 21F, 0F, 0F, 0F, side * 0.35F));
+        // Forearm joint at the end of the upper bone, bent another 45°.
+        PartDefinition fore = arm.addOrReplaceChild(name + "_fore",
+                CubeListBuilder.create(),
+                PartPose.offsetAndRotation(0F, 21F, 0F, 0F, 0F, -side * ARM_ANGLE));
+        fore.addOrReplaceChild(name + "_s3", bottomTorso(), PartPose.offset(0F, 5F, 0F));
+        fore.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(0F, 12F, 0F));
     }
 
     private static CubeListBuilder waffleCube(float s) {
         return CubeListBuilder.create().texOffs(0, 96).addBox(-s / 2, -s / 2, -s / 2, s, s, s);
     }
 
-    /** Mini cream chest block — a small rectangular prism (wider than tall), not a cube. */
-    private static CubeListBuilder miniChest() {
-        return CubeListBuilder.create().texOffs(0, 24).addBox(-4.5F, -2F, -3F, 9F, 4F, 6F);
+    /** Mini cream chest block — a small rectangular prism. */
+    private static CubeListBuilder miniPrism() {
+        return CubeListBuilder.create().texOffs(0, 24).addBox(-4.5F, -3F, -3F, 9F, 6F, 6F);
     }
 
     /** A full-size bottom-torso (belly) block — 14×9×11, same as the body's belly. */
@@ -117,10 +121,10 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
         this.topCube.xRot = headPitch * ((float) Math.PI / 180F);
 
         // Arms sway from the shoulder, out of phase with the body.
-        float sway = Mth.sin(ageInTicks * 0.07F) * 0.10F;
+        float sway = Mth.sin(ageInTicks * 0.07F) * 0.08F;
         this.leftArm.y = 7F + bob;
-        this.leftArm.zRot = sway;
+        this.leftArm.zRot = -ARM_ANGLE + sway;
         this.rightArm.y = 7F - bob;
-        this.rightArm.zRot = -sway;
+        this.rightArm.zRot = ARM_ANGLE - sway;
     }
 }
