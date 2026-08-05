@@ -23,3 +23,12 @@ type = "required"
 versionRange = "[${minecraft_version},1.22)"
 ordering = "NONE"
 side = "BOTH"
+
+# TerraBlender powers the cookie biome's overworld injection + surface rules.
+# Required: CurseForge/launchers auto-install it alongside Cookie Mod.
+[[dependencies.${mod_id}]]
+modId = "terrablender"
+type = "required"
+versionRange = "[4.1.0.0,)"
+ordering = "AFTER"
+side = "BOTH"

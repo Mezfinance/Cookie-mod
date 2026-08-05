@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "cookiemod:cookie_surface",
+    "cookiemod:cookie_block",
+    "cookiemod:frosted_cookie_block"
+  ]
+}

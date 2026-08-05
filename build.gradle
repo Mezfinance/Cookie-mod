@@ -15,6 +15,10 @@ java {
 
 repositories {
     mavenCentral()
+    maven {
+        name = 'GlitchFiend (TerraBlender)'
+        url = 'https://maven.minecraftforge.net'
+    }
 }
 
 neoForge {
@@ -43,6 +47,9 @@ neoForge {
 
 dependencies {
     // NeoForge (Minecraft + FML) is provided by the moddev plugin above.
+    // TerraBlender: overworld biome injection + surface rules for the cookie biome.
+    // Declared required in neoforge.mods.toml so CurseForge/launchers auto-install it.
+    implementation "com.github.glitchfiend:TerraBlender-neoforge:${terrablender_version}"
 }
 
 tasks.named('processResources', ProcessResources).configure {

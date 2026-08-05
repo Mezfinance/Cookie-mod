@@ -1,0 +1,1 @@
+{ "parent": "minecraft:item/generated", "textures": { "layer0": "cookiemod:item/healing_milk_bucket" } }

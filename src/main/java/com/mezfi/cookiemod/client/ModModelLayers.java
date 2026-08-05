@@ -10,4 +10,19 @@ public final class ModModelLayers {
 
     public static final ModelLayerLocation COOKIE_SOLDIER = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "cookie_soldier"), "main");
+
+    public static final ModelLayerLocation WAFFLE_GUY = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "waffle_guy"), "main");
+
+    public static final ModelLayerLocation CAKE_GOLEM = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "cake_golem"), "main");
+
+    public static final ModelLayerLocation GUMMY_BEAR = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "gummy_bear"), "main");
+
+    public static final ModelLayerLocation CHOCOLATE_BUNNY = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "chocolate_bunny"), "main");
+
+    public static final ModelLayerLocation WAFFLE_MAGE = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CookieMod.MODID, "waffle_mage"), "main");
 }

@@ -5,6 +5,8 @@
     "cookiemod:frosted_cookie_block",
     "cookiemod:waffle_block",
     "cookiemod:chocolate_block",
-    "cookiemod:chocolate_brick_block"
+    "cookiemod:chocolate_brick_block",
+    "cookiemod:waffle_slab",
+    "cookiemod:waffle_lattice"
   ]
 }

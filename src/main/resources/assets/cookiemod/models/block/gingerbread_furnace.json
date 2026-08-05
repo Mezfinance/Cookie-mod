@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "cookiemod:block/gingerbread_furnace_top",
+    "front": "cookiemod:block/gingerbread_furnace_front",
+    "side": "cookiemod:block/gingerbread_furnace_side"
+  }
+}

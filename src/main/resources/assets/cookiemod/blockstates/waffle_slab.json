@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "cookiemod:block/waffle_slab"
+    },
+    "type=top": {
+      "model": "cookiemod:block/waffle_slab_top"
+    },
+    "type=double": {
+      "model": "cookiemod:block/waffle_block"
+    }
+  }
+}

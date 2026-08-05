@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "G G",
+    "GGG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "cookiemod:gummy_bears"
+    }
+  },
+  "result": {
+    "id": "cookiemod:gummy_chestplate",
+    "count": 1
+  }
+}

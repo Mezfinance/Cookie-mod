@@ -33,8 +33,8 @@ recreation reference.
 | Chocolate Bunny | `mob__chocolate_bunny.png` | 29:26 | high | Dark-brown bunnies on the tower floor. |
 | Gingerbread Man | `mob__gingerbread_man.png` | 24:16 | high | Nametagged; recruitable into a soldier. |
 | Cookie Soldier | `mob__cookie_soldier.png` | 2:46 | high | Recruited friendly unit. |
-| Gummy Bear | `mob__gummy_bear.png` | 2:02 | high | Green gummy creature (confirmed by the "KILL GUMMYBEAR" advancement). |
-| Polar Bear | `mob__polar_bear.png` | 2:06 | med | Orange bear that drops gummy bears. Colour variants (blue/pink/radioactive) exist but aren't cleanly separable in the footage. |
+| Gummy Bear | `mob__gummy_bear.png` | 2:02 | high | Green gummy creature (confirmed by the "KILL GUMMYBEAR" advancement). **Mod canon:** the gummy bears ARE the polar bears — a polar-bear-type passive mob re-skinned in four colours (purple/green/blue/yellow), each dropping its matching colored gummy-bear item (see MECHANICS_SPEC §5.1a). |
+| Polar Bear | `mob__polar_bear.png` | 2:06 | med | Orange bear that drops gummy bears. **Mod canon:** folded into the four-colour Gummy Bear mob above (purple/green/blue/yellow); the video's other colour variants collapse to this canonical set. |
 
 ## Blocks
 

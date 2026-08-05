@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "cookiemod:block/gingerbread_furnace" },
+    "facing=east":  { "model": "cookiemod:block/gingerbread_furnace", "y": 90 },
+    "facing=south": { "model": "cookiemod:block/gingerbread_furnace", "y": 180 },
+    "facing=west":  { "model": "cookiemod:block/gingerbread_furnace", "y": 270 }
+  }
+}

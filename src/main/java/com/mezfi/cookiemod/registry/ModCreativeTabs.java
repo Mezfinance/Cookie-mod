@@ -24,9 +24,36 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.COOKIE.get());
                         output.accept(ModItems.CHOCOLATE_BAR.get());
                         output.accept(ModItems.CANDY.get());
+                        output.accept(ModItems.WAFFLE.get());
+                        output.accept(ModItems.PURPLE_GUMMY_BEAR.get());
+                        output.accept(ModItems.GREEN_GUMMY_BEAR.get());
+                        output.accept(ModItems.BLUE_GUMMY_BEAR.get());
+                        output.accept(ModItems.YELLOW_GUMMY_BEAR.get());
+                        output.accept(ModItems.LOLLIPOP.get());
+                        output.accept(ModItems.COOKIE_MILK_BUCKET.get());
+                        output.accept(ModItems.HEALING_MILK_BUCKET.get());
+                        output.accept(ModItems.GUMMY_HELMET.get());
+                        output.accept(ModItems.GUMMY_CHESTPLATE.get());
+                        output.accept(ModItems.GUMMY_LEGGINGS.get());
+                        output.accept(ModItems.GUMMY_BOOTS.get());
+                        output.accept(ModItems.HOLY_COOKIE.get());
                         output.accept(ModItems.COOKIE_SOLDIER_SPAWN_EGG.get());
+                        output.accept(ModItems.WAFFLE_GUY_SPAWN_EGG.get());
+                        output.accept(ModItems.WAFFLE_MAGE_SPAWN_EGG.get());
+                        output.accept(ModItems.GUMMY_BEAR_SPAWN_EGG.get());
+                        output.accept(ModItems.CHOCOLATE_BUNNY_SPAWN_EGG.get());
+                        output.accept(ModItems.CAKE_GOLEM_SPAWN_EGG.get());
                         // then every block, in registration order
                         ModBlocks.ALL.forEach(block -> output.accept(block.get()));
+                        // spawners (not in ALL)
+                        output.accept(ModBlocks.WAFFLE_GUY_SPAWNER.get());
+                        output.accept(ModBlocks.CHOCOLATE_BUNNY_SPAWNER.get());
+                        output.accept(ModBlocks.GINGERBREAD_FURNACE.get());
+                        output.accept(ModBlocks.CANDY_GRASS.get());
+                        output.accept(ModBlocks.MINI_LOLLIPOP_GREEN.get());
+                        output.accept(ModBlocks.MINI_LOLLIPOP_BROWN.get());
+                        output.accept(ModBlocks.WAFFLE_SLAB.get());
+                        output.accept(ModBlocks.WAFFLE_LATTICE.get());
                     })
                     .build());
 }
