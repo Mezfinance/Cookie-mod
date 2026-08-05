@@ -120,8 +120,10 @@ Best frames: `t_507`, `t_512`, `t_522`, `t_531`, `t_532`, `t_540`, `t_552`.
   the arena spawners) — a few per floor.
 - **Waffle Mage:** ✅ boss bar appears at `t_548` as the player looks up the
   shaft ("is that his … up there?"). Sits/spawns at the **top**; per §8.3 it
-  **spawns once the defenders are cleared**. Build: Mage spawn point on the roof
-  platform, gated on the tower's spawners/defenders being dead.
+  **appears when the player reaches the top** (fighting through the defenders on
+  the way; total clearance is a by-product, not a hard gate). Built as: a hidden
+  altar under the roof opening that releases the Mage on approach and **binds it
+  to the tower top** so it guards there rather than chasing across the world.
 - **Loot chests:** ✅ regular **Chest** (Splash Potion of Healing, Lollipop —
   `t_507`) and a **Large/double Chest** ("DIAMONDS!" — `t_531`). One or two per
   floor with waffle-blocks, chocolate, candy, potions, a lollipop, diamonds.

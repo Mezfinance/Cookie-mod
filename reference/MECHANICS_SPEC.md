@@ -293,8 +293,14 @@ SoldierPower(day) = 1.00 × 0.995^day                           # soldiers lose 
 
 ### 8.3 Waffle Mage (boss 2)
 
-- **"Made of cakes,"** wither-like; sits at the **top of the Waffle/Cookie
-  Tower** and **spawns once the tower's defenders are cleared** `(9:03, 25:20)`.
+- **"Made of cakes,"** wither-like; sits/hovers at the **top of the
+  Waffle/Cookie Tower**, appearing when the player reaches the top `(9:03,
+  25:20)`. **[EST]** it is **bound to the tower top** (guards it, does not chase
+  far). *(An earlier note here said it spawns only once all defenders are
+  cleared — that was an interpretation, not a source-verified condition; there
+  is no transcript to confirm it, and in the raid footage the boss bar appears
+  mid-raid with defenders still alive. Reaching the top naturally means fighting
+  through them, so full clearance is a by-product, not a hard gate.)*
 - Attacks: projectile spit, a beam, and a "tongue" lash `(25:27–25:51)`.
 - Low damage, hard to melee — **crit/jump hits land best** `(36:27)`. **[EST]**
   hovers/floats; take ~1.5× damage from critical hits.

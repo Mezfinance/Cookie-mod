@@ -1,5 +1,7 @@
 package com.mezfi.cookiemod.entity;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
@@ -54,6 +56,12 @@ public class WaffleMageEntity extends Monster {
     private int tongueTicks = 0;
     private boolean tongueHit = false;
 
+    // Tower binding: when spawned from a Waffle Tower, the Mage guards the top and does not
+    // chase beyond TETHER of its anchor. A null anchor (e.g. spawn egg) roams freely.
+    private static final double TETHER = 22.0;      // engage / return radius around the anchor
+    private static final double IDLE_HOVER = 4.0;   // hover height above the anchor when idle
+    private BlockPos anchor;
+
     public WaffleMageEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.setPersistenceRequired();
@@ -89,15 +97,9 @@ public class WaffleMageEntity extends Monster {
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
 
         LivingEntity target = this.getTarget();
-        if (target == null || !target.isAlive()) {
-            // idle: drift to a gentle stop but keep floating a few blocks off the ground
-            int ground = this.level().getHeight(
-                    net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    this.getBlockX(), this.getBlockZ());
-            double desiredY = ground + 3.5;
-            double vy = Math.max(-0.06, Math.min(0.06, (desiredY - this.getY()) * 0.05));
-            Vec3 dm = this.getDeltaMovement().scale(0.8);
-            this.setDeltaMovement(dm.x, vy, dm.z);
+        boolean engage = target != null && target.isAlive() && withinTether(target);
+        if (!engage) {
+            idleHover();  // return to / hover over the tower top (or drift, if free-roaming)
             return;
         }
 
@@ -212,6 +214,64 @@ public class WaffleMageEntity extends Monster {
         this.yBodyRot = this.getYRot();
         this.yHeadRot = this.getYRot();
         this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+    }
+
+    /** Bind this Mage to a tower top: it guards there and won't chase past {@link #TETHER}. */
+    public void setAnchor(BlockPos pos) {
+        this.anchor = pos;
+        this.restrictTo(pos, (int) TETHER);
+    }
+
+    /** Only engage targets within tether of the anchor; a free-roaming Mage engages anything. */
+    private boolean withinTether(LivingEntity target) {
+        if (this.anchor == null) {
+            return true;
+        }
+        double dx = target.getX() - (this.anchor.getX() + 0.5);
+        double dz = target.getZ() - (this.anchor.getZ() + 0.5);
+        return dx * dx + dz * dz <= TETHER * TETHER;
+    }
+
+    /** Drift back to (and hover over) the anchor; if unbound, just float a few blocks up. */
+    private void idleHover() {
+        double baseX, baseY, baseZ;
+        if (this.anchor != null) {
+            baseX = this.anchor.getX() + 0.5;
+            baseY = this.anchor.getY() + IDLE_HOVER;
+            baseZ = this.anchor.getZ() + 0.5;
+        } else {
+            int ground = this.level().getHeight(
+                    net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    this.getBlockX(), this.getBlockZ());
+            baseX = this.getX();
+            baseY = ground + 3.5;
+            baseZ = this.getZ();
+        }
+        double dx = baseX - this.getX();
+        double dz = baseZ - this.getZ();
+        double horiz = Math.sqrt(dx * dx + dz * dz);
+        Vec3 push = horiz > 1.0 ? new Vec3(dx / horiz, 0, dz / horiz).scale(0.06) : Vec3.ZERO;
+        double vy = Math.max(-0.08, Math.min(0.08, (baseY - this.getY()) * 0.05));
+        Vec3 dm = this.getDeltaMovement().scale(0.85).add(push.x, 0, push.z);
+        this.setDeltaMovement(dm.x, this.getDeltaMovement().y * 0.7 + vy, dm.z);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (this.anchor != null) {
+            tag.putInt("AnchorX", this.anchor.getX());
+            tag.putInt("AnchorY", this.anchor.getY());
+            tag.putInt("AnchorZ", this.anchor.getZ());
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("AnchorX")) {
+            setAnchor(new BlockPos(tag.getInt("AnchorX"), tag.getInt("AnchorY"), tag.getInt("AnchorZ")));
+        }
     }
 
     /** Circle-strafe the target at RING distance and HOVER_HEIGHT above it. */
