@@ -38,9 +38,10 @@ Frames: `t_484`–`t_487` (the "✅ WAFFLE TOWER" card, base-up the corner);
 `images/exterior_distant_day10.png` (Day-10 distant silhouette, video `t≈655`);
 `images/top_platform_a.png`/`_b.png` (the top, video `t≈604–605`).
 
-- **Form:** a tall, **slender square tower / spire** — distinctly taller than
-  wide. The Day-10 distant shot shows it rising well above the candy flora as a
-  narrow golden column. ✅ (revised down from the earlier ~11×11 guess.)
+- **Form:** a tall **square tower** — taller than wide, but a substantial keep,
+  not a thin spire. (The Day-10 distant shot looks narrow only because it's
+  foreshortened and half-hidden by candy flora; the **roof deck is the reliable
+  measure**.)
 - **Wall composition (per face):** a field of **chocolate brick** with
   **waffle-block vertical pilasters** running the full height, plus lighter
   **marshmallow corner columns** at the four edges; waffle-block horizontal
@@ -48,10 +49,12 @@ Frames: `t_484`–`t_487` (the "✅ WAFFLE TOWER" card, base-up the corner);
 - **Openings:** occasional recessed/glowing wall cells (torch / waffle "window")
   break the chocolate field (`t_485`, left). 🟡
 - **Height:** 🟡 tall — the distant shot puts it well above the ~8-tall candy
-  flora and the interior is ~5 floors → build **~26–30 blocks**.
-- **Footprint:** 🟡 **~7×7 outer** (≈5×5 interior) — slender, matching the
-  distant silhouette and the columned top deck; **not** the wide keep first
-  guessed.
+  flora and the interior is ~5 floors → build **~28–34 blocks** (a bit taller
+  than wide).
+- **Footprint:** ✅ **~11–14 across** (counted on the top deck in
+  `top_platform_b`) → build **~13×13 outer** (odd width → a cleanly centred
+  shaft), interior ≈11×11. Wide enough for the columned halls and a central
+  shaft. (Earlier ~7 guess retracted.)
 - **Roof / top:** ✅ **observed** (`top_platform_a/_b`). A flat **waffle-block
   roof deck** ringed by a **chocolate-brick parapet** with **waffle-block
   battlements** (gapped walls), **white marshmallow columns** rising at the
@@ -62,17 +65,17 @@ Frames: `t_484`–`t_487` (the "✅ WAFFLE TOWER" card, base-up the corner);
   and candy flora (`t_485`, `exterior_distant_day10`). ✅
 
 ```
-       exterior massing (one face)  — slender spire
-        ┌───────────┐  ← flat waffle roof deck: parapet + battlements,
-        │ M W ▓ W M │      marshmallow corner columns, chests, central
-        │ ▓ ▓ ▓ ▓ ▓ │      shaft opening (Mage perch)  ✅
-        │ M ▓ ▒ ▓ M │   W = waffle pilaster   ▓ = chocolate brick
-  ~26-30│ ▓ ▓ ▓ ▓ ▓ │   ▒ = window/red-candy  M = marshmallow column
-   tall │ M W ▓ W M │
-        │ ▓ ▓ ▓ ▓ ▓ │
-        │ M ▓door▓ M│  ← ground entrance (🔴 EST)
-        └───────────┘
-            ~7 wide
+       exterior massing (one face)  — ~13 wide, taller than wide (schematic)
+        ┌───────────────┐  ← flat waffle roof deck: chocolate parapet +
+        │ M ▓ W ▓ W ▓ M │      waffle battlements, marshmallow columns,
+        │ ▓ ▓ ▓ ▓ ▓ ▓ ▓ │      chests, central shaft opening (Mage perch) ✅
+        │ M ▓ ▒ ▓ ▒ ▓ M │   W = waffle pilaster   ▓ = chocolate brick
+  ~28-34│ ▓ ▓ ▓ ▓ ▓ ▓ ▓ │   ▒ = window/red-candy  M = marshmallow column
+   tall │ M ▓ W ▓ W ▓ M │
+        │ ▓ ▓ ▓ ▓ ▓ ▓ ▓ │
+        │ M ▓ ▓door▓ ▓ M│  ← ground entrance (🔴 EST)
+        └───────────────┘
+           ~13 wide (deck counted 11–14)
 ```
 
 ---
@@ -134,9 +137,9 @@ mob-spawner defenders, boss spawns on approach/clear).
 | parameter | value | conf |
 |---|---|---|
 | biome | candy/cookie biome | ✅ |
-| outer footprint | ~7×7 (slender spire) | 🟡 |
-| interior | ~5×5 | 🟡 |
-| height | ~26–30 (≈5 floors × ~5) | 🟡 |
+| outer footprint | ~13×13 (deck counted ~11–14 across) | ✅ |
+| interior | ~11×11 | ✅ |
+| height | ~28–34 (≈5–6 floors × ~5) | 🟡 |
 | corner columns | marshmallow, full height | ✅ |
 | wall | chocolate brick + waffle pilasters + red-candy accents | ✅ pattern |
 | floors | checkered waffle / marshmallow | ✅ |
