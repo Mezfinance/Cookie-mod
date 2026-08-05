@@ -82,7 +82,7 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
      */
     private static void addSpinner(PartDefinition root, String name, float side) {
         PartDefinition spin = root.addOrReplaceChild(name, CubeListBuilder.create(),
-                PartPose.offset(side * 33F, 29.5F, 2.5F)); // piece 4 centre
+                PartPose.offset(side * 33F, 29.5F, 0F)); // piece 4 centre
         for (int k = 0; k < 4; k++) {
             spin.addOrReplaceChild(name + "_p" + k, spinPanel(),
                     PartPose.offsetAndRotation(0F, 0F, 0F, 0F, k * (float) (Math.PI / 2.0), 0F));
@@ -116,11 +116,10 @@ public class WaffleMageModel<T extends Mob> extends HierarchicalModel<T> {
      * (waffle fist) hangs off the bottom of piece 4, half-embedded.
      */
     private static void addHand(PartDefinition root, String name, float side) {
-        // Pushed back in z (+2.5) so piece 3 draws fully in front and piece 4's overlapping
-        // top is hidden behind it.
-        root.addOrReplaceChild(name + "_s3", bottomTorso(),                                              // piece 4, rotated
-                PartPose.offsetAndRotation(side * 33F, 29.5F, 2.5F, 0F, 0F, (float) (Math.PI / 2.0)));   //   90° → 14 tall
-        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 33F, 36.5F, 2.5F));  // piece 5
+        // At z=0 so piece 4's deep block reads in front of piece 3.
+        root.addOrReplaceChild(name + "_s3", bottomTorso(),                                            // piece 4, rotated
+                PartPose.offsetAndRotation(side * 33F, 29.5F, 0F, 0F, 0F, (float) (Math.PI / 2.0)));   //   90° → 14 tall
+        root.addOrReplaceChild(name + "_s4", waffleCube(8F), PartPose.offset(side * 33F, 36.5F, 0F));  // piece 5
     }
 
     private static CubeListBuilder waffleCube(float s) {
