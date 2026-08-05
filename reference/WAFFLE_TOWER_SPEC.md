@@ -34,39 +34,45 @@ All observed in the raid stills. Blocks already exist in the mod unless noted.
 
 ## 2. Exterior
 
-Best frames: `t_484`–`t_487` (the "✅ WAFFLE TOWER" discovery card, looking
-straight up the corner from the base).
+Frames: `t_484`–`t_487` (the "✅ WAFFLE TOWER" card, base-up the corner);
+`images/exterior_distant_day10.png` (Day-10 distant silhouette, video `t≈655`);
+`images/top_platform_a.png`/`_b.png` (the top, video `t≈604–605`).
 
-- **Form:** a tall, square **tower** — not a pyramid. Looking straight up from
-  the base, the walls recede far into the distance. ✅ tall / square.
+- **Form:** a tall, **slender square tower / spire** — distinctly taller than
+  wide. The Day-10 distant shot shows it rising well above the candy flora as a
+  narrow golden column. ✅ (revised down from the earlier ~11×11 guess.)
 - **Wall composition (per face):** a field of **chocolate brick** with
-  **waffle-block vertical pilasters** running the full height, spaced along the
-  face, plus lighter **marshmallow corner columns** at the four edges. Waffle
-  blocks also appear as horizontal accent bands. ✅ pattern, 🟡 exact spacing.
-- **Openings:** occasional recessed/glowing wall cells (a torch or waffle
-  "window") break the chocolate field (`t_485`, left). 🟡
-- **Height:** 🔴 [EST] the interior is clearly multi-storey and the exterior
-  recedes steeply out of frame → build **~28 blocks** (≈5 interior floors).
-- **Footprint:** 🔴 [EST] **~11×11** outer (≈9×9 interior) — wide enough for the
-  columned interior halls seen in `t_522`/`t_532`.
-- **Roof / top:** 🔴 [EST] never shown. The Mage floats free at the top once
-  defenders are cleared, so build an **open/battlemented top platform** (flat
-  waffle-block roof ringed by a 1-block chocolate-brick parapet) as the Mage's
-  perch.
+  **waffle-block vertical pilasters** running the full height, plus lighter
+  **marshmallow corner columns** at the four edges; waffle-block horizontal
+  accent bands. Reads mostly golden from a distance. ✅ pattern, 🟡 exact spacing.
+- **Openings:** occasional recessed/glowing wall cells (torch / waffle "window")
+  break the chocolate field (`t_485`, left). 🟡
+- **Height:** 🟡 tall — the distant shot puts it well above the ~8-tall candy
+  flora and the interior is ~5 floors → build **~26–30 blocks**.
+- **Footprint:** 🟡 **~7×7 outer** (≈5×5 interior) — slender, matching the
+  distant silhouette and the columned top deck; **not** the wide keep first
+  guessed.
+- **Roof / top:** ✅ **observed** (`top_platform_a/_b`). A flat **waffle-block
+  roof deck** ringed by a **chocolate-brick parapet** with **waffle-block
+  battlements** (gapped walls), **white marshmallow columns** rising at the
+  corners/edges, loot **chests** on the deck, red-candy accents, and a **central
+  opening** in the deck — the top of the interior shaft the player climbs. The
+  Waffle Mage perches here / floats up off it once defenders are cleared.
 - **Setting:** stands in the candy biome among white marshmallow/lollipop stems
-  and candy flora (`t_485`). ✅
+  and candy flora (`t_485`, `exterior_distant_day10`). ✅
 
 ```
-        [EST] exterior massing (one face)
-        ┌───────────────┐  ← flat waffle roof + parapet (Mage perch)
-        │ W ▓ ▓ W ▓ ▓ W │     W = waffle pilaster (full height)
-        │ ▓ ▓ ▓ ▓ ▓ ▓ ▓ │     ▓ = chocolate brick
-   ~28  │ W ▓ ▒ ▓ ▒ ▓ W │     ▒ = window / red-candy accent
-   tall │ ▓ ▓ ▓ ▓ ▓ ▓ ▓ │     M = marshmallow corner column (both ends)
-        │ W ▓ ▓ W ▓ ▓ W │
-        │ ▓ ▓ [door] ▓ ▓│  ← ground entrance (🔴 EST)
-        M───────────────M
-              ~11 wide
+       exterior massing (one face)  — slender spire
+        ┌───────────┐  ← flat waffle roof deck: parapet + battlements,
+        │ M W ▓ W M │      marshmallow corner columns, chests, central
+        │ ▓ ▓ ▓ ▓ ▓ │      shaft opening (Mage perch)  ✅
+        │ M ▓ ▒ ▓ M │   W = waffle pilaster   ▓ = chocolate brick
+  ~26-30│ ▓ ▓ ▓ ▓ ▓ │   ▒ = window/red-candy  M = marshmallow column
+   tall │ M W ▓ W M │
+        │ ▓ ▓ ▓ ▓ ▓ │
+        │ M ▓door▓ M│  ← ground entrance (🔴 EST)
+        └───────────┘
+            ~7 wide
 ```
 
 ---
@@ -128,14 +134,14 @@ mob-spawner defenders, boss spawns on approach/clear).
 | parameter | value | conf |
 |---|---|---|
 | biome | candy/cookie biome | ✅ |
-| outer footprint | ~11×11 | 🔴 EST |
-| interior | ~9×9 | 🔴 EST |
-| height | ~28 (≈5 floors × ~5) | 🔴 EST |
-| corner columns | marshmallow, full height | 🟡 |
+| outer footprint | ~7×7 (slender spire) | 🟡 |
+| interior | ~5×5 | 🟡 |
+| height | ~26–30 (≈5 floors × ~5) | 🟡 |
+| corner columns | marshmallow, full height | ✅ |
 | wall | chocolate brick + waffle pilasters + red-candy accents | ✅ pattern |
 | floors | checkered waffle / marshmallow | ✅ |
 | circulation | ladders + central shaft | 🟡 |
-| roof | flat waffle + chocolate parapet, open (Mage perch) | 🔴 EST |
+| roof | flat waffle deck + chocolate parapet/battlements, marshmallow columns, central shaft opening (Mage perch) | ✅ |
 | defenders | waffle-guy spawners, several per floor | ✅ concept |
 | boss | Waffle Mage at top, spawns when defenders cleared | ✅ |
 | loot | chest + double-chest per floor or two | ✅ |
@@ -146,10 +152,12 @@ mob-spawner defenders, boss spawns on approach/clear).
 
 - **Interior:** well captured — materials, checkered floors, columns, ladders,
   chests, beds, defenders, and the shaft-to-Mage are all directly observed.
-- **Exterior silhouette (🔴):** the discovery frames are all steep base-up
-  angles; there is **no wide establishing shot** of the whole tower in this
-  raid, so **height, footprint, and roof are estimates**. To nail them, the best
-  options are a distant in-game screenshot of a tower, or pulling a later-raid
-  establishing shot from the video (the player re-raids towers for waffle blocks
-  later on). Everything else can be built now and the massing tuned after.
+- **Exterior:** now firmed from three angles — base-up wall detail (`t_484-487`),
+  the **top deck** (`top_platform_a/_b`, `t≈604-605`), and a **Day-10 distant
+  silhouette** (`exterior_distant_day10`, `t≈655`) showing a slender golden
+  spire. Only the exact **height, wall-pilaster spacing, and door placement**
+  remain soft (🟡) — fine to tune during the build.
+- **Optional upgrade:** the distant + rooftop frames are from the 360p scan
+  copy. They can be re-pulled at 1080p (needs the cookies re-shared) for crisper
+  reference, but the massing is already clear.
 ```
